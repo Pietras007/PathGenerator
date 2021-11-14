@@ -94,7 +94,7 @@ namespace Geometric2.DrillLines
                             float _z = Y;
                             if (topLayer[_x, _y] < _z)
                             {
-                                topLayer[_x, _y] = _z + 3.5f;
+                                topLayer[_x, _y] = _z + 0.5f;
                             }
                         }
                     }
@@ -134,10 +134,10 @@ namespace Geometric2.DrillLines
 
                     float x = i;
                     float y = index_j;
-                    float z = topLayer[(int)i, index_j];
+                    //float z = topLayer[(int)i, index_j];
                     float currentheight = height;
 
-                    while (!HelpFunctions.checkIfHeightOk(x, y, z, R, topLayer, currentheight))
+                    while (!HelpFunctions.checkIfHeightOk(x, y, R, topLayer, currentheight))
                     {
                         currentheight += 1.5f;
                     }
@@ -173,7 +173,7 @@ namespace Geometric2.DrillLines
                     float z = topLayer[(int)i, index_j];
                     float currentheight = height;
 
-                    while (!HelpFunctions.checkIfHeightOk(x, y, z, R, topLayer, currentheight))
+                    while (!HelpFunctions.checkIfHeightOk(x, y, R, topLayer, currentheight))
                     {
                         currentheight += 1.0f;
                     }
@@ -195,6 +195,16 @@ namespace Geometric2.DrillLines
                 pointsall.Add("N3G" + numer.ToString() + "X" + ppp.X.ToString() + "Y" + ppp.Y.ToString() + "Z" + ppp.Z.ToString());
                 numer++;
             }
+
+            //for (int i = 0; i < 300; i++)
+            //{
+            //    for (int j = 0; j < 300; j++)
+            //    {
+            //        Vector3 ppp = new Vector3(i / 2.0f - 75.0f, j / 2.0f - 75.0f, topLayer[i, j]);
+            //        pointsall.Add("N3G" + numer.ToString() + "X" + ppp.X.ToString() + "Y" + ppp.Y.ToString() + "Z" + ppp.Z.ToString());
+            //        numer++;
+            //    }
+            //}
 
             using (StreamWriter file = new StreamWriter("C://Users//User//Documents//New folder//t1.k16", append: false))
             {
