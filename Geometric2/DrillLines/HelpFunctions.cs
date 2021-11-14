@@ -15,7 +15,7 @@ namespace Geometric2.DrillLines
             {
                 for (float _y = -R; _y <= R; _y += 1)
                 {
-                    if (_x + x >= 0 && _y + y >= 0 && _x + x < 300 && _y + y < 300)
+                    if (_x + x >= 0 && _y + y >= 0 && _x + x < 600 && _y + y < 600)
                     {
 
                         float xa = x;
