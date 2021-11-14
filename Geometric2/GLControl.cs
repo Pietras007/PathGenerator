@@ -39,10 +39,10 @@ namespace Geometric2
             coursor.height = glControl1.Height;
             GL.ClearColor(Color.LightCyan);
             GL.Enable(EnableCap.DepthTest);
-            _shader = new Shader("./../../Shaders/VertexShader.vert", "./../../Shaders/FragmentShader.frag");
-            _shaderGeometry = new ShaderGeometry("./../../Shaders/VertexShaderGeometry.vert", "./../../Shaders/FragmentShaderGeometry.frag", "./../../Shaders/GeometryShaderGeometry.geom");
-            _patchShaderGeometry = new ShaderGeometry("./../../Shaders/PatchVertexShader.vert", "./../../Shaders/PatchFragmentShader.frag", "./../../Shaders/PatchShaderGeometry.geom");
-            _patchShaderGeometryC2 = new ShaderGeometry("./../../Shaders/PatchVertexShader.vert", "./../../Shaders/PatchFragmentShader.frag", "./../../Shaders/PatchShaderGeometryC2.geom");
+            _shader = new Shader("./../../../Shaders/VertexShader.vert", "./../../../Shaders/FragmentShader.frag");
+            _shaderGeometry = new ShaderGeometry("./../../../Shaders/VertexShaderGeometry.vert", "./../../../Shaders/FragmentShaderGeometry.frag", "./../../../Shaders/GeometryShaderGeometry.geom");
+            _patchShaderGeometry = new ShaderGeometry("./../../../Shaders/PatchVertexShader.vert", "./../../../Shaders/PatchFragmentShader.frag", "./../../../Shaders/PatchShaderGeometry.geom");
+            _patchShaderGeometryC2 = new ShaderGeometry("./../../../Shaders/PatchVertexShader.vert", "./../../../Shaders/PatchFragmentShader.frag", "./../../../Shaders/PatchShaderGeometryC2.geom");
 
             coursor.CreateCoursor(_shader);
             foreach (var el in Elements)

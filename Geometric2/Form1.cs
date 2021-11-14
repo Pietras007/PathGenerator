@@ -20,6 +20,7 @@ using Geometric2.Global;
 using System.Xml;
 using System.Linq;
 using System.IO;
+using Geometric2.DrillLines;
 
 namespace Geometric2
 {
@@ -1744,120 +1745,288 @@ namespace Geometric2
                 bezierPatchC2Number += patchC2.Count;
                 bezierPatchTubeC2Number += patchC2.Count;
 
-                List<string> pointsall = new List<string>();
-                List<Patch> patches = new List<Patch>();
+                //List<string> pointsall = new List<string>();
+                //List<Patch> patches = new List<Patch>();
 
-                BezierPatchC0 _patchC0 = patchC0.First();
-                //foreach (var x in patchC0)
+                //float[,] topLayer = new float[300, 300];
+                AllPatches.DrillAndSaveAll(patchC0);
+                DrillFat.DrillAndSave(patchC0);
+
+                //foreach (var _patchC0 in patchC0)
                 //{
-                //    foreach (var ppp in _patchC0.bezierPoints)
+                //    //BezierPatchC0 _patchC0 = patchC0.First();
+                //    //foreach (var x in patchC0)
+                //    //{
+                //    //    foreach (var ppp in _patchC0.bezierPoints)
+                //    //    {
+                //    //        var pppPos = ppp.Position();
+                //    //        pointsall.Add("N3G01X" + pppPos.X.ToString() + "Y" + (-pppPos.Z).ToString() + "Z" + pppPos.Y.ToString());
+                //    //    }
+                //    //}
+
+                //    int startIndex = 0;
+                //    int prevPatchnumber = patches.Count;
+                //    int patchNumber = 0 + prevPatchnumber;
+                //    for (int i = 0; i < _patchC0.splitA * _patchC0.splitB; i++)
                 //    {
-                //        var pppPos = ppp.Position();
-                //        pointsall.Add("N3G01X" + pppPos.X.ToString() + "Y" + (-pppPos.Z).ToString() + "Z" + pppPos.Y.ToString());
+                //        patches.Add(new Patch());
+                //    }
+
+                //    for (int j = 0; j < _patchC0.splitA; j++)
+                //    {
+                //        for (int k = 0; k < 4; k++)
+                //        {
+                //            patchNumber = _patchC0.splitB * j + prevPatchnumber;
+                //            for (int i = 0; i < _patchC0.splitB; i++)
+                //            {
+                //                patches[patchNumber].points.Add(_patchC0.bezierPoints[startIndex].Position()); startIndex++;
+                //                patches[patchNumber].points.Add(_patchC0.bezierPoints[startIndex].Position()); startIndex++;
+                //                patches[patchNumber].points.Add(_patchC0.bezierPoints[startIndex].Position()); startIndex++;
+                //                patches[patchNumber].points.Add(_patchC0.bezierPoints[startIndex].Position());
+
+                //                patchNumber++;
+                //            }
+                //            startIndex++;
+                //        }
+                //        startIndex -= (_patchC0.splitB * 3 + 1);
+                //    }
+
+                //    foreach (var ppppp in patches)
+                //    //var ppppp = patches.First();
+                //    {
+                //        Vector3[] four1 = new Vector3[101];
+                //        Vector3[] four2 = new Vector3[101];
+                //        Vector3[] four3 = new Vector3[101];
+                //        Vector3[] four4 = new Vector3[101];
+
+                //        Vector3[] results = new Vector3[101 * 101];
+
+                //        int idx = 0;
+                //        for (float i = 0.00f; i <= 1; i += 0.01f)
+                //        {
+                //            four1[idx].X = DeKastilio(new float[] { ppppp.points[0].X, ppppp.points[1].X, ppppp.points[2].X, ppppp.points[3].X }, i, 4);
+                //            four1[idx].Y = DeKastilio(new float[] { ppppp.points[0].Y, ppppp.points[1].Y, ppppp.points[2].Y, ppppp.points[3].Y }, i, 4);
+                //            four1[idx].Z = DeKastilio(new float[] { ppppp.points[0].Z, ppppp.points[1].Z, ppppp.points[2].Z, ppppp.points[3].Z }, i, 4);
+
+                //            four2[idx].X = DeKastilio(new float[] { ppppp.points[4 + 0].X, ppppp.points[4 + 1].X, ppppp.points[4 + 2].X, ppppp.points[4 + 3].X }, i, 4);
+                //            four2[idx].Y = DeKastilio(new float[] { ppppp.points[4 + 0].Y, ppppp.points[4 + 1].Y, ppppp.points[4 + 2].Y, ppppp.points[4 + 3].Y }, i, 4);
+                //            four2[idx].Z = DeKastilio(new float[] { ppppp.points[4 + 0].Z, ppppp.points[4 + 1].Z, ppppp.points[4 + 2].Z, ppppp.points[4 + 3].Z }, i, 4);
+
+                //            four3[idx].X = DeKastilio(new float[] { ppppp.points[8 + 0].X, ppppp.points[8 + 1].X, ppppp.points[8 + 2].X, ppppp.points[8 + 3].X }, i, 4);
+                //            four3[idx].Y = DeKastilio(new float[] { ppppp.points[8 + 0].Y, ppppp.points[8 + 1].Y, ppppp.points[8 + 2].Y, ppppp.points[8 + 3].Y }, i, 4);
+                //            four3[idx].Z = DeKastilio(new float[] { ppppp.points[8 + 0].Z, ppppp.points[8 + 1].Z, ppppp.points[8 + 2].Z, ppppp.points[8 + 3].Z }, i, 4);
+
+                //            four4[idx].X = DeKastilio(new float[] { ppppp.points[12 + 0].X, ppppp.points[12 + 1].X, ppppp.points[12 + 2].X, ppppp.points[12 + 3].X }, i, 4);
+                //            four4[idx].Y = DeKastilio(new float[] { ppppp.points[12 + 0].Y, ppppp.points[12 + 1].Y, ppppp.points[12 + 2].Y, ppppp.points[12 + 3].Y }, i, 4);
+                //            four4[idx].Z = DeKastilio(new float[] { ppppp.points[12 + 0].Z, ppppp.points[12 + 1].Z, ppppp.points[12 + 2].Z, ppppp.points[12 + 3].Z }, i, 4);
+
+                //            idx++;
+                //        }
+
+                //        idx = 0;
+                //        for (int k = 0; k < 101; k++)
+                //        {
+                //            for (float i = 0.00f; i <= 1; i += 0.01f)
+                //            {
+                //                float X = DeKastilio(new float[] { four1[k].X, four2[k].X, four3[k].X, four4[k].X }, i, 4);
+                //                float Y = DeKastilio(new float[] { four1[k].Y, four2[k].Y, four3[k].Y, four4[k].Y }, i, 4);
+                //                float Z = DeKastilio(new float[] { four1[k].Z, four2[k].Z, four3[k].Z, four4[k].Z }, i, 4);
+                //                results[idx].X = X;
+                //                results[idx].Y = Y;
+                //                results[idx].Z = Z;
+                //                idx++;
+
+                //                //int _x = (int)((X + 75.0f) * 10);
+                //                //int _y = (int)((-Z + 75.0f) * 10);
+                //                //int _x = (int)((X + 75.0f));
+                //                //int _y = (int)((-Z + 75.0f));
+                //                int _x = (int)((X + 75.0f) * 2);
+                //                int _y = (int)((-Z + 75.0f) * 2);
+                //                float _z = Y;
+                //                if (topLayer[_x, _y] < _z)
+                //                {
+                //                    topLayer[_x, _y] = _z;
+                //                }
+                //            }
+                //        }
+
+                //        //foreach (var x in results)
+                //        //{
+
+                //        //    var pppPos = x;
+                //        //    pointsall.Add("N3G01X" + pppPos.X.ToString() + "Y" + (-pppPos.Z).ToString() + "Z" + pppPos.Y.ToString());
+                //        //}
+                //    }
+                //}
+                //float max = 0;
+                //for (int i = 0; i < 300; i++)
+                //{
+                //    for (int j = 0; j < 300; j++)
+                //    {
+                //        topLayer[i, j] += 15;
+
+                //        if (topLayer[i, j] > max)
+                //        {
+                //            max = topLayer[i, j];
+                //        }
                 //    }
                 //}
 
-                int startIndex = 0;
-                int patchNumber = 0;
-                for (int i = 0; i < _patchC0.splitA * _patchC0.splitB; i++)
-                {
-                    patches.Add(new Patch());
-                }
+                ////List<Vector3> allpoints = new List<Vector3>();
 
-                for (int j = 0; j < _patchC0.splitA; j++)
-                {
-                    for (int k = 0; k < 4; k++)
-                    {
-                        patchNumber = _patchC0.splitB * j;
-                        for (int i = 0; i < _patchC0.splitB; i++)
-                        {
-                            patches[patchNumber].points.Add(_patchC0.bezierPoints[startIndex].Position()); startIndex++;
-                            patches[patchNumber].points.Add(_patchC0.bezierPoints[startIndex].Position()); startIndex++;
-                            patches[patchNumber].points.Add(_patchC0.bezierPoints[startIndex].Position()); startIndex++;
-                            patches[patchNumber].points.Add(_patchC0.bezierPoints[startIndex].Position());
+                ////for (int i = 0; i < 300; i++)
+                ////{
+                ////    for (int j = 0; j < 300; j++)
+                ////    {
+                ////        if (i % 2 != 0)
+                ////        {
+                ////            index_j--;
+                ////        }
+                ////        //var pppPos = new Vector3(i / 10.0f - 75.0f, index_j / 10.0f - 75.0f, topLayer[i, index_j]);
+                ////        //var pppPos = new Vector3(i - 75.0f, index_j - 75.0f, topLayer[i, index_j]);
+                ////        var pppPos = new Vector3(i / 2.0f - 75.0f, index_j / 2.0f - 75.0f, topLayer[i, index_j]);
+                ////        allpoints.Add(pppPos);
+                ////        pointsall.Add("N3G01X" + pppPos.X.ToString() + "Y" + pppPos.Y.ToString() + "Z" + pppPos.Z.ToString());
+                ////        if (i % 2 == 0)
+                ////        {
+                ////            index_j++;
+                ////        }
+                ////    }
+                ////}
 
-                            patchNumber++;
-                        }
-                        startIndex++;
-                    }
-                    startIndex -= (_patchC0.splitB * 3 + 1);
-                }
+                //List<Vector3> allFatPoints = new List<Vector3>();
 
-                foreach (var ppppp in patches)
-                //var ppppp = patches.First();
-                {
-                    Vector3[] four1 = new Vector3[101];
-                    Vector3[] four2 = new Vector3[101];
-                    Vector3[] four3 = new Vector3[101];
-                    Vector3[] four4 = new Vector3[101];
-
-                    Vector3[] results = new Vector3[101 * 101];
-
-                    int idx = 0;
-                    for (float i = 0.00f; i <= 1; i += 0.01f)
-                    {
-                        four1[idx].X = DeKastilio(new float[] { ppppp.points[0].X, ppppp.points[1].X, ppppp.points[2].X, ppppp.points[3].X }, i, 4);
-                        four1[idx].Y = DeKastilio(new float[] { ppppp.points[0].Y, ppppp.points[1].Y, ppppp.points[2].Y, ppppp.points[3].Y }, i, 4);
-                        four1[idx].Z = DeKastilio(new float[] { ppppp.points[0].Z, ppppp.points[1].Z, ppppp.points[2].Z, ppppp.points[3].Z }, i, 4);
-
-                        four2[idx].X = DeKastilio(new float[] { ppppp.points[4 + 0].X, ppppp.points[4 + 1].X, ppppp.points[4 + 2].X, ppppp.points[4 + 3].X }, i, 4);
-                        four2[idx].Y = DeKastilio(new float[] { ppppp.points[4 + 0].Y, ppppp.points[4 + 1].Y, ppppp.points[4 + 2].Y, ppppp.points[4 + 3].Y }, i, 4);
-                        four2[idx].Z = DeKastilio(new float[] { ppppp.points[4 + 0].Z, ppppp.points[4 + 1].Z, ppppp.points[4 + 2].Z, ppppp.points[4 + 3].Z }, i, 4);
-
-                        four3[idx].X = DeKastilio(new float[] { ppppp.points[8 + 0].X, ppppp.points[8 + 1].X, ppppp.points[8 + 2].X, ppppp.points[8 + 3].X }, i, 4);
-                        four3[idx].Y = DeKastilio(new float[] { ppppp.points[8 + 0].Y, ppppp.points[8 + 1].Y, ppppp.points[8 + 2].Y, ppppp.points[8 + 3].Y }, i, 4);
-                        four3[idx].Z = DeKastilio(new float[] { ppppp.points[8 + 0].Z, ppppp.points[8 + 1].Z, ppppp.points[8 + 2].Z, ppppp.points[8 + 3].Z }, i, 4);
-
-                        four4[idx].X = DeKastilio(new float[] { ppppp.points[12 + 0].X, ppppp.points[12 + 1].X, ppppp.points[12 + 2].X, ppppp.points[12 + 3].X }, i, 4);
-                        four4[idx].Y = DeKastilio(new float[] { ppppp.points[12 + 0].Y, ppppp.points[12 + 1].Y, ppppp.points[12 + 2].Y, ppppp.points[12 + 3].Y }, i, 4);
-                        four4[idx].Z = DeKastilio(new float[] { ppppp.points[12 + 0].Z, ppppp.points[12 + 1].Z, ppppp.points[12 + 2].Z, ppppp.points[12 + 3].Z }, i, 4);
-
-                        idx++;
-                    }
-
-                    idx = 0;
-                    for (int k = 0; k < 101; k++)
-                    {
-                        for (float i = 0.00f; i <= 1; i += 0.01f)
-                        {
-                            results[idx].X = DeKastilio(new float[] { four1[k].X, four2[k].X, four3[k].X, four4[k].X }, i, 4);
-                            results[idx].Y = DeKastilio(new float[] { four1[k].Y, four2[k].Y, four3[k].Y, four4[k].Y }, i, 4);
-                            results[idx].Z = DeKastilio(new float[] { four1[k].Z, four2[k].Z, four3[k].Z, four4[k].Z }, i, 4);
-                            idx++;
-                        }
-                    }
-
-                    foreach (var x in results)
-                    {
-
-                        var pppPos = x;
-                        pointsall.Add("N3G01X" + pppPos.X.ToString() + "Y" + (-pppPos.Z).ToString() + "Z" + pppPos.Y.ToString());
-                    }
-                }
-
-
-
-
-
-
-
-                //foreach (var x in patchC0)
+                //float height = 35.0f;
+                //float R = 16f;
+                //int index_j = (int)(0.5 * R);
+                //bool go = false;
+                //allFatPoints.Add(new Vector3(0,0, 55));
+                //allFatPoints.Add(new Vector3((0.5f * R) / 2.0f - 75.0f, (0.5f * R) / 2.0f - 75.0f, 55));
+                //for (float i = 0.5f*R; i < 300; i += R - 0.1f)
                 //{
-                //    foreach (var ppp in x.bezierPoints)
+                //    go = !go;
+                //    for (int j = (int)(0.5f*R); j < 300-(int)(0.5f*R); j++)
                 //    {
-                //        var pppPos = ppp.Position();
-                //        pointsall.Add("N3G01X" + pppPos.X.ToString() + "Y" + (-pppPos.Z).ToString() + "Z" + pppPos.Y.ToString());
+                //        if (!go)
+                //        {
+                //            index_j--;
+                //        }
+
+                //        float x = i;
+                //        float y = index_j;
+                //        float z = topLayer[(int)i, index_j];
+                //        float currentheight = height;
+
+                //        while(!checkIfHeightOk(x, y, z, R, topLayer, currentheight))
+                //        {
+                //            currentheight += 1.0f;
+                //        }
+
+                //        var pppPos = new Vector3(x / 2.0f - 75.0f, y / 2.0f - 75.0f, currentheight);
+                //        allFatPoints.Add(pppPos);
+                //        //pointsall.Add("N3G01X" + pppPos.X.ToString() + "Y" + pppPos.Y.ToString() + "Z" + pppPos.Z.ToString());
+                //        if (go)
+                //        {
+                //            index_j++;
+                //        }
                 //    }
                 //}
 
-                using (StreamWriter file = new StreamWriter("C://Users//User//Documents//New folder//t1.k3", append: false))
+                //allFatPoints.Add(new Vector3(75, 75, 55));
+                //allFatPoints.Add(new Vector3(0, 0, 55));
+                //allFatPoints.Add(new Vector3((0.5f * R) / 2.0f - 75.0f, (0.5f * R) / 2.0f - 75.0f, 55));
+
+                //height = 20.0f;
+                //index_j = (int)(0.5 * R);
+                //go = false;
+                //for (float i = 0.5f * R; i < 300; i += R - 0.1f)
+                //{
+                //    go = !go;
+                //    for (int j = (int)(0.5f * R); j < 300 - (int)(0.5f * R); j++)
+                //    {
+                //        if (!go)
+                //        {
+                //            index_j--;
+                //        }
+
+                //        float x = i;
+                //        float y = index_j;
+                //        float z = topLayer[(int)i, index_j];
+                //        float currentheight = height;
+
+                //        while (!checkIfHeightOk(x, y, z, R, topLayer, currentheight))
+                //        {
+                //            currentheight += 1.0f;
+                //        }
+
+                //        var pppPos = new Vector3(x / 2.0f - 75.0f, y / 2.0f - 75.0f, currentheight);
+                //        allFatPoints.Add(pppPos);
+                //        //pointsall.Add("N3G01X" + pppPos.X.ToString() + "Y" + pppPos.Y.ToString() + "Z" + pppPos.Z.ToString());
+                //        if (go)
+                //        {
+                //            index_j++;
+                //        }
+                //    }
+                //}
+                //allFatPoints.Add(new Vector3(75, 75, 55));
+                //allFatPoints.Add(new Vector3(0, 0, 55));
+
+
+
+                ////foreach (var x in patchC0)
+                ////{
+                ////    foreach (var ppp in x.bezierPoints)
+                ////    {
+                ////        var pppPos = ppp.Position();
+                ////        pointsall.Add("N3G01X" + pppPos.X.ToString() + "Y" + (-pppPos.Z).ToString() + "Z" + pppPos.Y.ToString());
+                ////    }
+                ////}
+                //int numer = 0;
+                //foreach (var ppp in allFatPoints)
+                //{
+                //    pointsall.Add("N3G" + numer.ToString() + "X" + ppp.X.ToString() + "Y" + ppp.Y.ToString() + "Z" + ppp.Z.ToString());
+                //    numer++;
+                //}
+
+                //using (StreamWriter file = new StreamWriter("C://Users//User//Documents//New folder//t1.k16", append: false))
+                //{
+                //    foreach (var line in pointsall)
+                //    {
+                //        file.WriteLine(line);
+                //    }
+                //}
+            }
+        }
+
+        bool checkIfHeightOk(float x, float y, float z, float R, float[,] topLayer, float height)
+        {
+
+            for (float _x = -R; _x <= R; _x += 1)
+            {
+                for (float _y = -R; _y <= R; _y += 1)
                 {
-                    foreach (var line in pointsall)
+                    if (_x + x >= 0 && _y + y >= 0 && _x + x < 300 && _y + y < 300)
                     {
-                        file.WriteLine(line);
+
+                        float xa = x;
+                        float ya = y;
+                        float za = height + R;
+
+                        float xb = x + _x;
+                        float yb = y + _y;
+
+                        float val = R * R - (xb - xa) * (xb - xa) - (yb - ya) * (yb - ya);
+                        float zb = -(float)Math.Sqrt(val) + za;
+
+                        if (topLayer[(int)(_x + x), (int)(_y + y)] > zb)
+                        {
+                            return false;
+                        }
                     }
                 }
             }
+
+            return true;
         }
 
         float DeKastilio(float[] vert, float t, int degree)
