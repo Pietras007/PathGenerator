@@ -86,6 +86,7 @@
     </Compile>
     <Compile Include="DrillLines\AllPatches.cs" />
     <Compile Include="DrillLines\DrillFat.cs" />
+    <Compile Include="DrillLines\DrillRound.cs" />
     <Compile Include="DrillLines\HelpFunctions.cs" />
     <Compile Include="GLControl.cs">
       <SubType>Form</SubType>
