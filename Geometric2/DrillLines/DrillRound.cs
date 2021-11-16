@@ -79,10 +79,18 @@ namespace Geometric2.DrillLines
             resultPoints.Add(new Vector3(-90, 0, -90));
             for (float i = -75.0f; i <= 75.0f; i += (R - 0.1f))
             {
+                Vector3 firstVec = new Vector3();
+                bool first = true;
                 for (float j = -75.0f; j < 0.00f; j += (0.5f * R - 0.1f))
                 {
                     Vector3 currPoint = new Vector3(j, 0, i);
-                    foreach(var p in roundPoints)
+                    if (first)
+                    {
+                        first = false;
+                        firstVec = currPoint;
+                    }
+
+                    foreach (var p in roundPoints)
                     {
                         if((currPoint - p).Length < 0.3f*R)
                         {
@@ -95,6 +103,8 @@ namespace Geometric2.DrillLines
                         resultPoints.Add(currPoint);
                     }
                 }
+
+                resultPoints.Add(firstVec);
             }
             resultPoints.Add(resultPoints.LastOrDefault() + new Vector3(0, 30, 0));
 
@@ -103,9 +113,17 @@ namespace Geometric2.DrillLines
             resultPoints.Add(new Vector3(90, 0, -90));
             for (float i = -75.0f; i <= 75.0f; i += (R - 0.1f))
             {
+                Vector3 firstVec = new Vector3();
+                bool first = true;
                 for (float j = 75.0f; j > 0.00f; j -= (0.5f*R - 0.1f))
                 {
                     Vector3 currPoint = new Vector3(j, 0, i);
+                    if (first)
+                    {
+                        first = false;
+                        firstVec = currPoint;
+                    }
+
                     foreach (var p in roundPoints)
                     {
                         if ((currPoint - p).Length < 0.3f * R)
@@ -119,6 +137,8 @@ namespace Geometric2.DrillLines
                         resultPoints.Add(currPoint);
                     }
                 }
+
+                resultPoints.Add(firstVec);
             }
             resultPoints.Add(resultPoints.LastOrDefault() + new Vector3(0, 30, 0));
 
