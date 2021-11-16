@@ -87,6 +87,7 @@
     <Compile Include="DrillLines\AllPatches.cs" />
     <Compile Include="DrillLines\DrillFat.cs" />
     <Compile Include="DrillLines\DrillRound.cs" />
+    <Compile Include="DrillLines\FindIntersection.cs" />
     <Compile Include="DrillLines\HelpFunctions.cs" />
     <Compile Include="GLControl.cs">
       <SubType>Form</SubType>
@@ -94,6 +95,8 @@
     <Compile Include="Global\Constants.cs" />
     <Compile Include="Global\Enums.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
+    <Compile Include="Intersect\Intersection.cs" />
+    <Compile Include="Intersect\ISurface.cs" />
     <Compile Include="MatrixHelpers\ModelMatrix.cs" />
     <Compile Include="MatrixHelpers\ProjectionMatrix.cs" />
     <Compile Include="MatrixHelpers\RotationMatrix.cs" />
