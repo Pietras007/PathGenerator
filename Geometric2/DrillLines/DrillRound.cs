@@ -35,23 +35,38 @@ namespace Geometric2.DrillLines
                     float Z = HelpFunctions.DeKastilio(new float[] { processingPoints[k].Z, processingPoints[k + 1].Z, processingPoints[k + 2].Z, processingPoints[k + 3].Z }, i, 4);
                     Vector3 currentPoint = new Vector3(X, Y, Z);
 
-                    Vector3 prev = new Vector3(HelpFunctions.DeKastilio(new float[] { processingPoints[k].X, processingPoints[k + 1].X, processingPoints[k + 2].X, processingPoints[k + 3].X }, i - 0.005f, 4),
-                        HelpFunctions.DeKastilio(new float[] { processingPoints[k].Y, processingPoints[k + 1].Y, processingPoints[k + 2].Y, processingPoints[k + 3].Y }, i - 0.005f, 4),
-                        HelpFunctions.DeKastilio(new float[] { processingPoints[k].Z, processingPoints[k + 1].Z, processingPoints[k + 2].Z, processingPoints[k + 3].Z }, i - 0.005f, 4));
-                    Vector3 post = new Vector3(HelpFunctions.DeKastilio(new float[] { processingPoints[k].X, processingPoints[k + 1].X, processingPoints[k + 2].X, processingPoints[k + 3].X }, i + 0.005f, 4),
-                       HelpFunctions.DeKastilio(new float[] { processingPoints[k].Y, processingPoints[k + 1].Y, processingPoints[k + 2].Y, processingPoints[k + 3].Y }, i + 0.005f, 4),
-                       HelpFunctions.DeKastilio(new float[] { processingPoints[k].Z, processingPoints[k + 1].Z, processingPoints[k + 2].Z, processingPoints[k + 3].Z }, i + 0.005f, 4));
+                    Vector3 prev = new Vector3(HelpFunctions.DeKastilio(new float[] { processingPoints[k].X, processingPoints[k + 1].X, processingPoints[k + 2].X, processingPoints[k + 3].X }, i - 0.001f, 4),
+                        HelpFunctions.DeKastilio(new float[] { processingPoints[k].Y, processingPoints[k + 1].Y, processingPoints[k + 2].Y, processingPoints[k + 3].Y }, i - 0.001f, 4),
+                        HelpFunctions.DeKastilio(new float[] { processingPoints[k].Z, processingPoints[k + 1].Z, processingPoints[k + 2].Z, processingPoints[k + 3].Z }, i - 0.001f, 4));
+                    Vector3 post = new Vector3(HelpFunctions.DeKastilio(new float[] { processingPoints[k].X, processingPoints[k + 1].X, processingPoints[k + 2].X, processingPoints[k + 3].X }, i + 0.001f, 4),
+                       HelpFunctions.DeKastilio(new float[] { processingPoints[k].Y, processingPoints[k + 1].Y, processingPoints[k + 2].Y, processingPoints[k + 3].Y }, i + 0.001f, 4),
+                       HelpFunctions.DeKastilio(new float[] { processingPoints[k].Z, processingPoints[k + 1].Z, processingPoints[k + 2].Z, processingPoints[k + 3].Z }, i + 0.001f, 4));
 
-                    Vector3 center = (prev + post) / 2;
-                    Vector3 normal = currentPoint - center;
-                    if(normal.Length < 0.0001f)
-                    {
-                        normal = new Vector3(1, 0, 0);
-                    }
-                    else
-                    {
-                        normal = normal.Normalized();
-                    }
+                    //Vector3 c = (prev + post) / 2;
+                    //float a = (post.Z - prev.Z) / (post.X - prev.X);
+                    //float dy = (c.X - 1) / a + c.Z;
+
+                    //Vector3 normal = (new Vector3(1, 0, dy)).Normalized();
+                    //if (post.X == prev.X)
+                    //{
+                    //    normal = new Vector3(1, 0, 0);
+                    //}
+
+                    Vector3 tangent = (prev - post).Normalized();
+                    Vector3 bitangent = new Vector3(0, 1, 0);
+                    Vector3 normal = Vector3.Cross(tangent, bitangent);
+
+
+                    //Vector3 center = (prev + post) / 2;
+                    //Vector3 normal = currentPoint - center;
+                    //if(normal.Length < 0.0001f)
+                    //{
+                    //    normal = new Vector3(1, 0, 0);
+                    //}
+                    //else
+                    //{
+                    //    normal = normal.Normalized();
+                    //}
 
                     currentPoint += (normal * R);
 
