@@ -12,6 +12,7 @@ namespace Geometric2.DrillLines
     {
         public static void DrillAndSave(List<ModelGeneration.BezierPatchC0> patchC0)
         {
+            float R = 5.0f;
             var resBig = GetRound(patchC0[0]);
             List<Vector3> rightBig = resBig.rightSide;
             List<Vector3> leftBig = resBig.leftSide;
@@ -32,25 +33,49 @@ namespace Geometric2.DrillLines
                     float X = HelpFunctions.DeKastilio(new float[] { processingPoints[k].X, processingPoints[k + 1].X, processingPoints[k + 2].X, processingPoints[k + 3].X }, i, 4);
                     float Y = HelpFunctions.DeKastilio(new float[] { processingPoints[k].Y, processingPoints[k + 1].Y, processingPoints[k + 2].Y, processingPoints[k + 3].Y }, i, 4);
                     float Z = HelpFunctions.DeKastilio(new float[] { processingPoints[k].Z, processingPoints[k + 1].Z, processingPoints[k + 2].Z, processingPoints[k + 3].Z }, i, 4);
-                    resultPoints.Add(new Vector3(X, Y, Z));
+                    Vector3 currentPoint = new Vector3(X, Y, Z);
+
+                    Vector3 prev = new Vector3(HelpFunctions.DeKastilio(new float[] { processingPoints[k].X, processingPoints[k + 1].X, processingPoints[k + 2].X, processingPoints[k + 3].X }, i - 0.005f, 4),
+                        HelpFunctions.DeKastilio(new float[] { processingPoints[k].Y, processingPoints[k + 1].Y, processingPoints[k + 2].Y, processingPoints[k + 3].Y }, i - 0.005f, 4),
+                        HelpFunctions.DeKastilio(new float[] { processingPoints[k].Z, processingPoints[k + 1].Z, processingPoints[k + 2].Z, processingPoints[k + 3].Z }, i - 0.005f, 4));
+                    Vector3 post = new Vector3(HelpFunctions.DeKastilio(new float[] { processingPoints[k].X, processingPoints[k + 1].X, processingPoints[k + 2].X, processingPoints[k + 3].X }, i + 0.005f, 4),
+                       HelpFunctions.DeKastilio(new float[] { processingPoints[k].Y, processingPoints[k + 1].Y, processingPoints[k + 2].Y, processingPoints[k + 3].Y }, i + 0.005f, 4),
+                       HelpFunctions.DeKastilio(new float[] { processingPoints[k].Z, processingPoints[k + 1].Z, processingPoints[k + 2].Z, processingPoints[k + 3].Z }, i + 0.005f, 4));
+
+                    Vector3 center = (prev + post) / 2;
+                    Vector3 normal = currentPoint - center;
+                    if(normal.Length < 0.0001f)
+                    {
+                        normal = new Vector3(1, 0, 0);
+                    }
+                    else
+                    {
+                        normal = normal.Normalized();
+                    }
+
+                    currentPoint += (normal * R);
+
+
+                    resultPoints.Add(currentPoint);
                 }
             }
 
             int numer = 0;
             List<string> pointsall = new List<string>();
-            foreach (var ppp in resultPoints)
+            foreach (var pp in resultPoints)
             {
-                pointsall.Add("N3G" + numer.ToString() + "X" + ppp.X.ToString() + "Y" + ppp.Y.ToString() + "Z" + ppp.Z.ToString());
+                var ppp = pp + new Vector3(0, 15.0f, 0);
+                pointsall.Add("N3G" + numer.ToString() + "X" + ppp.X.ToString() + "Y" + (-ppp.Z).ToString() + "Z" + ppp.Y.ToString());
                 numer++;
             }
 
-            //using (StreamWriter file = new StreamWriter("C://Users//User//Documents//New folder//t1.k16", append: false))
-            //{
-            //    foreach (var line in pointsall)
-            //    {
-            //        file.WriteLine(line);
-            //    }
-            //}
+            using (StreamWriter file = new StreamWriter("C://Users//User//Documents//New folder//t3.f10", append: false))
+            {
+                foreach (var line in pointsall)
+                {
+                    file.WriteLine(line);
+                }
+            }
 
             //foreach (var patch in patchC0)
             //{
