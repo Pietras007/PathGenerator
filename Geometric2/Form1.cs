@@ -24,11 +24,6 @@ using Geometric2.DrillLines;
 
 namespace Geometric2
 {
-    public class Patch
-    {
-        public List<Vector3> points = new List<Vector3>();
-    }
-
     public partial class Form1 : Form
     {
         public Form1()
@@ -1751,7 +1746,8 @@ namespace Geometric2
                 //float[,] topLayer = new float[300, 300];
                 //AllPatches.DrillAndSaveAll(patchC0);
                 //DrillFat.DrillAndSave(patchC0);
-                DrillRound.DrillAndSave(patchC0);
+                //DrillRound.DrillAndSave(patchC0);
+                DrillAcurate.DrillAndSave(patchC0);
 
                 //foreach (var _patchC0 in patchC0)
                 //{

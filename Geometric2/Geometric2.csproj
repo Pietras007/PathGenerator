@@ -85,6 +85,7 @@
       <DependentUpon>BezierPatchTube.cs</DependentUpon>
     </Compile>
     <Compile Include="DrillLines\AllPatches.cs" />
+    <Compile Include="DrillLines\DrillAcurate.cs" />
     <Compile Include="DrillLines\DrillFat.cs" />
     <Compile Include="DrillLines\DrillRound.cs" />
     <Compile Include="DrillLines\FindIntersection.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Intersect\Intersection.cs" />
     <Compile Include="Intersect\ISurface.cs" />
+    <Compile Include="Intersect\Patch.cs" />
     <Compile Include="MatrixHelpers\ModelMatrix.cs" />
     <Compile Include="MatrixHelpers\ProjectionMatrix.cs" />
     <Compile Include="MatrixHelpers\RotationMatrix.cs" />
@@ -117,7 +119,9 @@
     <Compile Include="ModelGeneration\TransformCenterLines.cs" />
     <Compile Include="ModelGeneration\XyzLines.cs" />
     <Compile Include="RasterizationClasses\Camera.cs" />
-    <Compile Include="Form1.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
