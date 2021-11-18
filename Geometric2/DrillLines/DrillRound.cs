@@ -20,7 +20,7 @@ namespace Geometric2.DrillLines
             List<Vector3> leftBig = resBig.leftSide;
 
 
-            var resSmall = GetRound(patchC0[4], false);
+            var resSmall = GetRound(patchC0[1], false);
             List<Vector3> rightSmall = resSmall.rightSide;
             List<Vector3> leftSmall = resSmall.leftSide;
 

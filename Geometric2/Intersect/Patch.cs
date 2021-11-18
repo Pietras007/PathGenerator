@@ -49,12 +49,12 @@ namespace Geometric2.Intersect
             //    HelpFunctions.DeKastilio(new float[] { four1.Y, four2.Y, four3.Y, four4.Y }, v + 0.001f, 4),
             //    HelpFunctions.DeKastilio(new float[] { four1.Z, four2.Z, four3.Z, four4.Z }, v + 0.001f, 4));
 
-            Vector3 tangent = T(u, v);// (prev - post);
-            Vector3 bitangent = B(u, v);
-            Vector3 normal = Vector3.Cross(tangent, bitangent).Normalized();
+            //Vector3 tangent = T(u, v);// (prev - post);
+            //Vector3 bitangent = B(u, v);
+            //Vector3 normal = Vector3.Cross(tangent, bitangent).Normalized();
 
-            currentPoint += (-normal * R);
-            currentPoint -= new Vector3(0, R, 0);
+            //currentPoint += (-normal * R);
+            //currentPoint -= new Vector3(0, R, 0);
 
             return currentPoint;
         }
