@@ -164,7 +164,7 @@ namespace Geometric2.Intersect
             }
             else
             {
-                return 0;
+                return 0.5f;
             }
         }
     }

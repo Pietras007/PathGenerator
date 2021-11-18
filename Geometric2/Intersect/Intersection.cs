@@ -198,9 +198,13 @@ namespace Intersect
             {
                 return max;
             }
-            else
+            else if (val>=min && val <=max)
             {
                 return val;
+            }
+            else
+            {
+                return 0.5f;
             }
         }
 
