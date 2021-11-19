@@ -12,7 +12,7 @@ namespace Geometric2.DrillLines
 {
     public static class DrillAcurate
     {
-        
+
         public static void DrillAndSave(List<ModelGeneration.BezierPatchC0> patchC0)
         {
             float R = 4.0f;
@@ -85,11 +85,8 @@ namespace Geometric2.DrillLines
             var intersectpoint1 = GetIntersectionPoint(topPoints, tube, R);
             topPoints.Reverse();
             var intersectpoint2 = GetIntersectionPoint(topPoints, tube, R);
-            //allPoints.Add(tube.P(intersectpoint1.Item2.uSlave, intersectpoint1.Item2.vSlave));
-            //allPoints.Add(tube.P(intersectpoint2.Item2.uSlave, intersectpoint2.Item2.vSlave));
 
             List<(float, float)> intersectUVTube = new List<(float, float)>();
-
             intersectUVTube.Add((intersectpoint1.Item2.uSlave, intersectpoint1.Item2.vSlave));
             foreach (var inter in LeftTopIntersect.Item2)
             {
@@ -103,10 +100,83 @@ namespace Geometric2.DrillLines
             }
             intersectUVTube.Add((intersectpoint1.Item2.uSlave, intersectpoint1.Item2.vSlave));
 
+
+            Vector2[] pointsPloygon = new Vector2[intersectUVTube.Count];
+            int idx = 0;
+            foreach (var inter in intersectUVTube)
+            {
+                pointsPloygon[idx] = new Vector2(inter.Item1, inter.Item2);
+                idx++;
+            }
+
+            bool go = false;
+            float ux = 0.00f;
+            allPoints.Add(new Vector3(0, 30, 0));
+            for (float v = 0.00f; v <= 1.0f; v += 0.01f)
+            {
+                go = !go;
+                for (float u = 0.00f; u <= 1.0f; u += 0.01f)
+                {
+                    if (!go)
+                    {
+                        ux -= 0.01f;
+                    }
+
+                    if (HelpFunctions.IsInPolygon(new Vector2(ux, v), pointsPloygon))
+                    {
+                        allPoints.Add(tube.P(ux, v));
+                    }
+
+                    if (go)
+                    {
+                        ux += 0.01f;
+                    }
+                }
+                //allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, 5, 0));
+                //allPoints.Add(new Vector3(0, 30, 30));
+                //allPoints.Add(new Vector3(0, 30, 00));
+            }
+            allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, 15, 0));
+            allPoints.Add(new Vector3(0, 30, 0));
+
+
             foreach (var inter in intersectUVTube)
             {
                 allPoints.Add(tube.P(inter.Item1, inter.Item2));
             }
+
+
+            //go = false;
+            //for (float i = 0.5f * R; i < 300; i += R - 0.1f)
+            //{
+            //    go = !go;
+            //    for (int j = (int)(0.5f * R); j < 300 - (int)(0.5f * R); j++)
+            //    {
+            //        if (!go)
+            //        {
+            //            index_j--;
+            //        }
+
+            //        float x = i;
+            //        float y = index_j;
+            //        float z = topLayer[(int)i, index_j];
+            //        float currentheight = height;
+
+            //        while (!HelpFunctions.checkIfHeightOk(x, y, R, topLayer, currentheight))
+            //        {
+            //            currentheight += 1.0f;
+            //        }
+
+            //        var pppPos = new Vector3(x / 2.0f - 75.0f, y / 2.0f - 75.0f, currentheight);
+            //        allFatPoints.Add(pppPos);
+            //        if (go)
+            //        {
+            //            index_j++;
+            //        }
+            //    }
+            //}
+
+
 
             ////topPoints.Reverse();
             ////var intersectpoint2 = GetIntersectionPoint(topPoints, tube, R);
@@ -514,7 +584,7 @@ namespace Geometric2.DrillLines
 
                     List<Vector3> ppp = new List<Vector3>();
                     //for (float v = 0.00f; v <= 1.00f; v += 0.01f)
-                        float v = 0.5f;
+                    float v = 0.5f;
                     {
                         for (float u = 0.00f; u <= 1.00f; u += 0.05f)
                         {
