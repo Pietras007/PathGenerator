@@ -12,9 +12,10 @@ namespace Geometric2.DrillLines
 {
     public static class DrillAcurate
     {
-
+        
         public static void DrillAndSave(List<ModelGeneration.BezierPatchC0> patchC0)
         {
+            float R = 4.0f;
             List<string> pointsall = new List<string>();
             //List<List<Patch>> patchesAll = new List<List<Patch>>();
 
@@ -53,8 +54,70 @@ namespace Geometric2.DrillLines
             //}
 
             List<Vector3> allPoints = new List<Vector3>();
+            var top = patchC0[2];
+            var topTube = patchC0[1];
 
-            BestPatch topPatch = new BestPatch(patchC0[0]);
+
+            //BestPatch topPatch;// = new BestPatch(patchC0[2]);
+            BestPatch topPatchLeft = new BestPatch(top, 0, false);
+            BestPatch topPatchRight = new BestPatch(top, 3, true);
+
+            //allPoints.Add(new Vector3(0, 30, 0));
+            //allPoints.Add(new Vector3(0, 30, -70));
+            //for (float u = 0.005f; u <= 1.0f; u += 0.01f)
+            //{
+
+            //    for (float v = 0.005f; v <= 1.0f; v += 0.01f)
+            //    {
+            //        allPoints.Add(topPatchRight.P(u, v));
+            //    }
+            //    allPoints.Add(new Vector3(0, 30, 70));
+            //    allPoints.Add(new Vector3(0, 30, -70));
+            //}
+
+
+            BestPatch tube = new BestPatch(topTube);
+
+            var LeftTopIntersect = FindIntersectPoints(tube, topPatchLeft);
+            var RightTopIntersect = FindIntersectPoints(tube, topPatchRight);
+
+            var topPoints = GetTopPoints(top);
+            var intersectpoint1 = GetIntersectionPoint(topPoints, tube, R);
+            topPoints.Reverse();
+            var intersectpoint2 = GetIntersectionPoint(topPoints, tube, R);
+            //allPoints.Add(tube.P(intersectpoint1.Item2.uSlave, intersectpoint1.Item2.vSlave));
+            //allPoints.Add(tube.P(intersectpoint2.Item2.uSlave, intersectpoint2.Item2.vSlave));
+
+            List<(float, float)> intersectUVTube = new List<(float, float)>();
+
+            intersectUVTube.Add((intersectpoint1.Item2.uSlave, intersectpoint1.Item2.vSlave));
+            foreach (var inter in LeftTopIntersect.Item2)
+            {
+                intersectUVTube.Add((inter.pParam.X, inter.pParam.Y));
+            }
+            intersectUVTube.Add((intersectpoint2.Item2.uSlave, intersectpoint2.Item2.vSlave));
+
+            foreach (var inter in RightTopIntersect.Item2)
+            {
+                intersectUVTube.Add((inter.pParam.X, inter.pParam.Y));
+            }
+            intersectUVTube.Add((intersectpoint1.Item2.uSlave, intersectpoint1.Item2.vSlave));
+
+            foreach (var inter in intersectUVTube)
+            {
+                allPoints.Add(tube.P(inter.Item1, inter.Item2));
+            }
+
+            ////topPoints.Reverse();
+            ////var intersectpoint2 = GetIntersectionPoint(topPoints, tube, R);
+            ////LeftTopIntersect.Add(tube.P(intersectpoint2.Item2.uSlave, intersectpoint2.Item2.vSlave));
+
+            //foreach (var inter in RightTopIntersect)
+            //{
+            //    allPoints.Add(inter);
+            //}
+
+            //LeftTopIntersect.Add(tube.P(intersectpoint1.Item2.uSlave, intersectpoint1.Item2.vSlave));
 
             //allPoints.Add(new Vector3(0, 30, 0));
             //allPoints.Add(new Vector3(0, 30, -70));
@@ -69,11 +132,10 @@ namespace Geometric2.DrillLines
             //    allPoints.Add(new Vector3(0, 30, -70));
             //}
 
-            BestPatch tube = new BestPatch(patchC0[2]);
-            //BestPatch tube2 = new BestPatch(patchC0[2]);
-            //BestPatch tube1 = new BestPatch(patchC0[3]);
+            ////BestPatch tube2 = new BestPatch(patchC0[1]);
+            ////BestPatch tube1 = new BestPatch(patchC0[3]);
 
-            //BestPatch holePart = new BestPatch(patchC0[1]);
+            ////BestPatch holePart = new BestPatch(patchC0[1]);
 
             //for (float u = 0.005f; u <= 1.0f; u += 0.01f)
             //{
@@ -126,12 +188,7 @@ namespace Geometric2.DrillLines
             //}
 
 
-            var intersect = FindIntersectPoints(topPatch,tube);
 
-            foreach (var inter in intersect)
-            {
-                allPoints.Add(inter);
-            }
 
 
             ////Top
@@ -355,14 +412,49 @@ namespace Geometric2.DrillLines
             }
         }
 
-        private static List<Vector3> FindIntersectPoints(BestPatch master, BestPatch slave)
+        private static List<Vector3> GetTopPoints(ModelGeneration.BezierPatchC0 patch)
+        {
+            List<Vector3> zeroPoints = new List<Vector3>();
+            foreach (var p in patch.bezierPoints)
+            {
+                Vector3 pPos = p.Position();
+                if (Math.Abs(pPos.X) < 0.1f && pPos.Y > -0.1f)
+                {
+                    pPos.X = 0;
+                    zeroPoints.Add(pPos);
+                }
+            }
+
+            List<Vector3> notRepeatPoints = new List<Vector3>();
+            foreach (var p in zeroPoints)
+            {
+                if (!notRepeatPoints.Contains(p))
+                {
+                    notRepeatPoints.Add(p);
+                }
+            }
+
+            List<Vector3> Side = new List<Vector3>();
+            for (int i = 0; i < notRepeatPoints.Count; i++)
+            {
+                Side.Add(notRepeatPoints[i]);
+                if (i % 3 == 0 && i != 0 && i != notRepeatPoints.Count - 1)
+                {
+                    Side.Add(notRepeatPoints[i]);
+                }
+            }
+
+            return Side;
+        }
+
+        private static (List<Vector3>, List<(Vector2 pParam, Vector2 qParam)>) FindIntersectPoints(BestPatch master, BestPatch slave)
         {
             int ile = 0;
             List<Vector3> alpP = new List<Vector3>();
             List<(Vector2 pParam, Vector2 qParam)> res = new List<(Vector2, Vector2)>();
             do
             {
-                res = Intersection.Curve(master, slave, 0.1f);
+                res = Intersection.Curve(master, slave, 0.02f);
                 ile = 0;
                 alpP.Clear();
                 if (res != null)
@@ -385,9 +477,75 @@ namespace Geometric2.DrillLines
                         //}
                     }
             }
-            while (res == null || ile < ((float)res.Count - 0.1 * res.Count));
+            while (res == null || ile < res.Count);
 
-            return alpP;
+            return (alpP, res);
+        }
+
+        public static ((float uMaster, int patchNo), (float uSlave, float vSlave)) GetIntersectionPoint(List<Vector3> MasterLine, BestPatch patch, float R)
+        {
+            float smallestDist = float.MaxValue;
+            float i_Add = 0.005f;
+            float j_add = 0.01f;
+            bool goOnce = true;
+            for (int patchNo = 0; patchNo < MasterLine.Count / 4; patchNo++)
+            {
+                for (float i = 0.00f; i <= 1; i += i_Add)
+                {
+                    int k = 4 * patchNo;
+                    float X = HelpFunctions.DeKastilio(new float[] { MasterLine[k].X, MasterLine[k + 1].X, MasterLine[k + 2].X, MasterLine[k + 3].X }, i, 4);
+                    float Y = HelpFunctions.DeKastilio(new float[] { MasterLine[k].Y, MasterLine[k + 1].Y, MasterLine[k + 2].Y, MasterLine[k + 3].Y }, i, 4);
+                    float Z = HelpFunctions.DeKastilio(new float[] { MasterLine[k].Z, MasterLine[k + 1].Z, MasterLine[k + 2].Z, MasterLine[k + 3].Z }, i, 4);
+                    Vector3 currentPoint = new Vector3(X, Y, Z);
+
+                    //Vector3 prev = new Vector3(HelpFunctions.DeKastilio(new float[] { MasterLine[k].X, MasterLine[k + 1].X, MasterLine[k + 2].X, MasterLine[k + 3].X }, i - 0.001f, 4),
+                    //    HelpFunctions.DeKastilio(new float[] { MasterLine[k].Y, MasterLine[k + 1].Y, MasterLine[k + 2].Y, MasterLine[k + 3].Y }, i - 0.001f, 4),
+                    //    HelpFunctions.DeKastilio(new float[] { MasterLine[k].Z, MasterLine[k + 1].Z, MasterLine[k + 2].Z, MasterLine[k + 3].Z }, i - 0.001f, 4));
+                    //Vector3 post = new Vector3(HelpFunctions.DeKastilio(new float[] { MasterLine[k].X, MasterLine[k + 1].X, MasterLine[k + 2].X, MasterLine[k + 3].X }, i + 0.001f, 4),
+                    //   HelpFunctions.DeKastilio(new float[] { MasterLine[k].Y, MasterLine[k + 1].Y, MasterLine[k + 2].Y, MasterLine[k + 3].Y }, i + 0.001f, 4),
+                    //   HelpFunctions.DeKastilio(new float[] { MasterLine[k].Z, MasterLine[k + 1].Z, MasterLine[k + 2].Z, MasterLine[k + 3].Z }, i + 0.001f, 4));
+
+
+                    //Vector3 tangent = (prev - post).Normalized();
+                    //Vector3 bitangent = new Vector3(0, 0, 1);
+                    //Vector3 normal =new  Vector3(0,1,0);
+
+                    //currentPoint += (normal * R);
+
+                    List<Vector3> ppp = new List<Vector3>();
+                    //for (float v = 0.00f; v <= 1.00f; v += 0.01f)
+                        float v = 0.5f;
+                    {
+                        for (float u = 0.00f; u <= 1.00f; u += 0.05f)
+                        {
+
+                            Vector3 currentPointSlave = patch.P(u, v);
+                            ppp.Add(currentPointSlave);
+                            float distance = (currentPointSlave - currentPoint).Length;
+                            if (distance < smallestDist)
+                            {
+                                smallestDist = distance;
+                            }
+
+                            if (distance < 0.1 && goOnce)
+                            {
+                                return ((i, patchNo), (u, v));
+                                //goOnce = false;
+                                //i_Add /= 10;
+                                //j_add /= 10;
+                            }
+
+                            //if (distance < 0.01)
+                            //{
+                            //    return ((i, patchNo), (u,v));
+                            //}
+                        }
+                    }
+
+                }
+            }
+
+            return ((0, 0), (0, 0));
         }
     }
 }

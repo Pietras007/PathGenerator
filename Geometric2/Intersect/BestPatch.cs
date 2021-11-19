@@ -54,28 +54,69 @@ namespace Geometric2.Intersect
                 }
                 startIndex -= (_patchC0.splitB * 3 + 1);
             }
-
-
-            //for (int j = 0; j < _patchC0.splitA; j++)
-            //{
-            //    for (int k = 0; k < 4; k++)
-            //    {
-            //        patchNumber = _patchC0.splitB * j + prevPatchnumber;
-            //        for (int i = 0; i < _patchC0.splitB; i++)
-            //        {
-            //            patches[patchNumber].points.Add(_patchC0.bezierPoints[startIndex].Position()); startIndex++;
-            //            patches[patchNumber].points.Add(_patchC0.bezierPoints[startIndex].Position()); startIndex++;
-            //            patches[patchNumber].points.Add(_patchC0.bezierPoints[startIndex].Position()); startIndex++;
-            //            patches[patchNumber].points.Add(_patchC0.bezierPoints[startIndex].Position());
-
-            //            patchNumber++;
-            //        }
-            //        startIndex++;
-            //    }
-            //    startIndex -= (_patchC0.splitB * 3 + 1);
-            //}
         }
 
+        public BestPatch(ModelGeneration.BezierPatchC0 _patchC0, int patchNo, bool reversed = false)
+        {
+            splitA = _patchC0.splitB;
+            splitB = _patchC0.splitA;
+            patchesAll = new Patch[splitA, splitB];
+
+
+            List<Patch> patches = new List<Patch>();
+            int startIndex = 0;
+
+            for (int j = 0; j < splitA; j++)
+            {
+                for (int i = 0; i < splitB; i++)
+                {
+                    patchesAll[j, i] = new Patch();
+                }
+            }
+            int patchNumber = 0;
+            for (int j = 0; j < _patchC0.splitA; j++)
+            {
+                for (int k = 0; k < 4; k++)
+                {
+                    patchNumber = _patchC0.splitB * j;
+                    for (int i = 0; i < _patchC0.splitB; i++)
+                    {
+                        int d = patchNumber % splitA;
+                        int e = patchNumber / splitA;
+                        patchesAll[d, e].points.Add(_patchC0.bezierPoints[startIndex].Position()); startIndex++;
+                        patchesAll[d, e].points.Add(_patchC0.bezierPoints[startIndex].Position()); startIndex++;
+                        patchesAll[d, e].points.Add(_patchC0.bezierPoints[startIndex].Position()); startIndex++;
+                        patchesAll[d, e].points.Add(_patchC0.bezierPoints[startIndex].Position());
+                        patchNumber++;
+                    }
+                    startIndex++;
+                }
+                startIndex -= (_patchC0.splitB * 3 + 1);
+            }
+
+            Patch[,] newPatch = new Patch[1, splitB];
+            if (!reversed)
+            {
+                for (int i = 0; i < splitB; i++)
+                {
+                    newPatch[0, i] = patchesAll[patchNo, i];
+                }
+            }
+            else
+            {
+                int idx = splitB - 1;
+                for (int i = 0; i < splitB; i++)
+                {
+                    newPatch[0, idx] = patchesAll[patchNo, i];
+                    newPatch[0, idx].points.Reverse();
+                    idx--;
+                }
+            }
+
+
+            patchesAll = newPatch;
+            splitA = 1;
+        }
 
         public Vector3 P(float u, float v)
         {
@@ -84,8 +125,8 @@ namespace Geometric2.Intersect
             Vector3 bitangent = B(u, v);
             Vector3 normal = Vector3.Cross(tangent, bitangent).Normalized();
 
-            //currentPoint += (-normal * R);
-            //currentPoint -= new Vector3(0, R, 0);
+            currentPoint += (-normal * R);
+            currentPoint -= new Vector3(0, R, 0);
 
             return currentPoint;
         }
@@ -140,12 +181,12 @@ namespace Geometric2.Intersect
 
         public bool WrapsU()
         {
-            return true;
+            return false;
         }
 
         public bool WrapsV()
         {
-            return false;
+            return true;
         }
 
         private static float Clamp(float val, float min, float max)

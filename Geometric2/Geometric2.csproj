@@ -99,6 +99,7 @@
     <Compile Include="Intersect\BestPatch.cs" />
     <Compile Include="Intersect\Intersection.cs" />
     <Compile Include="Intersect\ISurface.cs" />
+    <Compile Include="Intersect\Line.cs" />
     <Compile Include="Intersect\Patch.cs" />
     <Compile Include="Intersect\section-Copy.cs" />
     <Compile Include="MatrixHelpers\ModelMatrix.cs" />

@@ -87,7 +87,7 @@ namespace Intersect
                 }
                 if (lastDist > bestDist) R = R * (float)Math.Sqrt(bestDist / lastDist) * 1.5f;
                 else if (closeTo != null) R = R * 0.1f;
-                if (bestDist < 1e-6f)
+                if (bestDist < 1e-8f)
                 {
                     if (self && Vector2.DistanceSquared(P.param, Q.param) < 1e-3f) return null;
                     return (P.param, Q.param);
@@ -122,18 +122,10 @@ namespace Intersect
                 xn -= func(xn.X, xn.Y, xn.Z, xn.W) * J(xn.X, xn.Y, xn.Z, xn.W);
                 // xn -= J(xn.X, xn.Y, xn.Z, xn.W) * func(xn.X, xn.Y, xn.Z, xn.W); albo tak
             }
-            while ((xp - xn).LengthSquared > 1e-2 && maxIter-- > 0);
+            while ((xp - xn).LengthSquared > 1e-3 && maxIter-- > 0);
             return (xn.Xy, xn.Zw);
         }
 
-        /// <summary>
-        /// Znajduje krzywą przecięcia w przestrzeni parametrów obydwu powierzchni.
-        /// </summary>
-        /// <param name="p"></param>
-        /// <param name="q"></param>
-        /// <param name="d">krok, odległość co którą są znajdowane kolejne punkty</param>
-        /// <param name="closeTo"></param>
-        /// <returns>Lista kolejnych parametrów</returns>
         public static List<(Vector2 pParam, Vector2 qParam)> Curve(ISurface p, ISurface q, float d, Vector3? closeTo = null)
         {
             (Vector2 pParam, Vector2 qParam)? start = Point(p, q, closeTo);
@@ -144,7 +136,7 @@ namespace Intersect
             LinkedList<(Vector2 pParam, Vector2 qParam)> parameters = new LinkedList<(Vector2 pParam, Vector2 qParam)>();
             parameters.AddLast(start.Value);
             int i = 1000;
-            while (i-- > 0)
+            while (i-- > 500)
             {
                 next = Next(p, q, next, d, 100);
                 parameters.AddLast(next);
@@ -156,7 +148,7 @@ namespace Intersect
                 else next.qParam.X = wrap(next.qParam.X);
                 if (!q.WrapsV() && (next.qParam.Y > 1 || next.qParam.Y < 0)) break;
                 else next.qParam.Y = wrap(next.qParam.Y);
-                if (Vector3.Distance(found, p.P(next.pParam.X, next.pParam.Y)) < d)
+                if (Vector3.Distance(found, p.P(next.pParam.X, next.pParam.Y)) < d && i < 995)
                 {
                     parameters.AddLast(start.Value);
                     return parameters.ToList();
@@ -183,9 +175,14 @@ namespace Intersect
 
         private static Vector2 UV(Vector2 uv)
         {
-            uv.X = Clamp(uv.X, 0, 1);
-            uv.Y = Clamp(uv.Y, 0, 1);
+            uv.X = uv.X % 1;
+            if (uv.X < 0) uv.X += 1;
+            uv.Y = uv.Y % 1;
+            if (uv.Y < 0) uv.Y += 1;
             return uv;
+            //uv.X = Clamp(uv.X, 0, 1);
+            //uv.Y = Clamp(uv.Y, 0, 1);
+            //return uv;
         }
 
         private static float Clamp(float val, float min, float max)
