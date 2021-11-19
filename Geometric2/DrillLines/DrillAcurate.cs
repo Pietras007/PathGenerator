@@ -57,24 +57,8 @@ namespace Geometric2.DrillLines
             var top = patchC0[2];
             var topTube = patchC0[1];
 
-
-            //BestPatch topPatch;// = new BestPatch(patchC0[2]);
             BestPatch topPatchLeft = new BestPatch(top, 0, false);
             BestPatch topPatchRight = new BestPatch(top, 3, true);
-
-            //allPoints.Add(new Vector3(0, 30, 0));
-            //allPoints.Add(new Vector3(0, 30, -70));
-            //for (float u = 0.005f; u <= 1.0f; u += 0.01f)
-            //{
-
-            //    for (float v = 0.005f; v <= 1.0f; v += 0.01f)
-            //    {
-            //        allPoints.Add(topPatchRight.P(u, v));
-            //    }
-            //    allPoints.Add(new Vector3(0, 30, 70));
-            //    allPoints.Add(new Vector3(0, 30, -70));
-            //}
-
 
             BestPatch tube = new BestPatch(topTube);
 
@@ -87,22 +71,113 @@ namespace Geometric2.DrillLines
             var intersectpoint2 = GetIntersectionPoint(topPoints, tube, R);
 
             List<(float, float)> intersectUVTube = new List<(float, float)>();
+            List<(float, float)> intersectUVLeft = new List<(float, float)>();
+            List<(float, float)> intersectUVRight = new List<(float, float)>();
+
             intersectUVTube.Add((intersectpoint1.Item2.uSlave, intersectpoint1.Item2.vSlave));
             foreach (var inter in LeftTopIntersect.Item2)
             {
                 intersectUVTube.Add((inter.pParam.X, inter.pParam.Y));
+                intersectUVLeft.Add((inter.qParam.X, inter.qParam.Y));
             }
             intersectUVTube.Add((intersectpoint2.Item2.uSlave, intersectpoint2.Item2.vSlave));
 
             foreach (var inter in RightTopIntersect.Item2)
             {
                 intersectUVTube.Add((inter.pParam.X, inter.pParam.Y));
+                intersectUVRight.Add((inter.qParam.X, inter.qParam.Y));
             }
             intersectUVTube.Add((intersectpoint1.Item2.uSlave, intersectpoint1.Item2.vSlave));
 
 
-            Vector2[] pointsPloygon = new Vector2[intersectUVTube.Count];
+            //LeftSide
+            Vector2[] pointsLeftSide = new Vector2[intersectUVLeft.Count];
             int idx = 0;
+            foreach (var inter in intersectUVLeft)
+            {
+                pointsLeftSide[idx] = new Vector2(inter.Item1, inter.Item2);
+                idx++;
+            }
+
+            Vector2[] pointsRightSide = new Vector2[intersectUVRight.Count];
+            idx = 0;
+            foreach (var inter in intersectUVRight)
+            {
+                pointsRightSide[idx] = new Vector2(inter.Item1, inter.Item2);
+                idx++;
+            }
+
+
+            //bool go = false;
+            //float ux = 0.00f;
+            //allPoints.Add(new Vector3(0, 30, 0));
+            //allPoints.Add(new Vector3(5, 30, 5));
+            //allPoints.Add(new Vector3(5, 20, 5));
+            for (float u = 0.00f; u <= 1.0f; u += 0.02f)
+            {
+                bool first1 = true;
+                bool first2 = true;
+                for (float v = 0.00f; v <= 1.0f; v += 0.005f)
+                {
+                    if (!HelpFunctions.IsInPolygon(new Vector2(u, v), pointsLeftSide))
+                    {
+                        Vector3 resVector = topPatchLeft.P(u, v);
+                        if (resVector.Y >= 0.0f)
+                        {
+                            if (first1)
+                            {
+                                first1 = false;
+                                resVector += new Vector3(0, 30, 0);
+                            }
+                            allPoints.Add(resVector);
+                        }
+                    }
+                    else
+                    {
+                        Vector3 resVector = topPatchLeft.P(u, v);
+                        if (resVector.Y >= 0.0f)
+                        {
+                            allPoints.Add(resVector + new Vector3(0, 10, 0));
+                        }
+                    }
+                }
+
+                allPoints.Add(allPoints.Last() + new Vector3(0, 30, 0));
+
+                for (float v = 0.00f; v <= 1.0f; v += 0.005f)
+                {
+                    if (!HelpFunctions.IsInPolygon(new Vector2(u, v), pointsRightSide))
+                    {
+                        Vector3 resVector = topPatchRight.P(u, v);
+                        if (resVector.Y >= 0.0f)
+                        {
+                            if (first2)
+                            {
+                                first2 = false;
+                                resVector += new Vector3(0, 30, 0);
+                            }
+                                allPoints.Add(resVector);
+                        }
+                    }
+                    else
+                    {
+                        Vector3 resVector = topPatchRight.P(u, v);
+                        if (resVector.Y >= 0.0f)
+                        {
+                            allPoints.Add(resVector + new Vector3(0, 10, 0));
+                        }
+                    }
+                }
+
+                allPoints.Add(allPoints.Last() + new Vector3(0, 30, 0));
+            }
+            //allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, 15, 0));
+            //allPoints.Add(new Vector3(0, 30, 0));
+
+
+            //Toptop
+            Vector2[] pointsPloygon = new Vector2[intersectUVTube.Count];
+            idx = 0;
             foreach (var inter in intersectUVTube)
             {
                 pointsPloygon[idx] = new Vector2(inter.Item1, inter.Item2);
@@ -112,14 +187,14 @@ namespace Geometric2.DrillLines
             bool go = false;
             float ux = 0.00f;
             allPoints.Add(new Vector3(0, 30, 0));
-            for (float v = 0.00f; v <= 1.0f; v += 0.01f)
+            for (float v = 0.00f; v <= 1.0f; v += 0.02f)
             {
                 go = !go;
-                for (float u = 0.00f; u <= 1.0f; u += 0.01f)
+                for (float u = 0.00f; u <= 1.0f; u += 0.02f)
                 {
                     if (!go)
                     {
-                        ux -= 0.01f;
+                        ux -= 0.02f;
                     }
 
                     if (HelpFunctions.IsInPolygon(new Vector2(ux, v), pointsPloygon))
@@ -129,16 +204,12 @@ namespace Geometric2.DrillLines
 
                     if (go)
                     {
-                        ux += 0.01f;
+                        ux += 0.02f;
                     }
                 }
-                //allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, 5, 0));
-                //allPoints.Add(new Vector3(0, 30, 30));
-                //allPoints.Add(new Vector3(0, 30, 00));
             }
             allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, 15, 0));
             allPoints.Add(new Vector3(0, 30, 0));
-
 
             foreach (var inter in intersectUVTube)
             {
@@ -146,325 +217,9 @@ namespace Geometric2.DrillLines
             }
 
 
-            //go = false;
-            //for (float i = 0.5f * R; i < 300; i += R - 0.1f)
-            //{
-            //    go = !go;
-            //    for (int j = (int)(0.5f * R); j < 300 - (int)(0.5f * R); j++)
-            //    {
-            //        if (!go)
-            //        {
-            //            index_j--;
-            //        }
-
-            //        float x = i;
-            //        float y = index_j;
-            //        float z = topLayer[(int)i, index_j];
-            //        float currentheight = height;
-
-            //        while (!HelpFunctions.checkIfHeightOk(x, y, R, topLayer, currentheight))
-            //        {
-            //            currentheight += 1.0f;
-            //        }
-
-            //        var pppPos = new Vector3(x / 2.0f - 75.0f, y / 2.0f - 75.0f, currentheight);
-            //        allFatPoints.Add(pppPos);
-            //        if (go)
-            //        {
-            //            index_j++;
-            //        }
-            //    }
-            //}
 
 
-
-            ////topPoints.Reverse();
-            ////var intersectpoint2 = GetIntersectionPoint(topPoints, tube, R);
-            ////LeftTopIntersect.Add(tube.P(intersectpoint2.Item2.uSlave, intersectpoint2.Item2.vSlave));
-
-            //foreach (var inter in RightTopIntersect)
-            //{
-            //    allPoints.Add(inter);
-            //}
-
-            //LeftTopIntersect.Add(tube.P(intersectpoint1.Item2.uSlave, intersectpoint1.Item2.vSlave));
-
-            //allPoints.Add(new Vector3(0, 30, 0));
-            //allPoints.Add(new Vector3(0, 30, -70));
-            //for (float u = 0.005f; u <= 1.0f; u += 0.01f)
-            //{
-
-            //    for (float v = 0.005f; v <= 1.0f; v += 0.01f)
-            //    {
-            //        allPoints.Add(topPatch.P(u, v));
-            //    }
-            //    allPoints.Add(new Vector3(0, 30, 70));
-            //    allPoints.Add(new Vector3(0, 30, -70));
-            //}
-
-            ////BestPatch tube2 = new BestPatch(patchC0[1]);
-            ////BestPatch tube1 = new BestPatch(patchC0[3]);
-
-            ////BestPatch holePart = new BestPatch(patchC0[1]);
-
-            //for (float u = 0.005f; u <= 1.0f; u += 0.01f)
-            //{
-
-            //    for (float v = 0.005f; v <= 1.0f; v += 0.01f)
-            //    {
-            //        allPoints.Add(tube.P(u, v));
-            //    }
-            //    allPoints.Add(new Vector3(0, -100, 0));
-            //}
-
-            //for (float u = 0.005f; u <= 1.0f; u += 0.01f)
-            //{
-
-            //    for (float v = 0.005f; v <= 1.0f; v += 0.01f)
-            //    {
-            //        allPoints.Add(tube2.P(u, v));
-            //    }
-            //    allPoints.Add(new Vector3(0, -100, 0));
-            //}
-
-            //for (float u = 0.005f; u <= 1.0f; u += 0.01f)
-            //{
-
-            //    for (float v = 0.005f; v <= 1.0f; v += 0.01f)
-            //    {
-            //        allPoints.Add(tube1.P(u, v));
-            //    }
-            //    allPoints.Add(new Vector3(0, -100, 0));
-            //}
-
-            //for (float u = 0.005f; u <= 1.0f; u += 0.01f)
-            //{
-
-            //    for (float v = 0.005f; v <= 1.0f; v += 0.01f)
-            //    {
-            //        allPoints.Add(tube.P(u, v));
-            //    }
-            //    allPoints.Add(new Vector3(0, -100, 0));
-            //}
-
-            //for (float u = 0.005f; u <= 1.0f; u += 0.01f)
-            //{
-
-            //    for (float v = 0.005f; v <= 1.0f; v += 0.01f)
-            //    {
-            //        allPoints.Add(topPatch.P(u, v));
-            //    }
-            //    allPoints.Add(new Vector3(0, -100, 0));
-            //}
-
-
-
-
-
-            ////Top
-            //List<Patch> topPatches = patchesAll[0];
-            //List<Patch> topLeft = new List<Patch>();
-            //List<Patch> topRight = new List<Patch>();
-            //int idx = 0;
-            //foreach (var pp in topPatches)
-            //{
-            //    if (idx % 4 == 0)
-            //    {
-            //        topLeft.Add(pp);
-            //    }
-            //    idx++;
-            //}
-
-            //foreach (var pp in topPatches)
-            //{
-            //    if (idx % 4 == 3)
-            //    {
-            //        topRight.Add(pp);
-            //    }
-            //    idx++;
-            //}
-
-            ////FirstUp
-            //List<Patch> up1Patches = patchesAll[3];
-            //List<Patch> up1 = new List<Patch>();
-            //idx = 0;
-            //foreach (var pp in up1Patches)
-            //{
-            //    if (idx % 4 == 0 || idx % 4 == 1)
-            //    {
-            //        up1.Add(pp);
-            //    }
-            //    idx++;
-            //}
-
-            //allPoints.Add(new Vector3(0, 30, 0));
-            //allPoints.Add(new Vector3(0, 30, -70));
-            //bool under = false;
-            ////float dist = 
-            //for (float u = 0.002f; u <= 1.0f; u += 0.04f)
-            //{
-            //    foreach (var topPatch in topLeft)
-            //    {
-            //        for (float v = 0.002f; v <= 1.0f; v += 0.04f)
-            //        {
-            //            var point = topPatch.P(u, v);
-            //            var inter = Intersection.Point(topPatch, up1[0], point);
-            //            if (inter != null && (topPatch.P(inter.Value.pParam.X, inter.Value.pParam.Y) - point).Length < 0.1f)
-            //            {
-            //                under = !under;
-            //            }
-
-            //            if (under)
-            //            {
-            //                point += new Vector3(0, 20, 0);
-            //            }
-            //            allPoints.Add(point);
-            //        }
-            //        //allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, 100, 0));
-            //    }
-            //    allPoints.Add(new Vector3(0,30,70));
-            //    allPoints.Add(new Vector3(0, 30, -70));
-
-            //foreach (var topPatch in topRight)
-            //{
-            //    for (float v = 0.002f; v <= 1.0f; v += 0.025f)
-            //    {
-            //        allPoints.Add(topPatch.P(u, v));
-            //    }
-            //    //allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, 100, 0));
-            //}
-            //allPoints.Add(new Vector3(0, 30, 70));
-            //allPoints.Add(new Vector3(0, 30, -70));
-            //}
-
-            //foreach (var pp in topPatches)
-            //{
-            //    if (idx % 4 == 3)
-            //    {
-            //        top.Add(pp);
-            //    }
-            //    idx++;
-            //}
-
-            //Patch topPatch = topPatches[0];
-            //foreach (var _topPatch in top)
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //for (float u = 0.0f; u <= 1.0f; u += 0.01f)
-            //{
-            //    foreach (var topPatch in top)
-            //    {
-            //        for (float v = 0.0f; v <= 1.0f; v += 0.01f)
-            //        {
-            //            allPoints.Add(topPatch.P(u, v));
-            //        }
-            //        allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, 100, 0));
-            //    }
-            //    allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, -100, 0));
-            //}
-
-            //for (float u = 0.0f; u <= 1.0f; u += 0.01f)
-            //{
-            //    foreach (var topPatch in up1)
-            //    {
-            //        for (float v = 0.0f; v <= 1.0f; v += 0.01f)
-            //        {
-            //            allPoints.Add(topPatch.P(u, v));
-            //        }
-            //        //allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, 100, 0));
-            //    }
-            //    allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, -100, 0));
-            //}
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-            //for (float u = 0.0f; u <= 1.0f; u += 0.01f)
-            //{
-            //    for (float v = 0.0f; v <= 1.0f; v += 0.01f)
-            //    {
-            //        allPoints.Add(top[3].P(u, v));
-            //    }
-            //    allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, -100, 0));
-            //    //allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, 100, 0));
-            //}
-
-            //Patch patch = up1[3];
-            //Patch first = up1[0];
-            //foreach (var _first in up1Patches)
-            //    for (float u = 0.005f; u <= 1.0f; u += 0.01f)
-            //    {
-            //        foreach (var first in up1Patches)
-            //        {
-            //            for (float v = 0.005f; v <= 1.0f; v += 0.01f)
-            //            {
-            //                allPoints.Add(first.P(u,v));
-            //            }
-            //            allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, 100, 0));
-            //        }
-            //        //allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, 100, 0));
-            //    }
-
-
-            //for (float u = 0.005f; u <= 1.0f; u += 0.01f)
-            //{
-            //    for (float v = 0.005f; v <= 1.0f; v += 0.01f)
-            //    {
-            //        allPoints.Add(top[3].P(u, v));
-            //    }
-            //    allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, -100, 0));
-            //}
-
-            //for (float u = 0.00f; u <= 1.0f; u += 0.01f)
-            //{
-            //    for (float v = 0.00f; v <= 1.0f; v += 0.01f)
-            //    {
-            //        allPoints.Add(up1[0].P(u, v));
-            //    }
-            //    allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, -100, 0));
-            //}
-
-            //for (float u = 0.00f; u <= 1.0f; u += 0.01f)
-            //{
-            //    for (float v = 0.00f; v <= 1.0f; v += 0.01f)
-            //    {
-            //        allPoints.Add(up1[1].P(u, v));
-            //    }
-            //    allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, -100, 0));
-            //}
-
-            //allPoints.AddRange(FindIntersectPoints(top[4], up1[0]));
-            ////allPoints.AddRange(FindIntersectPoints(top[3], up1[0]));
-            //allPoints.AddRange(FindIntersectPoints(top[3], up1[1]));
-            //allPoints.AddRange(FindIntersectPoints(top[3], up1[1]));
-            //int ile = 0;
-            //List<Vector3> alpP = new List<Vector3>();
-            //List<(Vector2 pParam, Vector2 qParam) > res = new List<(Vector2, Vector2)>();
-            //do
-            //{
-            //    res = Intersection.Curve(top[3], up1[0], 0.01f);
-            //    ile = 0;
-            //    alpP.Clear();
-            //    if(res != null)
-            //    foreach (var x in res)
-            //    {
-
-            //            if(x.pParam.X > 0)
-            //            {
-            //                ile++;
-            //                //alpP.Add(top[3].P(x.pParam.X, x.pParam.Y));
-            //            }
-
-            //            if (x.qParam.X > 0)
-            //        {
-            //            var xxx = 5;
-
-            //                alpP.Add(up1[0].P(x.qParam.X, x.qParam.Y));
-
-            //        }
-            //    }
-            //}
-            //while (ile < ((float)res.Count - 0.1*res.Count));
-
-            //allPoints.AddRange(alpP);
-
+            //End
             int numer = 0;
             foreach (var pp in allPoints)
             {
@@ -524,14 +279,14 @@ namespace Geometric2.DrillLines
             List<(Vector2 pParam, Vector2 qParam)> res = new List<(Vector2, Vector2)>();
             do
             {
-                res = Intersection.Curve(master, slave, 0.02f);
+                res = Intersection.Curve(master, slave, 0.03f);
                 ile = 0;
                 alpP.Clear();
                 if (res != null)
                     foreach (var x in res)
                     {
 
-                        if (x.pParam.X > 0)
+                        if (x.pParam.X >= 0 && x.pParam.Y >= 0 && x.qParam.X >= 0 && x.qParam.Y >= 0)
                         {
                             ile++;
                             alpP.Add(master.P(x.pParam.X, x.pParam.Y));
@@ -547,7 +302,7 @@ namespace Geometric2.DrillLines
                         //}
                     }
             }
-            while (res == null || ile < res.Count);
+            while (res == null || ile < res.Count - 2);
 
             return (alpP, res);
         }

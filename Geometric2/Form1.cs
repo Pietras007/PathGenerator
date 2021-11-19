@@ -1745,8 +1745,8 @@ namespace Geometric2
 
                 //float[,] topLayer = new float[300, 300];
                 //AllPatches.DrillAndSaveAll(patchC0);
-                //DrillFat.DrillAndSave(patchC0);
-                //DrillRound.DrillAndSave(patchC0);
+                DrillFat.DrillAndSave(patchC0);
+                DrillRound.DrillAndSave(patchC0);
                 DrillAcurate.DrillAndSave(patchC0);
 
                 //foreach (var _patchC0 in patchC0)
