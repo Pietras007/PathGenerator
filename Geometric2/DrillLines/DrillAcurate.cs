@@ -323,7 +323,7 @@ namespace Geometric2.DrillLines
                 idx++;
             }
 
-            allPoints.Clear();
+            //allPoints.Clear();
 
             for (float v = 0.00f; v <= 1.0f; v += 0.005f)
             {
@@ -331,10 +331,10 @@ namespace Geometric2.DrillLines
                 bool first2 = true;
                 for (float u = 0.00f; u <= 1.0f; u += 0.02f)
                 {
-                    if (!HelpFunctions.IsInPolygon(new Vector2(u, v), pointsLeftDeep))
-                    {
+                    //if (!HelpFunctions.IsInPolygon(new Vector2(u, v), pointsLeftDeep))
+                    //{
                         Vector3 resVector = deepTubeLeft.P(u, v);
-                        if (resVector.Y >= 0.0f)
+                        if (resVector.Y >= 0.0f && Math.Abs(resVector.X) >= 15.0f)
                         {
                             if (first1)
                             {
@@ -345,25 +345,25 @@ namespace Geometric2.DrillLines
                         }
 
 
-                    }
-                    else
-                    {
-                        Vector3 resVector = topPatchLeft.P(u, v);
-                        if (resVector.Y >= 0.0f)
-                        {
-                            allPoints.Add(resVector + new Vector3(0, 50, 0));
-                        }
-                    }
+                    //}
+                    //else
+                    //{
+                    //    Vector3 resVector = topPatchLeft.P(u, v);
+                    //    if (resVector.Y >= 0.0f)
+                    //    {
+                    //        allPoints.Add(resVector + new Vector3(0, 50, 0));
+                    //    }
+                    //}
                 }
 
                 //allPoints.Add(allPoints.Last() + new Vector3(0, 30, 0));
 
                 for (float u = 0.00f; u <= 1.00f; u += 0.02f)
                 {
-                    if (!HelpFunctions.IsInPolygon(new Vector2(u, v), pointsRightDeep))
-                    {
+                    //if (!HelpFunctions.IsInPolygon(new Vector2(u, v), pointsRightDeep))
+                    //{
                         Vector3 resVector = deepTubeRight.P(u, 1.0f - v);
-                        if (resVector.Y >= 0.0f)
+                        if (resVector.Y >= 0.0f && Math.Abs(resVector.X) >= 16.0f)
                         {
                             if (first2)
                             {
@@ -373,15 +373,15 @@ namespace Geometric2.DrillLines
                             allPoints.Add(resVector);
                         }
 
-                    }
-                    else
-                    {
-                        Vector3 resVector = topPatchRight.P(u, v);
-                        if (resVector.Y >= 0.0f)
-                        {
-                            allPoints.Add(resVector + new Vector3(0, 50, 0));
-                        }
-                    }
+                    //}
+                    //else
+                    //{
+                    //    Vector3 resVector = topPatchRight.P(u, v);
+                    //    if (resVector.Y >= 0.0f)
+                    //    {
+                    //        allPoints.Add(resVector + new Vector3(0, 50, 0));
+                    //    }
+                    //}
                 }
 
                 //allPoints.Add(allPoints.Last() + new Vector3(0, 30, 0));
