@@ -1298,6 +1298,7 @@ namespace Geometric2
 
         private void addBezierPatchTubeC0_Click(object sender, EventArgs e)
         {
+            bezierPatchTubeC0Number += 10;
             float[] values = new float[5];
             BezierPatchTube bezierPatch = new BezierPatchTube(values);
             bezierPatch.ShowDialog();
@@ -1744,7 +1745,7 @@ namespace Geometric2
                 //List<Patch> patches = new List<Patch>();
 
                 //float[,] topLayer = new float[300, 300];
-                //AllPatches.DrillAndSaveAll(patchC0);
+                AllPatches.DrillAndSaveAll(patchC0);
                 DrillFat.DrillAndSave(patchC0);
                 DrillRound.DrillAndSave(patchC0);
                 DrillAcurate.DrillAndSave(patchC0);

@@ -15,12 +15,12 @@ namespace Geometric2.DrillLines
             List<Vector3> resultPoints = new List<Vector3>();
 
             float R = 5.0f;
-            var resBig = GetRound(patchC0[2], true);
+            var resBig = GetRound(patchC0[1], true);
             List<Vector3> rightBig = resBig.rightSide;
             List<Vector3> leftBig = resBig.leftSide;
 
 
-            var resSmall = GetRound(patchC0[0], false);
+            var resSmall = GetRound(patchC0[2], false);
             List<Vector3> rightSmall = resSmall.rightSide;
             List<Vector3> leftSmall = resSmall.leftSide;
 

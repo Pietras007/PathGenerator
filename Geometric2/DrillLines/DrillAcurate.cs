@@ -54,13 +54,60 @@ namespace Geometric2.DrillLines
             //}
 
             List<Vector3> allPoints = new List<Vector3>();
-            var top = patchC0[2];
-            var topTube = patchC0[1];
+            var top = patchC0[1];
+            var topTube = patchC0[0];
+
+            var deepTube = patchC0[2];
 
             BestPatch topPatchLeft = new BestPatch(top, 0, false);
             BestPatch topPatchRight = new BestPatch(top, 3, true);
 
+            BestPatch deepTubeLeft = new BestPatch(deepTube, 0, false);
+            BestPatch deepTubeRight = new BestPatch(deepTube, 3, true);
+
             BestPatch tube = new BestPatch(topTube);
+
+            //DEEEP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            var DeepLeftTopRight = FindIntersectPoints(deepTubeLeft, topPatchRight);
+            var DeepLeftTopLeft = FindIntersectPoints(deepTubeLeft, topPatchLeft);
+
+            var DeepRightTopRight = FindIntersectPoints(deepTubeRight, topPatchRight);
+            var DeepRightTopLeft = FindIntersectPoints(deepTubeRight, topPatchLeft);
+
+            List<(float, float)> intersectUVDeepLeft_RightTop = new List<(float, float)>();
+            List<(float, float)> intersectUVDeepLeft_LeftTop = new List<(float, float)>();
+            List<(float, float)> intersectUVDeepRight_RightTop = new List<(float, float)>();
+            List<(float, float)> intersectUVDeepRight_LeftTop = new List<(float, float)>();
+
+            List<(float, float)> TOPintersectUVDeepLeft_RightTop = new List<(float, float)>();
+            List<(float, float)> TOPintersectUVDeepLeft_LeftTop = new List<(float, float)>();
+            List<(float, float)> TOPintersectUVDeepRight_RightTop = new List<(float, float)>();
+            List<(float, float)> TOPintersectUVDeepRight_LeftTop = new List<(float, float)>();
+
+            foreach (var inter in DeepLeftTopRight.Item2)
+            {
+                intersectUVDeepLeft_RightTop.Add((inter.pParam.X, inter.pParam.Y));
+                TOPintersectUVDeepLeft_RightTop.Add((inter.qParam.X, inter.qParam.Y));
+            }
+
+            foreach (var inter in DeepLeftTopLeft.Item2)
+            {
+                intersectUVDeepLeft_LeftTop.Add((inter.pParam.X, inter.pParam.Y));
+                TOPintersectUVDeepLeft_LeftTop.Add((inter.qParam.X, inter.qParam.Y));
+            }
+
+            foreach (var inter in DeepRightTopRight.Item2)
+            {
+                intersectUVDeepRight_RightTop.Add((inter.pParam.X, inter.pParam.Y));
+                TOPintersectUVDeepRight_RightTop.Add((inter.qParam.X, inter.qParam.Y));
+            }
+
+            foreach (var inter in DeepRightTopLeft.Item2)
+            {
+                intersectUVDeepRight_LeftTop.Add((inter.pParam.X, inter.pParam.Y));
+                TOPintersectUVDeepRight_LeftTop.Add((inter.qParam.X, inter.qParam.Y));
+            }
+            //!!!!!!!!!!!!!!!!!!!!!!!
 
             var LeftTopIntersect = FindIntersectPoints(tube, topPatchLeft);
             var RightTopIntersect = FindIntersectPoints(tube, topPatchRight);
@@ -91,19 +138,47 @@ namespace Geometric2.DrillLines
 
 
             //LeftSide
-            Vector2[] pointsLeftSide = new Vector2[intersectUVLeft.Count];
+            Vector2[] pointsLeftSide1 = new Vector2[intersectUVLeft.Count];
+            Vector2[] pointsLeftSide2 = new Vector2[TOPintersectUVDeepLeft_LeftTop.Count];
+            Vector2[] pointsLeftSide3 = new Vector2[TOPintersectUVDeepRight_LeftTop.Count];
             int idx = 0;
             foreach (var inter in intersectUVLeft)
             {
-                pointsLeftSide[idx] = new Vector2(inter.Item1, inter.Item2);
+                pointsLeftSide1[idx] = new Vector2(inter.Item1, inter.Item2);
+                idx++;
+            }
+            idx = 0;
+            foreach (var inter in TOPintersectUVDeepLeft_LeftTop)
+            {
+                pointsLeftSide2[idx] = new Vector2(inter.Item1, inter.Item2);
+                idx++;
+            }
+            idx = 0;
+            foreach (var inter in TOPintersectUVDeepRight_LeftTop)
+            {
+                pointsLeftSide3[idx] = new Vector2(inter.Item1, inter.Item2);
                 idx++;
             }
 
-            Vector2[] pointsRightSide = new Vector2[intersectUVRight.Count];
+            Vector2[] pointsRightSide1 = new Vector2[intersectUVRight.Count];
+            Vector2[] pointsRightSide2 = new Vector2[TOPintersectUVDeepLeft_RightTop.Count];
+            Vector2[] pointsRightSide3 = new Vector2[TOPintersectUVDeepRight_RightTop.Count];
             idx = 0;
             foreach (var inter in intersectUVRight)
             {
-                pointsRightSide[idx] = new Vector2(inter.Item1, inter.Item2);
+                pointsRightSide1[idx] = new Vector2(inter.Item1, inter.Item2);
+                idx++;
+            }
+            idx = 0;
+            foreach (var inter in TOPintersectUVDeepLeft_RightTop)
+            {
+                pointsRightSide2[idx] = new Vector2(inter.Item1, inter.Item2);
+                idx++;
+            }
+            idx = 0;
+            foreach (var inter in TOPintersectUVDeepRight_RightTop)
+            {
+                pointsRightSide3[idx] = new Vector2(inter.Item1, inter.Item2);
                 idx++;
             }
 
@@ -119,7 +194,7 @@ namespace Geometric2.DrillLines
                 bool first2 = true;
                 for (float v = 0.00f; v <= 1.0f; v += 0.005f)
                 {
-                    if (!HelpFunctions.IsInPolygon(new Vector2(u, v), pointsLeftSide))
+                    if (!HelpFunctions.IsInPolygon(new Vector2(u, v), pointsLeftSide1) && !HelpFunctions.IsInPolygon(new Vector2(u, v), pointsLeftSide2) && !HelpFunctions.IsInPolygon(new Vector2(u, v), pointsLeftSide3))
                     {
                         Vector3 resVector = topPatchLeft.P(u, v);
                         if (resVector.Y >= 0.0f)
@@ -146,7 +221,7 @@ namespace Geometric2.DrillLines
 
                 for (float v = 0.00f; v <= 1.0f; v += 0.005f)
                 {
-                    if (!HelpFunctions.IsInPolygon(new Vector2(u, v), pointsRightSide))
+                    if (!HelpFunctions.IsInPolygon(new Vector2(u, v), pointsRightSide1) && !HelpFunctions.IsInPolygon(new Vector2(u, v), pointsRightSide2) && !HelpFunctions.IsInPolygon(new Vector2(u, v), pointsRightSide3))
                     {
                         Vector3 resVector = topPatchRight.P(u, v);
                         if (resVector.Y >= 0.0f)
@@ -156,7 +231,7 @@ namespace Geometric2.DrillLines
                                 first2 = false;
                                 resVector += new Vector3(0, 30, 0);
                             }
-                                allPoints.Add(resVector);
+                            allPoints.Add(resVector);
                         }
                     }
                     else
@@ -171,9 +246,6 @@ namespace Geometric2.DrillLines
 
                 allPoints.Add(allPoints.Last() + new Vector3(0, 30, 0));
             }
-            //allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, 15, 0));
-            //allPoints.Add(new Vector3(0, 30, 0));
-
 
             //Toptop
             Vector2[] pointsPloygon = new Vector2[intersectUVTube.Count];
@@ -210,7 +282,7 @@ namespace Geometric2.DrillLines
             }
             allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, 15, 0));
             allPoints.Add(new Vector3(0, 30, 0));
-
+            //allPoints.Clear();
             foreach (var inter in intersectUVTube)
             {
                 allPoints.Add(tube.P(inter.Item1, inter.Item2));
@@ -218,6 +290,28 @@ namespace Geometric2.DrillLines
 
 
 
+            //DEEP Part Drill
+
+            //allPoints.Clear();
+            //foreach (var inter in intersectUVDeepLeft_RightTop)
+            //{
+            //    allPoints.Add(deepTubeLeft.P(inter.Item1, inter.Item2));
+            //}
+
+            //foreach (var inter in intersectUVDeepLeft_RightTop)
+            //{
+            //    allPoints.Add(deepTubeLeft.P(inter.Item1, inter.Item2));
+            //}
+
+            //foreach (var inter in intersectUVDeepLeft_RightTop)
+            //{
+            //    allPoints.Add(deepTubeLeft.P(inter.Item1, inter.Item2));
+            //}
+
+            //foreach (var inter in intersectUVDeepLeft_RightTop)
+            //{
+            //    allPoints.Add(deepTubeLeft.P(inter.Item1, inter.Item2));
+            //}
 
             //End
             int numer = 0;
@@ -279,7 +373,7 @@ namespace Geometric2.DrillLines
             List<(Vector2 pParam, Vector2 qParam)> res = new List<(Vector2, Vector2)>();
             do
             {
-                res = Intersection.Curve(master, slave, 0.03f);
+                res = Intersection.Curve(master, slave, 0.05f);
                 ile = 0;
                 alpP.Clear();
                 if (res != null)
@@ -302,7 +396,7 @@ namespace Geometric2.DrillLines
                         //}
                     }
             }
-            while (res == null || ile < res.Count - 2);
+            while (res == null || ile < res.Count - 2 || ile < 100);
 
             return (alpP, res);
         }
