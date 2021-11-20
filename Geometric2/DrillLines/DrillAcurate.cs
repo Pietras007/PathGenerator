@@ -291,27 +291,103 @@ namespace Geometric2.DrillLines
 
 
             //DEEP Part Drill
+            Vector2[] pointsLeftDeep = new Vector2[intersectUVDeepLeft_RightTop.Count + intersectUVDeepLeft_LeftTop.Count];
+            Vector2[] pointsRightDeep = new Vector2[intersectUVDeepRight_RightTop.Count + intersectUVDeepRight_LeftTop.Count];
+            idx = 0;
+            foreach (var inter in intersectUVDeepLeft_RightTop)
+            {
+                allPoints.Add(deepTubeLeft.P(inter.Item1, inter.Item2));
+                pointsLeftDeep[idx] = new Vector2(inter.Item1, inter.Item2);
+                idx++;
+            }
 
-            //allPoints.Clear();
-            //foreach (var inter in intersectUVDeepLeft_RightTop)
-            //{
-            //    allPoints.Add(deepTubeLeft.P(inter.Item1, inter.Item2));
-            //}
+            foreach (var inter in intersectUVDeepLeft_LeftTop)
+            {
+                allPoints.Add(deepTubeLeft.P(inter.Item1, inter.Item2));
+                pointsLeftDeep[idx] = new Vector2(inter.Item1, inter.Item2);
+                idx++;
+            }
 
-            //foreach (var inter in intersectUVDeepLeft_RightTop)
-            //{
-            //    allPoints.Add(deepTubeLeft.P(inter.Item1, inter.Item2));
-            //}
+            idx = 0;
+            foreach (var inter in intersectUVDeepRight_RightTop)
+            {
+                allPoints.Add(deepTubeLeft.P(inter.Item1, inter.Item2));
+                pointsRightDeep[idx] = new Vector2(inter.Item1, inter.Item2);
+                idx++;
+            }
+            
+            foreach (var inter in intersectUVDeepRight_LeftTop)
+            {
+                allPoints.Add(deepTubeLeft.P(inter.Item1, inter.Item2));
+                pointsRightDeep[idx] = new Vector2(inter.Item1, inter.Item2);
+                idx++;
+            }
 
-            //foreach (var inter in intersectUVDeepLeft_RightTop)
-            //{
-            //    allPoints.Add(deepTubeLeft.P(inter.Item1, inter.Item2));
-            //}
+            allPoints.Clear();
 
-            //foreach (var inter in intersectUVDeepLeft_RightTop)
-            //{
-            //    allPoints.Add(deepTubeLeft.P(inter.Item1, inter.Item2));
-            //}
+            for (float v = 0.00f; v <= 1.0f; v += 0.005f)
+            {
+                bool first1 = true;
+                bool first2 = true;
+                for (float u = 0.00f; u <= 1.0f; u += 0.02f)
+                {
+                    if (!HelpFunctions.IsInPolygon(new Vector2(u, v), pointsLeftDeep))
+                    {
+                        Vector3 resVector = deepTubeLeft.P(u, v);
+                        if (resVector.Y >= 0.0f)
+                        {
+                            if (first1)
+                            {
+                                first1 = false;
+                                resVector += new Vector3(0, 30, 0);
+                            }
+                            allPoints.Add(resVector);
+                        }
+
+
+                    }
+                    else
+                    {
+                        Vector3 resVector = topPatchLeft.P(u, v);
+                        if (resVector.Y >= 0.0f)
+                        {
+                            allPoints.Add(resVector + new Vector3(0, 50, 0));
+                        }
+                    }
+                }
+
+                //allPoints.Add(allPoints.Last() + new Vector3(0, 30, 0));
+
+                for (float u = 0.00f; u <= 1.00f; u += 0.02f)
+                {
+                    if (!HelpFunctions.IsInPolygon(new Vector2(u, v), pointsRightDeep))
+                    {
+                        Vector3 resVector = deepTubeRight.P(u, 1.0f - v);
+                        if (resVector.Y >= 0.0f)
+                        {
+                            if (first2)
+                            {
+                                first2 = false;
+                                resVector += new Vector3(0, 30, 0);
+                            }
+                            allPoints.Add(resVector);
+                        }
+
+                    }
+                    else
+                    {
+                        Vector3 resVector = topPatchRight.P(u, v);
+                        if (resVector.Y >= 0.0f)
+                        {
+                            allPoints.Add(resVector + new Vector3(0, 50, 0));
+                        }
+                    }
+                }
+
+                //allPoints.Add(allPoints.Last() + new Vector3(0, 30, 0));
+            }
+
+            
 
             //End
             int numer = 0;
