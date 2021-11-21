@@ -670,9 +670,14 @@ namespace Geometric2
                     {
                         if (el is BezierPatchC0 bc0)
                         {
+                            List<ModelGeneration.Point> mocedPoints = new List<ModelGeneration.Point>();
                             foreach (var p in bc0.bezierPoints)
                             {
-                                p.Translation.Z = p.Translation.Z + res;
+                                if (!mocedPoints.Contains(p))
+                                {
+                                    mocedPoints.Add(p);
+                                    p.Translation.Z = p.Translation.Z + res;
+                                }
                             }
                         }
                         else if (el is BezierPatchTubeC0 bct0)
