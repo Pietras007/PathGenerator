@@ -334,7 +334,7 @@ namespace Geometric2.DrillLines
                     if (!HelpFunctions.IsInPolygon(new Vector2(u, v), pointsLeftDeep))
                     {
                         Vector3 resVector = deepTubeLeft.P(u, v);
-                        if (resVector.Y >= 0.0f)
+                        if (resVector.Y > 0.0f)
                         {
                             if (first1)
                             {
@@ -347,7 +347,7 @@ namespace Geometric2.DrillLines
                     else
                     {
                         Vector3 resVector = deepTubeLeft.P(u, v);
-                        if (resVector.Y >= 0.0f)
+                        if (resVector.Y > 0.0f)
                         {
                             allPoints.Add(resVector + new Vector3(0, 30, 0));
                         }
@@ -361,7 +361,7 @@ namespace Geometric2.DrillLines
                     if (!HelpFunctions.IsInPolygon(new Vector2(u, v), pointsRightDeep))
                     {
                         Vector3 resVector = deepTubeRight.P(u, v);
-                        if (resVector.Y >= 0.0f)
+                        if (resVector.Y > 0.0f)
                         {
                             if (first2)
                             {
@@ -374,7 +374,7 @@ namespace Geometric2.DrillLines
                     else
                     {
                         Vector3 resVector = deepTubeRight.P(u, v);
-                        if (resVector.Y >= 0.0f)
+                        if (resVector.Y > 0.0f)
                         {
                             allPoints.Add(resVector + new Vector3(0, 30, 0));
                         }

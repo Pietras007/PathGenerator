@@ -73,12 +73,13 @@ namespace Geometric2.DrillLines
 
                             if(distance < 0.1 && goOnce)
                             {
-                                goOnce = false;
-                                i_Add /= 10;
-                                j_add /= 10;
+                                return ((i, patchNo), (j, patchNoSlave));
+                                //goOnce = false;
+                                //i_Add /= 10;
+                                //j_add /= 10;
                             }
 
-                            if (distance < 0.01)
+                            if (distance < 0.02)
                             {
                                 return ((i, patchNo), (j, patchNoSlave));
                             }
