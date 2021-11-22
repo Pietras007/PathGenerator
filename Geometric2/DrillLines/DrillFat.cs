@@ -117,7 +117,7 @@ namespace Geometric2.DrillLines
 
             List<Vector3> allFatPoints = new List<Vector3>();
 
-            float height = 35.0f;
+            float height = 33.0f;
             float R = 16f;
             int index_j = (int)(0.5 * R);
             bool go = false;
@@ -156,7 +156,7 @@ namespace Geometric2.DrillLines
             allFatPoints.Add(new Vector3(0, 0, 55));
             allFatPoints.Add(new Vector3((0.5f * R) / 2.0f - 75.0f, (0.5f * R) / 2.0f - 75.0f, 55));
 
-            height = 20.0f;
+            height = 16.0f;
             index_j = (int)(0.5 * R);
             go = false;
             for (float i = 0.5f * R; i < 300; i += R - 0.1f)
