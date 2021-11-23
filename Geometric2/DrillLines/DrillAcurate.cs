@@ -214,10 +214,10 @@ namespace Geometric2.DrillLines
 
                 allPoints.Add(allPoints.Last() + new Vector3(0, 30, 0));
 
-                //if(allPoints.Last().Y > 90)
-                //{
-                //    break;
-                //}
+                if(allPoints.Last().Y > 50f)
+                {
+                    break;
+                }
             }
 
             //Toptop
