@@ -153,7 +153,7 @@ namespace Geometric2.DrillLines
 
             //bool go = false;
             //float ux = 0.00f;
-            //allPoints.Add(new Vector3(0, 30, 0));
+            allPoints.Add(new Vector3(0, 50, 0));
             //allPoints.Add(new Vector3(5, 30, 5));
             //allPoints.Add(new Vector3(5, 20, 5));
             for (float u = 0.00f; u <= 1.0f; u += 0.02f)
@@ -213,6 +213,11 @@ namespace Geometric2.DrillLines
                 }
 
                 allPoints.Add(allPoints.Last() + new Vector3(0, 30, 0));
+
+                //if(allPoints.Last().Y > 90)
+                //{
+                //    break;
+                //}
             }
 
             //Toptop
@@ -459,11 +464,11 @@ namespace Geometric2.DrillLines
             foreach (var pp in allPoints)
             {
                 var ppp = pp + new Vector3(0, 15.0f, 0);
-                pointsall.Add("N3G" + numer.ToString() + "X" + ppp.X.ToString() + "Y" + (-ppp.Z).ToString() + "Z" + ppp.Y.ToString());
+                pointsall.Add("N" + numer.ToString() + "G01X" + ppp.X.ToString("F3") + "Y" + (-ppp.Z).ToString("F3") + "Z" + ppp.Y.ToString("F3"));
                 numer++;
             }
 
-            using (StreamWriter file = new StreamWriter("C://Users//User//Documents//New folder//t5.k08", append: false))
+            using (StreamWriter file = new StreamWriter("C://Users//User//Documents//New folder//t3.k08", append: false))
             {
                 foreach (var line in pointsall)
                 {
@@ -495,9 +500,9 @@ namespace Geometric2.DrillLines
                     }
                     else
                     {
-                        if (HelpFunctions.IsInPolygon(new Vector2(v,ux), hole))
+                        if (HelpFunctions.IsInPolygon(new Vector2(v, ux), hole))
                         {
-                            allPoints.Add(patch.P(v,ux));
+                            allPoints.Add(patch.P(v, ux));
                         }
                     }
 
@@ -564,15 +569,6 @@ namespace Geometric2.DrillLines
                             ile++;
                             alpP.Add(master.P(x.pParam.X, x.pParam.Y));
                         }
-
-                        //if (x.qParam.X > 0)
-                        //{
-                        //    //ile++;
-                        //    var xxx = 5;
-
-                        //    //alpP.Add(slave.P(x.qParam.X, x.qParam.Y));
-
-                        //}
                     }
             }
             while (res == null || ile < res.Count - 2 || ile < 100);

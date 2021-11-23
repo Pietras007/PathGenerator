@@ -129,7 +129,7 @@ namespace Geometric2.DrillLines
             bool go = false;
             allFatPoints.Add(new Vector3(0, 0, 55));
             allFatPoints.Add(new Vector3((0.5f * R) / 2.0f - 75.0f, (0.5f * R) / 2.0f - 75.0f, 55));
-            for (float i = 0.5f * R; i < 300; i += R - 0.1f)
+            for (float i = 0.5f * R; i < 300; i += (R - 0.1f)/2.0f)
             {
                 go = !go;
                 for (int j = (int)(0.5f * R); j < 300 - (int)(0.5f * R); j++)
@@ -165,7 +165,7 @@ namespace Geometric2.DrillLines
             height = 16.0f;
             index_j = (int)(0.5 * R);
             go = false;
-            for (float i = 0.5f * R; i < 300; i += R - 0.1f)
+            for (float i = 0.5f * R; i < 300; i += (R - 0.1f) / 2.0f)
             {
                 go = !go;
                 for (int j = (int)(0.5f * R); j < 300 - (int)(0.5f * R); j++)
@@ -199,7 +199,7 @@ namespace Geometric2.DrillLines
             int numer = 0;
             foreach (var ppp in allFatPoints)
             {
-                pointsall.Add("N3G" + numer.ToString() + "X" + ppp.X.ToString() + "Y" + ppp.Y.ToString() + "Z" + ppp.Z.ToString());
+                pointsall.Add("N" + numer.ToString() + "G01X" + ppp.X.ToString("F3") + "Y" + ppp.Y.ToString("F3") + "Z" + ppp.Z.ToString("F3"));
                 numer++;
             }
 

@@ -8,7 +8,7 @@ namespace Intersect
     public static class Intersection
     {
         private const float H = 1e-3f;
-        private static Random random = new Random();
+        private static Random random = new Random(12345);
 
         public static (Vector2 pParam, Vector2 qParam)? Point(ISurface p, ISurface q, Vector3? closeTo = null)
         {

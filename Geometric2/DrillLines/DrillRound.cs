@@ -186,11 +186,11 @@ namespace Geometric2.DrillLines
             foreach (var pp in resultPoints)
             {
                 var ppp = pp + new Vector3(0, 15.0f, 0);
-                pointsall.Add("N3G" + numer.ToString() + "X" + ppp.X.ToString() + "Y" + (-ppp.Z).ToString() + "Z" + ppp.Y.ToString());
+                pointsall.Add("N" + numer.ToString() + "G01X" + ppp.X.ToString("F3") + "Y" + (-ppp.Z).ToString("F3") + "Z" + ppp.Y.ToString("F3"));
                 numer++;
             }
 
-            using (StreamWriter file = new StreamWriter("C://Users//User//Documents//New folder//t3.f10", append: false))
+            using (StreamWriter file = new StreamWriter("C://Users//User//Documents//New folder//t2.f10", append: false))
             {
                 foreach (var line in pointsall)
                 {
