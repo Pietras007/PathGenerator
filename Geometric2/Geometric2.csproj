@@ -85,6 +85,7 @@
       <DependentUpon>BezierPatchTube.cs</DependentUpon>
     </Compile>
     <Compile Include="DrillLines\AllPatches.cs" />
+    <Compile Include="DrillLines\DrillSign.cs" />
     <Compile Include="DrillLines\DrillAcurate.cs" />
     <Compile Include="DrillLines\DrillFat.cs" />
     <Compile Include="DrillLines\DrillRound.cs" />

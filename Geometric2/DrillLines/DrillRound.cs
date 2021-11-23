@@ -183,6 +183,7 @@ namespace Geometric2.DrillLines
 
             int numer = 0;
             List<string> pointsall = new List<string>();
+            resultPoints = HelpFunctions.compressPaths(resultPoints);
             foreach (var pp in resultPoints)
             {
                 var ppp = pp + new Vector3(0, 15.0f, 0);

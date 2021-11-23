@@ -34,6 +34,26 @@ namespace Geometric2.DrillLines
             return result;
         }
 
+        public static List<Vector3> compressPaths(List<Vector3> paths)
+        {
+            List<Vector3> compressed = new List<Vector3>();
+            compressed.Add(paths.First());
+            for (int i = 1; i < paths.Count - 1; i++)
+            {
+                Vector3 first = compressed.ElementAt(compressed.Count - 1);
+                Vector3 middle = paths.ElementAt(i);
+                Vector3 last = paths.ElementAt(i + 1);
+                //if (!(middle - first).Normalized().Equals((last - middle).Normalized()))
+                if (((middle - first).Normalized()- (last - middle).Normalized()).Length > 0.001f)
+                {
+                    compressed.Add(new Vector3(middle));
+                }
+            }
+
+            compressed.Add(paths.ElementAt(paths.Count - 1));
+            return compressed;
+        }
+
         public static bool IsInPolygon(this Vector2 point, IEnumerable<Vector2> polygon)
         {
             bool result = false;

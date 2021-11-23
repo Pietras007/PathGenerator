@@ -460,6 +460,7 @@ namespace Geometric2.DrillLines
             allPoints.Add(new Vector3(0, 50, 0));
 
             //End
+            allPoints = HelpFunctions.compressPaths(allPoints);
             int numer = 0;
             foreach (var pp in allPoints)
             {

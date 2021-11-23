@@ -196,6 +196,7 @@ namespace Geometric2.DrillLines
             allFatPoints.Add(new Vector3(75, 75, 55));
             allFatPoints.Add(new Vector3(0, 0, 55));
 
+            allFatPoints = HelpFunctions.compressPaths(allFatPoints);
             int numer = 0;
             foreach (var ppp in allFatPoints)
             {
