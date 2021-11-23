@@ -96,6 +96,7 @@
     <Compile Include="Global\Constants.cs" />
     <Compile Include="Global\Enums.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
+    <Compile Include="Intersect\BestPatch2.cs" />
     <Compile Include="Intersect\BestPatch.cs" />
     <Compile Include="Intersect\Intersection.cs" />
     <Compile Include="Intersect\ISurface.cs" />

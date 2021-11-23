@@ -47,99 +47,131 @@ namespace Geometric2.DrillLines
 
             roundPoints.Add(rightBig.FirstOrDefault() + new Vector3(0, 0, -R));
 
-            //List<Vector3> processingPoints = rightBig;
-            //for (int patchNo = 0; patchNo < processingPoints.Count / 4; patchNo++)
-            //{
-            //    for (float i = 0.00f; i <= 1; i += 0.01f)
-            //    {
-            //        int k = 4 * patchNo;
-            //        float X = HelpFunctions.DeKastilio(new float[] { processingPoints[k].X, processingPoints[k + 1].X, processingPoints[k + 2].X, processingPoints[k + 3].X }, i, 4);
-            //        float Y = HelpFunctions.DeKastilio(new float[] { processingPoints[k].Y, processingPoints[k + 1].Y, processingPoints[k + 2].Y, processingPoints[k + 3].Y }, i, 4);
-            //        float Z = HelpFunctions.DeKastilio(new float[] { processingPoints[k].Z, processingPoints[k + 1].Z, processingPoints[k + 2].Z, processingPoints[k + 3].Z }, i, 4);
-            //        Vector3 currentPoint = new Vector3(X, Y, Z);
-
-            //        Vector3 prev = new Vector3(HelpFunctions.DeKastilio(new float[] { processingPoints[k].X, processingPoints[k + 1].X, processingPoints[k + 2].X, processingPoints[k + 3].X }, i - 0.001f, 4),
-            //            HelpFunctions.DeKastilio(new float[] { processingPoints[k].Y, processingPoints[k + 1].Y, processingPoints[k + 2].Y, processingPoints[k + 3].Y }, i - 0.001f, 4),
-            //            HelpFunctions.DeKastilio(new float[] { processingPoints[k].Z, processingPoints[k + 1].Z, processingPoints[k + 2].Z, processingPoints[k + 3].Z }, i - 0.001f, 4));
-            //        Vector3 post = new Vector3(HelpFunctions.DeKastilio(new float[] { processingPoints[k].X, processingPoints[k + 1].X, processingPoints[k + 2].X, processingPoints[k + 3].X }, i + 0.001f, 4),
-            //           HelpFunctions.DeKastilio(new float[] { processingPoints[k].Y, processingPoints[k + 1].Y, processingPoints[k + 2].Y, processingPoints[k + 3].Y }, i + 0.001f, 4),
-            //           HelpFunctions.DeKastilio(new float[] { processingPoints[k].Z, processingPoints[k + 1].Z, processingPoints[k + 2].Z, processingPoints[k + 3].Z }, i + 0.001f, 4));
-
-
-            //        Vector3 tangent = (prev - post).Normalized();
-            //        Vector3 bitangent = new Vector3(0, 1, 0);
-            //        Vector3 normal = Vector3.Cross(tangent, bitangent);
-
-            //        currentPoint += (normal * R);
-            //        resultPoints.Add(currentPoint);
-            //    }
-            //}
             resultPoints.Add(new Vector3(0, 30, 0));
             resultPoints.Add(new Vector3(-90, 30, -90));
             resultPoints.Add(new Vector3(-90, 0, -90));
-            for (float i = -75.0f; i <= 75.0f; i += (R - 0.1f))
+
+            List<Vector2> roundPoints2 = new List<Vector2>();
+            foreach (var p in roundPoints)
             {
-                Vector3 firstVec = new Vector3();
+                roundPoints2.Add(new Vector2(p.X, p.Z));
+            }
+
+            bool go = false;
+            for (float i = -75.0f; i <= 80.0f; i += (2 * R - 0.5f))
+            {
+                go = !go;
                 bool first = true;
                 for (float j = -75.0f; j < 0.00f; j += (0.5f * R - 0.1f))
                 {
                     Vector3 currPoint = new Vector3(j, 0, i);
-                    if (first)
+                    Vector2 currPoint2 = new Vector2(j, i);
+                    if (!go)
                     {
-                        first = false;
-                        firstVec = currPoint;
+                        currPoint = new Vector3(-75.0f - j, 0, i);
+                        currPoint2 = new Vector2(-75.0f - j, i);
                     }
 
-                    foreach (var p in roundPoints)
+                    if (!HelpFunctions.IsInPolygon(currPoint2, roundPoints2) && !IsIn(currPoint, roundPoints, R))
                     {
-                        if((currPoint - p).Length < 0.3f*R)
+
+                        if (first)
                         {
-                            j = 0;
-                        }
-                    }
+                            first = false;
+                            var point = currPoint;
+                            point -= new Vector3(0, 0, (2 * R - 0.5f));
 
-                    if(j != 0)
-                    {
+                            var point2 = resultPoints.LastOrDefault();
+                            point2 += new Vector3(0, 0, (2 * R - 0.5f));
+
+                            if (point.X < point2.X)
+                            {
+                                resultPoints.Add(point);
+                            }
+                            else
+                            {
+                                resultPoints.Add(point2);
+                            }
+                        }
                         resultPoints.Add(currPoint);
                     }
                 }
-
-                resultPoints.Add(firstVec);
             }
             resultPoints.Add(resultPoints.LastOrDefault() + new Vector3(0, 30, 0));
 
             resultPoints.Add(new Vector3(0, 30, 0));
             resultPoints.Add(new Vector3(90, 30, -90));
             resultPoints.Add(new Vector3(90, 0, -90));
-            for (float i = -75.0f; i <= 75.0f; i += (R - 0.1f))
+            //for (float i = -75.0f; i <= 75.0f; i += (R - 0.1f))
+            //{
+            //    Vector3 firstVec = new Vector3();
+            //    bool first = true;
+            //    for (float j = 75.0f; j > 0.00f; j -= (0.5f * R - 0.1f))
+            //    {
+            //        Vector3 currPoint = new Vector3(j, 0, i);
+            //        if (first)
+            //        {
+            //            first = false;
+            //            firstVec = currPoint;
+            //        }
+
+            //        foreach (var p in roundPoints)
+            //        {
+            //            if ((currPoint - p).Length < 0.3f * R)
+            //            {
+            //                j = 0;
+            //            }
+            //        }
+
+            //        if (j != 0)
+            //        {
+            //            resultPoints.Add(currPoint);
+            //        }
+            //    }
+
+            //    resultPoints.Add(firstVec);
+            //}
+            go = false;
+            for (float i = -75.0f; i <= 80.0f; i += (2 * R - 0.5f))
             {
-                Vector3 firstVec = new Vector3();
+                go = !go;
                 bool first = true;
-                for (float j = 75.0f; j > 0.00f; j -= (0.5f*R - 0.1f))
+                for (float j = 75.0f; j > 0.00f; j -= (0.5f * R - 0.1f))
                 {
                     Vector3 currPoint = new Vector3(j, 0, i);
-                    if (first)
+                    Vector2 currPoint2 = new Vector2(j, i);
+                    if (!go)
                     {
-                        first = false;
-                        firstVec = currPoint;
+                        currPoint = new Vector3(75.0f - j, 0, i);
+                        currPoint2 = new Vector2(75.0f - j, i);
                     }
 
-                    foreach (var p in roundPoints)
+                    if (!HelpFunctions.IsInPolygon(currPoint2, roundPoints2) && !IsIn(currPoint, roundPoints, R))
                     {
-                        if ((currPoint - p).Length < 0.3f * R)
+
+                        if (first)
                         {
-                            j = 0;
-                        }
-                    }
+                            first = false;
+                            var point = currPoint;
+                            point -= new Vector3(0, 0, (2 * R - 0.5f));
 
-                    if (j != 0)
-                    {
+                            var point2 = resultPoints.LastOrDefault();
+                            point2 += new Vector3(0, 0, (2 * R - 0.5f));
+
+                            if (point.X > point2.X)
+                            {
+                                resultPoints.Add(point);
+                            }
+                            else
+                            {
+                                resultPoints.Add(point2);
+                            }
+                        }
                         resultPoints.Add(currPoint);
                     }
                 }
-
-                resultPoints.Add(firstVec);
             }
+
             resultPoints.Add(resultPoints.LastOrDefault() + new Vector3(0, 30, 0));
 
             resultPoints.Add(new Vector3(0, 30, 0));
@@ -165,6 +197,19 @@ namespace Geometric2.DrillLines
                     file.WriteLine(line);
                 }
             }
+        }
+
+        private static bool IsIn(Vector3 currPoint, List<Vector3> roundPoints, float R)
+        {
+            foreach (var p in roundPoints)
+            {
+                if ((currPoint - p).Length < 0.3f * R)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private static List<Vector3> GeneratePointsFromTo(float uStart, int patchStart, float uEnd, int patchEnd, List<Vector3> points, float R)
@@ -265,6 +310,28 @@ namespace Geometric2.DrillLines
             }
 
             return (rightSide, leftSide);
+        }
+
+        public static bool IsInPolygon(this Vector2 point, IEnumerable<Vector2> polygon)
+        {
+            bool result = false;
+            var a = polygon.Last();
+            foreach (var b in polygon)
+            {
+                if ((b.X == point.X) && (b.Y == point.Y))
+                    return true;
+
+                if ((b.Y == a.Y) && (point.Y == a.Y) && (a.X <= point.X) && (point.X <= b.X))
+                    return true;
+
+                if ((b.Y < point.Y) && (a.Y >= point.Y) || (a.Y < point.Y) && (b.Y >= point.Y))
+                {
+                    if (b.X + (point.Y - b.Y) / (a.Y - b.Y) * (a.X - b.X) <= point.X)
+                        result = !result;
+                }
+                a = b;
+            }
+            return result;
         }
 
     }

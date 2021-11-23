@@ -17,7 +17,13 @@ namespace Geometric2.DrillLines
             List<Patch> patches = new List<Patch>();
 
             float[,] topLayer = new float[300, 300];
-            foreach (var _patchC0 in patchC0)
+
+            var drillpatches = new List<ModelGeneration.BezierPatchC0>();
+            drillpatches.Add(patchC0[0]);
+            drillpatches.Add(patchC0[1]);
+            drillpatches.Add(patchC0[2]);
+
+            foreach (var _patchC0 in drillpatches)
             {
                 int startIndex = 0;
                 int prevPatchnumber = patches.Count;
