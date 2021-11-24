@@ -262,21 +262,18 @@ namespace Geometric2.DrillLines
             }
 
 
-
             //DEEP Part Drill
             Vector2[] pointsLeftDeep = new Vector2[intersectUVDeepLeft_RightTop.Count + intersectUVDeepLeft_LeftTop.Count];
             Vector2[] pointsRightDeep = new Vector2[intersectUVDeepRight_RightTop.Count + intersectUVDeepRight_LeftTop.Count];
             idx = 0;
             foreach (var inter in intersectUVDeepLeft_RightTop)
             {
-                //allPoints.Add(deepTubeLeft.P(inter.Item1, inter.Item2));
                 pointsLeftDeep[idx] = new Vector2(inter.Item1, inter.Item2);
                 idx++;
             }
 
             foreach (var inter in intersectUVDeepLeft_LeftTop)
             {
-                //allPoints.Add(deepTubeLeft.P(inter.Item1, inter.Item2));
                 pointsLeftDeep[idx] = new Vector2(inter.Item1, inter.Item2);
                 idx++;
             }
@@ -284,18 +281,84 @@ namespace Geometric2.DrillLines
             idx = 0;
             foreach (var inter in intersectUVDeepRight_RightTop)
             {
-                //allPoints.Add(deepTubeLeft.P(inter.Item1, inter.Item2));
                 pointsRightDeep[idx] = new Vector2(inter.Item1, inter.Item2);
                 idx++;
             }
-
+            
             foreach (var inter in intersectUVDeepRight_LeftTop)
             {
-                //allPoints.Add(deepTubeLeft.P(inter.Item1, inter.Item2));
                 pointsRightDeep[idx] = new Vector2(inter.Item1, inter.Item2);
                 idx++;
             }
 
+
+            //Side
+            allPoints.Add(new Vector3(0, 50, 0));
+            bool first = true;
+            foreach (var inter in intersectUVDeepLeft_RightTop)
+            {
+                var pp = deepTubeLeft.P(inter.Item1, inter.Item2);
+                if (pp.Y >= 0.0f)
+                {
+                    if (first)
+                    {
+                        first = false;
+                        allPoints.Add(pp + new Vector3(0,50,0));
+                    }
+                    allPoints.Add(pp);
+                }
+            }
+            allPoints.Add(allPoints.Last() + new Vector3(0, 30, 0));
+            allPoints.Add(new Vector3(0, 50, 0));
+            first = true;
+            foreach (var inter in intersectUVDeepLeft_LeftTop)
+            {
+                var pp = deepTubeLeft.P(inter.Item1, inter.Item2);
+                if (pp.Y >= 0.0f)
+                {
+                    if (first)
+                    {
+                        first = false;
+                        allPoints.Add(pp + new Vector3(0, 50, 0));
+                    }
+                    allPoints.Add(pp);
+                }
+            }
+            allPoints.Add(allPoints.Last() + new Vector3(0, 30, 0));
+            allPoints.Add(new Vector3(0, 50, 0));
+            first = true;
+            foreach (var inter in intersectUVDeepRight_RightTop)
+            {
+                var pp = deepTubeRight.P(inter.Item1, inter.Item2);
+                if (pp.Y >= 0.0f)
+                {
+                    if (first)
+                    {
+                        first = false;
+                        allPoints.Add(pp + new Vector3(0, 50, 0));
+                    }
+                    allPoints.Add(pp);
+                }
+            }
+            allPoints.Add(allPoints.Last() + new Vector3(0, 30, 0));
+            allPoints.Add(new Vector3(0, 50, 0));
+            first = true;
+            foreach (var inter in intersectUVDeepRight_LeftTop)
+            {
+                var pp = deepTubeRight.P(inter.Item1, inter.Item2);
+                if (pp.Y >= 0.0f)
+                {
+                    if (first)
+                    {
+                        first = false;
+                        allPoints.Add(pp + new Vector3(0, 50, 0));
+                    }
+                    allPoints.Add(pp);
+                }
+            }
+            allPoints.Add(allPoints.Last() + new Vector3(0, 50, 0));
+            allPoints.Add(new Vector3(0, 50, 0));
+            
             //allPoints.Clear();
             allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, 30, 0));
             allPoints.Add(new Vector3(-45, 40, 12.5f));
@@ -308,7 +371,7 @@ namespace Geometric2.DrillLines
                     if (!HelpFunctions.IsInPolygon(new Vector2(u, v), pointsLeftDeep))
                     {
                         Vector3 resVector = deepTubeLeft.P(u, v);
-                        if (resVector.Y >= 0.1f)
+                        if (resVector.Y >= 0.2f)
                         {
                             if (first1)
                             {
@@ -321,7 +384,7 @@ namespace Geometric2.DrillLines
                     else
                     {
                         Vector3 resVector = deepTubeLeft.P(u, v);
-                        if (resVector.Y >= 0.1f)
+                        if (resVector.Y >= 0.2f)
                         {
                             allPoints.Add(resVector + new Vector3(0, 30, 0));
                         }
@@ -335,7 +398,7 @@ namespace Geometric2.DrillLines
                     if (!HelpFunctions.IsInPolygon(new Vector2(u, v), pointsRightDeep))
                     {
                         Vector3 resVector = deepTubeRight.P(u, v);
-                        if (resVector.Y >= 0.1f)
+                        if (resVector.Y >= 0.2f)
                         {
                             if (first2)
                             {
@@ -348,7 +411,7 @@ namespace Geometric2.DrillLines
                     else
                     {
                         Vector3 resVector = deepTubeRight.P(u, v);
-                        if (resVector.Y >= 0.1f)
+                        if (resVector.Y >= 0.2f)
                         {
                             allPoints.Add(resVector + new Vector3(0, 30, 0));
                         }
@@ -405,28 +468,7 @@ namespace Geometric2.DrillLines
                 idx++;
             }
 
-            //allPoints.Clear();
-            //foreach (var inter in intersectUVHoleLeftLeft)
-            //{
-            //    allPoints.Add(flatPatchLeft.P(inter.Item1, inter.Item2));
-            //}
-
-            //foreach (var inter in intersectUVHoleLeftRight)
-            //{
-            //    allPoints.Add(flatPatchLeft.P(inter.Item1, inter.Item2));
-            //}
-
-            //foreach (var inter in intersectUVHoleRightLeft)
-            //{
-            //    allPoints.Add(flatPatchRight.P(inter.Item1, inter.Item2));
-            //}
-
-            //foreach (var inter in intersectUVHoleRightRight)
-            //{
-            //    allPoints.Add(flatPatchRight.P(inter.Item1, inter.Item2));
-            //}
-
-
+            
             //DownDownLeft
             DrillDown(allPoints, flatPatchLeft, LeftHole, true);
             DrillDown(allPoints, flatPatchLeft, LeftHole, false);
@@ -458,7 +500,7 @@ namespace Geometric2.DrillLines
             }
             allPoints.Add(allPoints.LastOrDefault() + new Vector3(0, 40, 0));
             allPoints.Add(new Vector3(0, 50, 0));
-
+            
             //End
             allPoints = HelpFunctions.compressPaths(allPoints);
             int numer = 0;
