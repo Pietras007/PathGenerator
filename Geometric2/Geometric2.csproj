@@ -97,6 +97,7 @@
     <Compile Include="Global\Constants.cs" />
     <Compile Include="Global\Enums.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
+    <Compile Include="Helpers\CreateGregory.cs" />
     <Compile Include="Intersect\BestPatch2.cs" />
     <Compile Include="Intersect\BestPatch.cs" />
     <Compile Include="Intersect\Intersection.cs" />
@@ -118,6 +119,8 @@
     <Compile Include="ModelGeneration\BezierPatchTubeC2.cs" />
     <Compile Include="ModelGeneration\Coursor.cs" />
     <Compile Include="ModelGeneration\Element.cs" />
+    <Compile Include="ModelGeneration\Gregory.cs" />
+    <Compile Include="ModelGeneration\GregoryPiece.cs" />
     <Compile Include="ModelGeneration\InterpolatedBezierC2.cs" />
     <Compile Include="ModelGeneration\Point.cs" />
     <Compile Include="ModelGeneration\Torus.cs" />

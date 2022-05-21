@@ -144,6 +144,10 @@ namespace Geometric2
                     {
                         bPTC2.RenderGlElement(_shader, coursor.CoursorGloalPosition, _patchShaderGeometryC2);
                     }
+                    else if (el is ModelGeneration.GregoryPiece gP)
+                    {
+                        gP.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometry);
+                    }
                     else
                     {
                         el.RenderGlElement(_shader, coursor.CoursorGloalPosition, _shaderGeometry);
@@ -166,6 +170,10 @@ namespace Geometric2
                     else if (el is ModelGeneration.BezierPatchTubeC2 bPTC2)
                     {
                         bPTC2.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometryC2);
+                    }
+                    else if (el is ModelGeneration.GregoryPiece gP)
+                    {
+                        gP.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometry);
                     }
                     else
                     {

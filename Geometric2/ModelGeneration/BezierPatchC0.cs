@@ -300,6 +300,34 @@ namespace Geometric2.ModelGeneration
             bezierPatchC0Indices = indices.ToArray();
         }
 
+        public List<SinglePatch> GetAllPatches()
+        {
+            List<SinglePatch> res = new List<SinglePatch>();// w razie czego tu szukac bledu
+            int stride = 3 * splitB + 1;
+            for (int i = 0; i < splitA; ++i)
+            {
+                for (int j = 0; j < splitB; ++j)
+                {
+                    List<List<Point>> patch = new List<List<Point>>();
+                    for (int x = 0; x < 4; ++x)
+                    {
+                        List<Point> line = new List<Point>();
+                        int start = (3 * i + x) * stride + j * 3;
+                        for (int y = 0; y < 4; ++y)
+                        {
+                            line.Add(bezierPoints[start + y]);
+                        }
+                        patch.Add(line);
+                    }
+                    SinglePatch sp;
+                    sp.bezier = this;
+                    sp.patch = patch;
+                    res.Add(sp);
+                }
+            }
+            return res;
+        }
+
         void AddPatch(int i, int j, float t1, float t2, float begin, float end, int parts, int idx)
         {
             int w = 3 * splitB + 1;

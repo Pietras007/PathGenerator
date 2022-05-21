@@ -10,7 +10,7 @@ namespace Geometric2.DrillLines
 {
     public static class DrillRound
     {
-        public static void DrillAndSave(List<ModelGeneration.BezierPatchC0> patchC0)
+        public static void DrillAndSave(List<ModelGeneration.BezierPatchC0> patchC0, string path)
         {
             List<Vector3> resultPoints = new List<Vector3>();
 
@@ -191,7 +191,7 @@ namespace Geometric2.DrillLines
                 numer++;
             }
 
-            using (StreamWriter file = new StreamWriter("C://Users//User//Documents//New folder//t2.f10", append: false))
+            using (StreamWriter file = new StreamWriter(path + "//t2.f10", append: false))
             {
                 foreach (var line in pointsall)
                 {

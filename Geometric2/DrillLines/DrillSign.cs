@@ -13,7 +13,7 @@ namespace Geometric2.DrillLines
     public static class DrillSign
     {
 
-        public static void DrillAndSave()
+        public static void DrillAndSave(string path)
         {
             float R = 0.5f;
             List<string> pointsall = new List<string>();
@@ -142,7 +142,7 @@ namespace Geometric2.DrillLines
                 numer++;
             }
 
-            using (StreamWriter file = new StreamWriter("C://Users//User//Documents//New folder//t4.k01", append: false))
+            using (StreamWriter file = new StreamWriter(path + "//t4.k01", append: false))
             {
                 foreach (var line in pointsall)
                 {

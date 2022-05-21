@@ -33,6 +33,7 @@ namespace Geometric2
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createPathsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.centerCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -157,6 +158,7 @@ namespace Geometric2
             this.translationXDetails = new System.Windows.Forms.TextBox();
             this.translationZDetails = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
             this.coursorModeComboBox = new System.Windows.Forms.ComboBox();
             this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
@@ -195,7 +197,7 @@ namespace Geometric2
             this.addPoint = new System.Windows.Forms.Button();
             this.elementsOnScene = new System.Windows.Forms.ListBox();
             this.CoursorTab = new System.Windows.Forms.TabPage();
-            this.button2 = new System.Windows.Forms.Button();
+            this.addGregory = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.eyeDistTrackBar)).BeginInit();
@@ -264,6 +266,7 @@ namespace Geometric2
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadModelToolStripMenuItem,
+            this.createPathsToolStripMenuItem,
             this.saveAsToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -273,14 +276,21 @@ namespace Geometric2
             // loadModelToolStripMenuItem
             // 
             this.loadModelToolStripMenuItem.Name = "loadModelToolStripMenuItem";
-            this.loadModelToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.loadModelToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.loadModelToolStripMenuItem.Text = "Load Model";
             this.loadModelToolStripMenuItem.Click += new System.EventHandler(this.loadModelToolStripMenuItem_Click);
+            // 
+            // createPathsToolStripMenuItem
+            // 
+            this.createPathsToolStripMenuItem.Name = "createPathsToolStripMenuItem";
+            this.createPathsToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.createPathsToolStripMenuItem.Text = "Create Paths";
+            this.createPathsToolStripMenuItem.Click += new System.EventHandler(this.createPathsToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.saveAsToolStripMenuItem.Text = "Save As..";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -1590,6 +1600,16 @@ namespace Geometric2
             this.panel3.Size = new System.Drawing.Size(240, 858);
             this.panel3.TabIndex = 10;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(39, 288);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(149, 43);
+            this.button2.TabIndex = 17;
+            this.button2.Text = "Move Selected Points There";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // coursorModeComboBox
             // 
             this.coursorModeComboBox.FormattingEnabled = true;
@@ -1739,6 +1759,7 @@ namespace Geometric2
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.addGregory);
             this.panel2.Controls.Add(this.addBezierPatchTubeC2);
             this.panel2.Controls.Add(this.addBezierPatchC2);
             this.panel2.Controls.Add(this.addBezierPatchTubeC0);
@@ -1760,7 +1781,7 @@ namespace Geometric2
             this.panel2.Controls.Add(this.addPoint);
             this.panel2.Location = new System.Drawing.Point(166, 6);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(88, 643);
+            this.panel2.Size = new System.Drawing.Size(88, 699);
             this.panel2.TabIndex = 1;
             // 
             // addBezierPatchTubeC2
@@ -1970,15 +1991,15 @@ namespace Geometric2
             this.CoursorTab.Text = "Coursor";
             this.CoursorTab.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // addGregory
             // 
-            this.button2.Location = new System.Drawing.Point(39, 288);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(149, 43);
-            this.button2.TabIndex = 17;
-            this.button2.Text = "Move Selected Points There";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.addGregory.Location = new System.Drawing.Point(7, 616);
+            this.addGregory.Name = "addGregory";
+            this.addGregory.Size = new System.Drawing.Size(75, 34);
+            this.addGregory.TabIndex = 18;
+            this.addGregory.Text = "Gregory";
+            this.addGregory.UseVisualStyleBackColor = true;
+            this.addGregory.Click += new System.EventHandler(this.addGregory_Click);
             // 
             // Form1
             // 
@@ -2213,6 +2234,8 @@ namespace Geometric2
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ToolStripMenuItem createPathsToolStripMenuItem;
+        private System.Windows.Forms.Button addGregory;
     }
 }
 

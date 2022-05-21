@@ -113,6 +113,8 @@ namespace Geometric2
         int pointNumber, torusNumber, bezierC0Number, bezierC2Number, interpolatedBezierC2Number, bezierPatchC0Number, bezierPatchTubeC0Number, bezierPatchC2Number, bezierPatchTubeC2Number;
         bool isMovingCameraCentre, anaglyphOn;
 
+        List<ModelGeneration.BezierPatchC0> patchC0 = null;
+
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
             if (selectedTorus != null)
@@ -1492,7 +1494,7 @@ namespace Geometric2
                 List<ModelGeneration.BezierC0> bezierC0 = new List<ModelGeneration.BezierC0>();
                 List<ModelGeneration.BezierC2> bezierC2 = new List<ModelGeneration.BezierC2>();
                 List<ModelGeneration.InterpolatedBezierC2> interBezier = new List<ModelGeneration.InterpolatedBezierC2>();
-                List<ModelGeneration.BezierPatchC0> patchC0 = new List<ModelGeneration.BezierPatchC0>();
+                patchC0 = new List<ModelGeneration.BezierPatchC0>();
                 List<ModelGeneration.BezierPatchC2> patchC2 = new List<ModelGeneration.BezierPatchC2>();
                 List<ModelGeneration.BezierPatchTubeC0> patchTubeC0 = new List<ModelGeneration.BezierPatchTubeC0>();
                 List<ModelGeneration.BezierPatchTubeC2> patchTubeC2 = new List<ModelGeneration.BezierPatchTubeC2>();
@@ -1747,10 +1749,7 @@ namespace Geometric2
                 bezierPatchTubeC2Number += patchC2.Count;
 
                 //AllPatches.DrillAndSaveAll(patchC0);
-                DrillFat.DrillAndSave(patchC0);
-                DrillRound.DrillAndSave(patchC0);
-                DrillAcurate.DrillAndSave(patchC0);
-                DrillSign.DrillAndSave();
+
             }
         }
 
@@ -2054,6 +2053,43 @@ namespace Geometric2
                     pp.Translation = new Vector3(0, 0, 0);
                     pp.TemporaryTranslation = new Vector3(0, 0, 0);
                 }
+            }
+        }
+
+        private void createPathsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (patchC0 != null && patchC0.Count > 0)
+            {
+                string path = "C://Users//User//Documents//New folder";
+                DrillFat.DrillAndSave(patchC0, path);
+                DrillRound.DrillAndSave(patchC0, path);
+                DrillAcurate.DrillAndSave(patchC0, path);
+                DrillSign.DrillAndSave(path);
+            }
+        }
+
+        private void addGregory_Click(object sender, EventArgs e)
+        {
+            CreateGregoryClass gregoryCreator = new CreateGregoryClass();
+            List<Gregory> holes = gregoryCreator.CreateGregory(1, _camera, glControl1.Width, glControl1.Height, Elements, SelectedElements);
+            Elements.AddRange(holes);
+            foreach (var h in holes)
+            {
+                h.CreateGlElement(_shader, _patchShaderGeometry);
+                Elements.Add(h);
+                elementsOnScene.Items.Add(h);
+
+                h.gp1.CreateGlElement(_shader, _patchShaderGeometry);
+                Elements.Add(h.gp1);
+                elementsOnScene.Items.Add(h.gp1);
+
+                h.gp2.CreateGlElement(_shader, _patchShaderGeometry);
+                Elements.Add(h.gp2);
+                elementsOnScene.Items.Add(h.gp2);
+
+                h.gp3.CreateGlElement(_shader, _patchShaderGeometry);
+                Elements.Add(h.gp3);
+                elementsOnScene.Items.Add(h.gp3);
             }
         }
 

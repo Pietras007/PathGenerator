@@ -13,7 +13,7 @@ namespace Geometric2.DrillLines
     public static class DrillAcurate
     {
 
-        public static void DrillAndSave(List<ModelGeneration.BezierPatchC0> patchC0)
+        public static void DrillAndSave(List<ModelGeneration.BezierPatchC0> patchC0, string path)
         {
             float R = 4.0f;
             List<string> pointsall = new List<string>();
@@ -511,7 +511,7 @@ namespace Geometric2.DrillLines
                 numer++;
             }
 
-            using (StreamWriter file = new StreamWriter("C://Users//User//Documents//New folder//t3.k08", append: false))
+            using (StreamWriter file = new StreamWriter(path + "//t3.k08", append: false))
             {
                 foreach (var line in pointsall)
                 {

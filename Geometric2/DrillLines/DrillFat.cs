@@ -11,7 +11,7 @@ namespace Geometric2.DrillLines
 {
     public static class DrillFat
     {
-        public static void DrillAndSave(List<ModelGeneration.BezierPatchC0> patchC0)
+        public static void DrillAndSave(List<ModelGeneration.BezierPatchC0> patchC0, string path)
         {
             List<string> pointsall = new List<string>();
             List<Patch> patches = new List<Patch>();
@@ -214,7 +214,7 @@ namespace Geometric2.DrillLines
             //    }
             //}
 
-            using (StreamWriter file = new StreamWriter("C://Users//User//Documents//New folder//t1.k16", append: false))
+            using (StreamWriter file = new StreamWriter(path + "//t1.k16", append: false))
             {
                 foreach (var line in pointsall)
                 {
