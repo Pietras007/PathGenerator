@@ -2,9 +2,6 @@
 using OpenTK;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL4;
 using Geometric2.MatrixHelpers;
 using Geometric2.Helpers;
@@ -15,7 +12,7 @@ namespace Geometric2.ModelGeneration
     public class GregoryPiece : Element
     {
         public bool DrawPolyline { get; set; }
-        public List<ModelGeneration.Point> points;
+        public List<Point> points;
         int pointNumber = 0;
         Camera _camera;
         int width, height;
