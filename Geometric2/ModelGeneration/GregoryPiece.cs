@@ -29,13 +29,9 @@ namespace Geometric2.ModelGeneration
         public int SegmentsU { get; set; }
         public int SegmentsV { get; set; }
 
-        List<float> vertices = new List<float>();
-        List<uint> indices = new List<uint>();
-        public List<Point> bezierPoints { get; set; }
-
         int splitA = 20;
         int splitB = 20;
-        private float[] GregoryPoints = new float[6 * 20];
+        private float[] GregoryPoints = new float[3 * 20];
         uint[] GregoryIndices = new uint[20];
 
         public GregoryPiece(int gregoryPatchNumber, Camera _camera, int width, int height)
@@ -48,8 +44,6 @@ namespace Geometric2.ModelGeneration
             FullName = "GregoryPatch " + gregoryPatchNumber;
             this.SegmentsU = 20;
             this.SegmentsV = 20;
-            //GeneratePoints();
-            //GenerateLines();
         }
 
         public override string ToString()
@@ -59,21 +53,20 @@ namespace Geometric2.ModelGeneration
 
         public override void CreateGlElement(Shader _shader, ShaderGeometry _patchGeometryShader, GregoryShader _gregoryShader)
         {
-
             RegenerateGregory();
             GregoryPolylineVAO = GL.GenVertexArray();
             GregoryPolylineVBO = GL.GenBuffer();
             GregoryPolylineEBO = GL.GenBuffer();
-            var a_Position_Location = _shader.GetAttribLocation("a_Position");
+            var a_Position_Loc_shader = _shader.GetAttribLocation("a_Position");
             GL.BindVertexArray(GregoryPolylineVAO);
             GL.BindBuffer(BufferTarget.ArrayBuffer, GregoryPolylineVBO);
             GL.BufferData(BufferTarget.ArrayBuffer, polylinePoints.Length * sizeof(float), polylinePoints, BufferUsageHint.DynamicDraw);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, GregoryPolylineEBO);
             GL.BufferData(BufferTarget.ElementArrayBuffer, polylineIndices.Length * sizeof(uint), polylineIndices, BufferUsageHint.DynamicDraw);
-            GL.VertexAttribPointer(a_Position_Location, 3, VertexAttribPointerType.Float, true, 3 * sizeof(float), 0);
-            GL.EnableVertexAttribArray(a_Position_Location);
+            GL.VertexAttribPointer(a_Position_Loc_shader, 3, VertexAttribPointerType.Float, true, 3 * sizeof(float), 0);
+            GL.EnableVertexAttribArray(a_Position_Loc_shader);
 
-            var a_geometry_Position_Location = _gregoryShader.GetAttribLocation("a_Position");
+            var a_Position_Loc_gregoryShader = _gregoryShader.GetAttribLocation("a_Position");
             GregoryVAO = GL.GenVertexArray();
             GregoryVBO = GL.GenBuffer();
             GregoryEBO = GL.GenBuffer();
@@ -82,12 +75,8 @@ namespace Geometric2.ModelGeneration
             GL.BufferData(BufferTarget.ArrayBuffer, GregoryPoints.Length * sizeof(float), GregoryPoints, BufferUsageHint.DynamicDraw);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, GregoryEBO);
             GL.BufferData(BufferTarget.ElementArrayBuffer, GregoryIndices.Length * sizeof(uint), GregoryIndices, BufferUsageHint.DynamicDraw);
-
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
+            GL.VertexAttribPointer(a_Position_Loc_gregoryShader, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
             GL.EnableVertexAttribArray(0);
-
-            GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), (3 * sizeof(float)));
-            GL.EnableVertexAttribArray(1);
         }
 
         public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _patchGeometryShader, GregoryShader _gregoryShader)
@@ -95,6 +84,17 @@ namespace Geometric2.ModelGeneration
             RegenerateGregory();
             TempRotationQuaternion = Quaternion.FromEulerAngles((float)(2 * Math.PI * ElementRotationX / 360), (float)(2 * Math.PI * ElementRotationY / 360), (float)(2 * Math.PI * ElementRotationZ / 360));
             Matrix4 model = ModelMatrix.CreateModelMatrix(ElementScale * TempElementScale, RotationQuaternion, CenterPosition + Translation + TemporaryTranslation, rotationCentre, TempRotationQuaternion);
+            DrawPolyline = false;
+            if (DrawPolyline)
+            {
+                _shader.Use();
+                _shader.SetMatrix4("model", model);
+                _shader.SetVector3("fragmentColor", ColorHelper.ColorToVector(Color.BlueViolet));
+                GL.BindVertexArray(GregoryPolylineVAO);
+                GL.DrawElements(PrimitiveType.Lines, polylineIndices.Length, DrawElementsType.UnsignedInt, 0);
+                GL.BindVertexArray(0);
+            }
+
             _gregoryShader.Use();
             _gregoryShader.SetMatrix4("model", model);
             _gregoryShader.SetFloat("splitA", splitA);
@@ -113,17 +113,24 @@ namespace Geometric2.ModelGeneration
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
             GL.DrawElements(BeginMode.Patches, 20, DrawElementsType.UnsignedInt, 0);
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+        }
 
-            DrawPolyline = true;
-            if (DrawPolyline)
-            {
-                _shader.Use();
-                _shader.SetMatrix4("model", model);
-                _shader.SetVector3("fragmentColor", ColorHelper.ColorToVector(Color.BlueViolet));
-                GL.BindVertexArray(GregoryPolylineVAO);
-                GL.DrawElements(PrimitiveType.Lines, polylineIndices.Length, DrawElementsType.UnsignedInt, 0);
-                GL.BindVertexArray(0);
-            }
+        private void FillGregoryGeometry()
+        {
+            GL.BindVertexArray(GregoryVAO);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, GregoryVBO);
+            GL.BufferData(BufferTarget.ArrayBuffer, GregoryPoints.Length * sizeof(float), GregoryPoints, BufferUsageHint.DynamicDraw);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, GregoryEBO);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, GregoryIndices.Length * sizeof(uint), GregoryIndices, BufferUsageHint.DynamicDraw);
+        }
+
+        private void FillGregoryPolylineGeometry()
+        {
+            GL.BindVertexArray(GregoryPolylineVAO);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, GregoryPolylineVBO);
+            GL.BufferData(BufferTarget.ArrayBuffer, polylinePoints.Length * sizeof(float), polylinePoints, BufferUsageHint.DynamicDraw);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, GregoryPolylineEBO);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, polylineIndices.Length * sizeof(uint), polylineIndices, BufferUsageHint.DynamicDraw);
         }
 
         public void RegenerateGregory()
@@ -147,32 +154,8 @@ namespace Geometric2.ModelGeneration
                 GregoryPoints[index] = position.Z;
                 index++;
 
-                GregoryPoints[index] = position.Z;
-                index++;
-                GregoryPoints[index] = position.Z;
-                index++;
-                GregoryPoints[index] = position.Z;
-                index++;
-
                 GregoryIndices[i] = (uint)i;
             }
-        }
-        private void FillGregoryGeometry()
-        {
-            GL.BindVertexArray(GregoryVAO);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, GregoryVBO);
-            GL.BufferData(BufferTarget.ArrayBuffer, GregoryPoints.Length * sizeof(float), GregoryPoints, BufferUsageHint.DynamicDraw);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, GregoryEBO);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, GregoryIndices.Length * sizeof(uint), GregoryIndices, BufferUsageHint.DynamicDraw);
-        }
-
-        private void FillGregoryPolylineGeometry()
-        {
-            GL.BindVertexArray(GregoryPolylineVAO);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, GregoryPolylineVBO);
-            GL.BufferData(BufferTarget.ArrayBuffer, polylinePoints.Length * sizeof(float), polylinePoints, BufferUsageHint.DynamicDraw);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, GregoryPolylineEBO);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, polylineIndices.Length * sizeof(uint), polylineIndices, BufferUsageHint.DynamicDraw);
         }
 
         private void GenerateLines()
@@ -190,26 +173,26 @@ namespace Geometric2.ModelGeneration
             pointLines.Add(points[1]);
             pointLines.Add(points[6]);
 
-            pointLines.Add(points[4]);
-            pointLines.Add(points[5]);
-
             pointLines.Add(points[2]);
             pointLines.Add(points[7]);
+
+            pointLines.Add(points[9]);
+            pointLines.Add(points[8]);
+
+            pointLines.Add(points[15]);
+            pointLines.Add(points[14]);
+
+            pointLines.Add(points[18]);
+            pointLines.Add(points[13]);
+
+            pointLines.Add(points[17]);
+            pointLines.Add(points[12]);
 
             pointLines.Add(points[10]);
             pointLines.Add(points[11]);
 
-            pointLines.Add(points[8]);
-            pointLines.Add(points[9]);
-
-            pointLines.Add(points[12]);
-            pointLines.Add(points[17]);
-
-            pointLines.Add(points[13]);
-            pointLines.Add(points[18]);
-
-            pointLines.Add(points[14]);
-            pointLines.Add(points[15]);
+            pointLines.Add(points[4]);
+            pointLines.Add(points[5]);
 
             pointLines.Add(points[0]);
             pointLines.Add(points[1]);
