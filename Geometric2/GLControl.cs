@@ -43,7 +43,7 @@ namespace Geometric2
             _shaderGeometry = new ShaderGeometry("./../../../Shaders/VertexShaderGeometry.vert", "./../../../Shaders/FragmentShaderGeometry.frag", "./../../../Shaders/GeometryShaderGeometry.geom");
             _patchShaderGeometry = new ShaderGeometry("./../../../Shaders/PatchVertexShader.vert", "./../../../Shaders/PatchFragmentShader.frag", "./../../../Shaders/PatchShaderGeometry.geom");
             _patchShaderGeometryC2 = new ShaderGeometry("./../../../Shaders/PatchVertexShader.vert", "./../../../Shaders/PatchFragmentShader.frag", "./../../../Shaders/PatchShaderGeometryC2.geom");
-            _gregoryShader = new GregoryShader("./../../../Shaders/Gregory.vert", "./../../../Shaders/Gregory.frag", "./../../../Shaders/Gregory.tesc", "./../../../Shaders/Gregory.tese");
+            _gregoryShader = new GregoryShader("./../../../GregoryShaders/Gregory.vert", "./../../../GregoryShaders/Gregory.frag", "./../../../GregoryShaders/Gregory.tesc", "./../../../GregoryShaders/Gregory.tese");
 
             coursor.CreateCoursor(_shader);
             foreach (var el in Elements)

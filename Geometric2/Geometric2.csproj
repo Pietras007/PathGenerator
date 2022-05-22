@@ -165,6 +165,10 @@
     <EmbeddedResource Include="RenameElement.resx">
       <DependentUpon>RenameElement.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="GregoryShaders\Gregory.frag" />
+    <None Include="GregoryShaders\Gregory.tesc" />
+    <None Include="GregoryShaders\Gregory.tese" />
+    <None Include="GregoryShaders\Gregory.vert" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -176,10 +180,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Shaders\Gregory.frag" />
-    <None Include="Shaders\Gregory.vert" />
-    <None Include="Shaders\Gregory.tese" />
-    <None Include="Shaders\Gregory.tesc" />
     <None Include="Shaders\PatchFragmentShader.frag" />
     <None Include="Shaders\PatchShaderGeometryC2.geom" />
     <None Include="Shaders\PatchShaderGeometry.geom" />
