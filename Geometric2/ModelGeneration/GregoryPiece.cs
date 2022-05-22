@@ -93,13 +93,12 @@ namespace Geometric2.ModelGeneration
         public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _patchGeometryShader, GregoryShader _gregoryShader)
         {
             RegenerateGregory();
+            TempRotationQuaternion = Quaternion.FromEulerAngles((float)(2 * Math.PI * ElementRotationX / 360), (float)(2 * Math.PI * ElementRotationY / 360), (float)(2 * Math.PI * ElementRotationZ / 360));
             Matrix4 model = ModelMatrix.CreateModelMatrix(ElementScale * TempElementScale, RotationQuaternion, CenterPosition + Translation + TemporaryTranslation, rotationCentre, TempRotationQuaternion);
             _gregoryShader.Use();
-            GL.BindVertexArray(GregoryVAO);
             _gregoryShader.SetMatrix4("model", model);
-            GL.PatchParameter(PatchParameterInt.PatchVertices, 20);
-            _gregoryShader.SetFloat("x", splitA);
-            _gregoryShader.SetFloat("y", splitB);
+            _gregoryShader.SetFloat("splitA", splitA);
+            _gregoryShader.SetFloat("splitB", splitB);
             if (IsSelected)
             {
                 _gregoryShader.SetVector3("fragmentColor", ColorHelper.ColorToVector(Color.Orange));
@@ -108,26 +107,24 @@ namespace Geometric2.ModelGeneration
             {
                 _gregoryShader.SetVector3("fragmentColor", ColorHelper.ColorToVector(Color.Black));
             }
+
+            GL.BindVertexArray(GregoryVAO);
+            GL.PatchParameter(PatchParameterInt.PatchVertices, 20);
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
             GL.DrawElements(BeginMode.Patches, 20, DrawElementsType.UnsignedInt, 0);
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
-            _shader.Use();
-            TempRotationQuaternion = Quaternion.FromEulerAngles((float)(2 * Math.PI * ElementRotationX / 360), (float)(2 * Math.PI * ElementRotationY / 360), (float)(2 * Math.PI * ElementRotationZ / 360));
 
             DrawPolyline = true;
             if (DrawPolyline)
             {
                 _shader.Use();
-                GL.BindVertexArray(GregoryPolylineVAO);
-                // Matrix4 model = ModelMatrix.CreateModelMatrix(ElementScale * TempElementScale, RotationQuaternion, CenterPosition + Translation + TemporaryTranslation, rotationCentre, TempRotationQuaternion);
-                _shader.Use();
                 _shader.SetMatrix4("model", model);
                 _shader.SetVector3("fragmentColor", ColorHelper.ColorToVector(Color.BlueViolet));
+                GL.BindVertexArray(GregoryPolylineVAO);
                 GL.DrawElements(PrimitiveType.Lines, polylineIndices.Length, DrawElementsType.UnsignedInt, 0);
                 GL.BindVertexArray(0);
             }
         }
-
 
         public void RegenerateGregory()
         {
@@ -189,6 +186,7 @@ namespace Geometric2.ModelGeneration
                     pointNumber++;
                 }
             }
+
             pointLines.Add(points[1]);
             pointLines.Add(points[6]);
 
@@ -241,7 +239,6 @@ namespace Geometric2.ModelGeneration
             polylinePoints = new float[3 * pointLines.Count];
             polylineIndices = new uint[pointLines.Count];
             int idx = 0;
-
             foreach (var p in pointLines)
             {
                 polylinePoints[3 * idx] = p.CenterPosition.X;
