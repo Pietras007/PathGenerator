@@ -62,7 +62,7 @@ namespace Geometric2.ModelGeneration
             return FullName + " " + ElementName;
         }
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _patchGeometryShader)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _patchGeometryShader, GregoryShader _gregoryShader = null)
         {
 
             RegenerateBezierPatchTubeC2();
@@ -107,7 +107,7 @@ namespace Geometric2.ModelGeneration
             GL.EnableVertexAttribArray(4);
         }
 
-        public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _patchGeometryShader)
+        public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _patchGeometryShader, GregoryShader _gregoryShader = null)
         {
             //renderNum++;
             //if (renderNum == 20)

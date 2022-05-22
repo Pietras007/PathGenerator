@@ -44,7 +44,7 @@ namespace Geometric2.ModelGeneration
             return FullName + " " + ElementName;
         }
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader = null)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader = null, GregoryShader _gregoryShader = null)
         {
             FillTorusGeometry();
             torusVAO = GL.GenVertexArray();
@@ -62,7 +62,7 @@ namespace Geometric2.ModelGeneration
             CreateCenterOfElement(_shader);
         }
 
-        public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _geometryShader = null)
+        public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _geometryShader = null, GregoryShader _gregoryShader = null)
         {
             //Matrix4 model = ModelMatrix.CreateModelMatrix(ElementScale * TempElementScale, (float)(2 * Math.PI * ElementRotationX / 360), (float)(2 * Math.PI * ElementRotationY / 360), (float)(2 * Math.PI * ElementRotationZ / 360), CenterPosition + Translation + TemporaryTranslation);
             TempRotationQuaternion = Quaternion.FromEulerAngles((float)(2 * Math.PI * ElementRotationX / 360), (float)(2 * Math.PI * ElementRotationY / 360), (float)(2 * Math.PI * ElementRotationZ / 360));

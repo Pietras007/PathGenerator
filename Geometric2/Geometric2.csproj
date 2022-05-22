@@ -135,6 +135,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RasterizationClasses\GregoryShader.cs" />
     <Compile Include="RasterizationClasses\Shader.cs" />
     <Compile Include="RasterizationClasses\ShaderGeometry.cs" />
     <Compile Include="RenameElement.cs">
@@ -175,6 +176,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Shaders\Gregory.frag" />
+    <None Include="Shaders\Gregory.vert" />
+    <None Include="Shaders\Gregory.tese" />
+    <None Include="Shaders\Gregory.tesc" />
     <None Include="Shaders\PatchFragmentShader.frag" />
     <None Include="Shaders\PatchShaderGeometryC2.geom" />
     <None Include="Shaders\PatchShaderGeometry.geom" />

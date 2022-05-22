@@ -53,7 +53,7 @@ namespace Geometric2.ModelGeneration
         }
 
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader, GregoryShader _gregoryShader = null)
         {
             var a_Position_Location = _shader.GetAttribLocation("a_Position");
 
@@ -95,7 +95,7 @@ namespace Geometric2.ModelGeneration
             GL.EnableVertexAttribArray(a_geometry_Position_Location);
         }
 
-        public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _geometryShader)
+        public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _geometryShader, GregoryShader _gregoryShader = null)
         {
             renderNum++;
             if (renderNum == 20)

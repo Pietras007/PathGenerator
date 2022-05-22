@@ -88,6 +88,7 @@ namespace Geometric2
         private ShaderGeometry _shaderGeometry;
         private ShaderGeometry _patchShaderGeometry;
         private ShaderGeometry _patchShaderGeometryC2;
+        private GregoryShader _gregoryShader;
         private Camera _camera;
         private Coursor coursor = new Coursor();
 
@@ -2075,19 +2076,19 @@ namespace Geometric2
             Elements.AddRange(holes);
             foreach (var h in holes)
             {
-                h.CreateGlElement(_shader, _patchShaderGeometry);
+                h.CreateGlElement(_shader, _patchShaderGeometry, _gregoryShader);
                 Elements.Add(h);
                 elementsOnScene.Items.Add(h);
 
-                h.gp1.CreateGlElement(_shader, _patchShaderGeometry);
+                h.gp1.CreateGlElement(_shader, _patchShaderGeometry, _gregoryShader);
                 Elements.Add(h.gp1);
                 elementsOnScene.Items.Add(h.gp1);
 
-                h.gp2.CreateGlElement(_shader, _patchShaderGeometry);
+                h.gp2.CreateGlElement(_shader, _patchShaderGeometry, _gregoryShader);
                 Elements.Add(h.gp2);
                 elementsOnScene.Items.Add(h.gp2);
 
-                h.gp3.CreateGlElement(_shader, _patchShaderGeometry);
+                h.gp3.CreateGlElement(_shader, _patchShaderGeometry, _gregoryShader);
                 Elements.Add(h.gp3);
                 elementsOnScene.Items.Add(h.gp3);
             }
