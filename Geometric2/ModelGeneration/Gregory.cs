@@ -27,11 +27,11 @@ namespace Geometric2.ModelGeneration
 			this.hole = hole;
 		}
 
-		public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader, GregoryShader _gregoryShader)
+		public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader, TeselationShader _gregoryShader)
 		{
 		}
 
-		public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _patchGeometryShader, GregoryShader _gregoryShader)
+		public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _patchGeometryShader, TeselationShader _gregoryShader)
 		{
 			DrawHole();
 		}

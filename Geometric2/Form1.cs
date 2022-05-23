@@ -88,7 +88,8 @@ namespace Geometric2
         private ShaderGeometry _shaderGeometry;
         private ShaderGeometry _patchShaderGeometry;
         private ShaderGeometry _patchShaderGeometryC2;
-        private GregoryShader _gregoryShader;
+        private TeselationShader _gregoryShader;
+        private TeselationShader _patchC0Shader;
         private Camera _camera;
         private Coursor coursor = new Coursor();
 
@@ -1728,7 +1729,7 @@ namespace Geometric2
                 foreach (var p in patchC0)
                 {
                     elementsOnScene.Items.Add(p);
-                    p.CreateGlElement(_shader, _patchShaderGeometry);
+                    p.CreateGlElement(_shader, _patchShaderGeometry, _patchC0Shader);
                 }
                 Elements.AddRange(patchC0);
 
@@ -2159,7 +2160,7 @@ namespace Geometric2
             BezierPatchC0 bezierPatchC0 = new BezierPatchC0(bezierPatchC0Number, _camera, glControl1.Width, glControl1.Height, values);
             bezierC0DrawPolyline.Checked = false;
             bezierPatchC0Number++;
-            bezierPatchC0.CreateGlElement(_shader, _patchShaderGeometry);
+            bezierPatchC0.CreateGlElement(_shader, _patchShaderGeometry, _patchC0Shader);
             elementsOnScene.Items.Add(bezierPatchC0);
             Elements.Add(bezierPatchC0);
             foreach (var p in bezierPatchC0.bezierPoints)

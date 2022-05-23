@@ -27,7 +27,7 @@ namespace Geometric2.ModelGeneration
 
         int xyzLinesVBO, xyzLinesVAO, xyzLinesEBO;
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader = null, GregoryShader _gregoryShader = null)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader = null, TeselationShader _gregoryShader = null)
         {
             var a_Position_Location = _shader.GetAttribLocation("a_Position");
             xyzLinesVAO = GL.GenVertexArray();
@@ -42,7 +42,7 @@ namespace Geometric2.ModelGeneration
             GL.EnableVertexAttribArray(a_Position_Location);
         }
 
-        public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _geometryShader = null, GregoryShader _gregoryShader = null)
+        public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _geometryShader = null, TeselationShader _gregoryShader = null)
         {
             _shader.SetMatrix4("model", Matrix4.Identity);
             GL.BindVertexArray(xyzLinesVAO);

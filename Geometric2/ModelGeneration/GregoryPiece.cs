@@ -48,7 +48,7 @@ namespace Geometric2.ModelGeneration
             return FullName + " " + ElementName;
         }
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _patchGeometryShader, GregoryShader _gregoryShader)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _patchGeometryShader, TeselationShader _gregoryShader)
         {
             RegenerateGregory();
             GregoryPolylineVAO = GL.GenVertexArray();
@@ -76,7 +76,7 @@ namespace Geometric2.ModelGeneration
             GL.EnableVertexAttribArray(0);
         }
 
-        public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _patchGeometryShader, GregoryShader _gregoryShader)
+        public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _patchGeometryShader, TeselationShader _teselationShader)
         {
             RegenerateGregory();
             TempRotationQuaternion = Quaternion.FromEulerAngles((float)(2 * Math.PI * ElementRotationX / 360), (float)(2 * Math.PI * ElementRotationY / 360), (float)(2 * Math.PI * ElementRotationZ / 360));
@@ -92,17 +92,17 @@ namespace Geometric2.ModelGeneration
                 GL.BindVertexArray(0);
             }
 
-            _gregoryShader.Use();
-            _gregoryShader.SetMatrix4("model", model);
-            _gregoryShader.SetFloat("splitA", splitA);
-            _gregoryShader.SetFloat("splitB", splitB);
+            _teselationShader.Use();
+            _teselationShader.SetMatrix4("model", model);
+            _teselationShader.SetFloat("splitA", splitA);
+            _teselationShader.SetFloat("splitB", splitB);
             if (IsSelected)
             {
-                _gregoryShader.SetVector3("fragmentColor", ColorHelper.ColorToVector(Color.Orange));
+                _teselationShader.SetVector3("fragmentColor", ColorHelper.ColorToVector(Color.Orange));
             }
             else
             {
-                _gregoryShader.SetVector3("fragmentColor", ColorHelper.ColorToVector(Color.Black));
+                _teselationShader.SetVector3("fragmentColor", ColorHelper.ColorToVector(Color.Black));
             }
 
             GL.BindVertexArray(GregoryVAO);

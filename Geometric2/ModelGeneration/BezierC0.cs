@@ -44,7 +44,7 @@ namespace Geometric2.ModelGeneration
             return FullName + " " + ElementName;
         }
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader, GregoryShader _gregoryShader = null)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader, TeselationShader _gregoryShader = null)
         {
             RegenerateBezierC0();
             bezierC0PolylineVAO = GL.GenVertexArray();
@@ -73,7 +73,7 @@ namespace Geometric2.ModelGeneration
             GL.EnableVertexAttribArray(a_geometry_Position_Location);
         }
 
-        public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _geometryShader, GregoryShader _gregoryShader = null)
+        public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _geometryShader, TeselationShader _gregoryShader = null)
         {
             renderNum++;
             if (renderNum == 20)

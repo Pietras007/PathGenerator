@@ -43,7 +43,8 @@ namespace Geometric2
             _shaderGeometry = new ShaderGeometry("./../../../Shaders/VertexShaderGeometry.vert", "./../../../Shaders/FragmentShaderGeometry.frag", "./../../../Shaders/GeometryShaderGeometry.geom");
             _patchShaderGeometry = new ShaderGeometry("./../../../Shaders/PatchVertexShader.vert", "./../../../Shaders/PatchFragmentShader.frag", "./../../../Shaders/PatchShaderGeometry.geom");
             _patchShaderGeometryC2 = new ShaderGeometry("./../../../Shaders/PatchVertexShader.vert", "./../../../Shaders/PatchFragmentShader.frag", "./../../../Shaders/PatchShaderGeometryC2.geom");
-            _gregoryShader = new GregoryShader("./../../../GregoryShaders/Gregory.vert", "./../../../GregoryShaders/Gregory.frag", "./../../../GregoryShaders/Gregory.tesc", "./../../../GregoryShaders/Gregory.tese");
+            _gregoryShader = new TeselationShader("./../../../GregoryShaders/Gregory.vert", "./../../../GregoryShaders/Gregory.frag", "./../../../GregoryShaders/Gregory.tesc", "./../../../GregoryShaders/Gregory.tese");
+            _patchC0Shader = new TeselationShader("./../../../PatchC0Shaders/PatchC0.vert", "./../../../PatchC0Shaders/PatchC0.frag", "./../../../PatchC0Shaders/PatchC0.tesc", "./../../../PatchC0Shaders/PatchC0.tese");
 
             coursor.CreateCoursor(_shader);
             foreach (var el in Elements)
@@ -82,6 +83,10 @@ namespace Geometric2
             _gregoryShader.SetMatrix4("view", viewMatrix);
             _gregoryShader.SetMatrix4("projection", projectionMatrix);
 
+            _patchC0Shader.Use();
+            _patchC0Shader.SetMatrix4("view", viewMatrix);
+            _patchC0Shader.SetMatrix4("projection", projectionMatrix);
+
             //_shaderGeometry.SetVector3("fragmentColor", ColorHelper.ColorToVector(Color.Black));
             if (anaglyphOn)
             {
@@ -92,11 +97,13 @@ namespace Geometric2
                 _patchShaderGeometry.SetMatrix4("projection", anaglyphProjectionMatrixRed);
                 _patchShaderGeometryC2.SetMatrix4("projection", anaglyphProjectionMatrixRed);
                 _gregoryShader.SetMatrix4("projection", anaglyphProjectionMatrixRed);
+                _patchC0Shader.SetMatrix4("projection", anaglyphProjectionMatrixRed);
                 _shader.SetMatrix4("view", anaglyphViewMatrix);
                 _shaderGeometry.SetMatrix4("view", anaglyphViewMatrix);
                 _patchShaderGeometry.SetMatrix4("view", anaglyphViewMatrix);
                 _patchShaderGeometryC2.SetMatrix4("view", anaglyphViewMatrix);
                 _gregoryShader.SetMatrix4("view", anaglyphViewMatrix);
+                _patchC0Shader.SetMatrix4("view", anaglyphViewMatrix);
 
                 GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
                 GL.ColorMask(true, false, false, true);
@@ -112,11 +119,13 @@ namespace Geometric2
                 _patchShaderGeometry.SetMatrix4("projection", anaglyphProjectionMatrixBlue);
                 _patchShaderGeometryC2.SetMatrix4("projection", anaglyphProjectionMatrixBlue);
                 _gregoryShader.SetMatrix4("projection", anaglyphProjectionMatrixBlue);
+                _patchC0Shader.SetMatrix4("projection", anaglyphProjectionMatrixBlue);
                 _shader.SetMatrix4("view", anaglyphViewMatrix);
                 _shaderGeometry.SetMatrix4("view", anaglyphViewMatrix);
                 _patchShaderGeometry.SetMatrix4("view", anaglyphViewMatrix);
                 _patchShaderGeometryC2.SetMatrix4("view", anaglyphViewMatrix);
                 _gregoryShader.SetMatrix4("view", anaglyphViewMatrix);
+                _patchC0Shader.SetMatrix4("view", anaglyphViewMatrix);
 
                 RenderScene(viewMatrix, projectionMatrix);
                 GL.ColorMask(true, true, true, true);
@@ -140,7 +149,7 @@ namespace Geometric2
                 {
                     if (el is ModelGeneration.BezierPatchC0 bPC0)
                     {
-                        bPC0.RenderGlElement(_shader, coursor.CoursorGloalPosition, _patchShaderGeometry);
+                        bPC0.RenderGlElement(_shader, coursor.CoursorGloalPosition, _patchShaderGeometry, _patchC0Shader);
                     }
                     else if (el is ModelGeneration.BezierPatchTubeC0 bPTC0)
                     {
@@ -167,7 +176,7 @@ namespace Geometric2
                 {
                     if (el is ModelGeneration.BezierPatchC0 bPC0)
                     {
-                        bPC0.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometry);
+                        bPC0.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometry, _patchC0Shader);
                     }
                     else if (el is ModelGeneration.BezierPatchTubeC0 bPTC0)
                     {

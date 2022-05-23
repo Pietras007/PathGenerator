@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace Geometric2.RasterizationClasses
 {
-    public class GregoryShader
+    public class TeselationShader
     {
         public readonly int Handle;
 
         private readonly Dictionary<string, int> _uniformLocations;
-        public GregoryShader(string vertPath, string fragPath, string controlPatch, string evaluationPatch)
+        public TeselationShader(string vertPath, string fragPath, string controlPatch, string evaluationPatch)
         {
             var shaderSource = LoadSource(vertPath);
             var vertexShader = GL.CreateShader(ShaderType.VertexShader);

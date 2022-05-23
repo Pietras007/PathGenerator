@@ -37,7 +37,7 @@ namespace Geometric2.ModelGeneration
         {
         }
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader = null, GregoryShader _gregoryShader = null)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader = null, TeselationShader _gregoryShader = null)
         {
             var a_Position_Location = _shader.GetAttribLocation("a_Position");
             transformLinesVAO = GL.GenVertexArray();
@@ -52,7 +52,7 @@ namespace Geometric2.ModelGeneration
             GL.EnableVertexAttribArray(a_Position_Location);
         }
 
-        public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _geometryShader = null, GregoryShader _gregoryShader = null)
+        public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _geometryShader = null, TeselationShader _gregoryShader = null)
         {
             if (selectedElements != null && selectedElements.Count > 1)
             {

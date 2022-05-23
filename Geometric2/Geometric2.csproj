@@ -135,7 +135,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RasterizationClasses\GregoryShader.cs" />
+    <Compile Include="RasterizationClasses\TeselationShader.cs" />
     <Compile Include="RasterizationClasses\Shader.cs" />
     <Compile Include="RasterizationClasses\ShaderGeometry.cs" />
     <Compile Include="RenameElement.cs">
@@ -171,6 +171,10 @@
     <None Include="GregoryShaders\Gregory.vert" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
+    <None Include="PatchC0Shaders\PatchC0.frag" />
+    <None Include="PatchC0Shaders\PatchC0.tesc" />
+    <None Include="PatchC0Shaders\PatchC0.tese" />
+    <None Include="PatchC0Shaders\PatchC0.vert" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
