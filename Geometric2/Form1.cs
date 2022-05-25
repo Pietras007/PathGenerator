@@ -1314,7 +1314,7 @@ namespace Geometric2
             BezierPatchTubeC0 bezierPatcTubehC0 = new BezierPatchTubeC0(bezierPatchC0Number, _camera, glControl1.Width, glControl1.Height, values);
             checkBox1.Checked = false;
             bezierPatchTubeC0Number++;
-            bezierPatcTubehC0.CreateGlElement(_shader, _patchShaderGeometry);
+            bezierPatcTubehC0.CreateGlElement(_shader, _patchShaderGeometry, _patchC0Shader);
             elementsOnScene.Items.Add(bezierPatcTubehC0);
             Elements.Add(bezierPatcTubehC0);
             List<ModelGeneration.Point> points = new List<ModelGeneration.Point>();

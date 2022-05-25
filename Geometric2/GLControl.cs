@@ -153,7 +153,7 @@ namespace Geometric2
                     }
                     else if (el is ModelGeneration.BezierPatchTubeC0 bPTC0)
                     {
-                        bPTC0.RenderGlElement(_shader, coursor.CoursorGloalPosition, _patchShaderGeometry);
+                        bPTC0.RenderGlElement(_shader, coursor.CoursorGloalPosition, _patchShaderGeometry, _patchC0Shader);
                     }
                     else if (el is ModelGeneration.BezierPatchC2 bPC2)
                     {
@@ -180,7 +180,7 @@ namespace Geometric2
                     }
                     else if (el is ModelGeneration.BezierPatchTubeC0 bPTC0)
                     {
-                        bPTC0.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometry);
+                        bPTC0.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometry, _patchC0Shader);
                     }
                     else if (el is ModelGeneration.BezierPatchC2 bPC2)
                     {

@@ -17,6 +17,7 @@ namespace Geometric2.ModelGeneration
         public int SegmentsU { get; set; }
         public int SegmentsV { get; set; }
         public List<Point> bezierPoints { get; set; }
+        public int splitA, splitB;
 
         private List<float> vertices = new List<float>();
         private List<uint> indices = new List<uint>();
@@ -34,7 +35,6 @@ namespace Geometric2.ModelGeneration
         private Camera _camera;
         private int width, height;
         private float _width, _length;
-        private int splitA, splitB;
         private float x0, y0;
 
         public BezierPatchC0(int bezierC0Number, Camera _camera, int width, int height, float[] values)
@@ -241,6 +241,8 @@ namespace Geometric2.ModelGeneration
 
         private void FillBezierPatchGeometry()
         {
+            vertices.Clear();
+            indices.Clear();
             foreach (var b in bezierPoints)
             {
                 vertices.Add(b.Position().X);
