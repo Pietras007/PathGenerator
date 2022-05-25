@@ -151,10 +151,10 @@ namespace Geometric2
                     {
                         bPC0.RenderGlElement(_shader, coursor.CoursorGloalPosition, _patchShaderGeometry, _patchC0Shader);
                     }
-                    else if (el is ModelGeneration.BezierPatchTubeC0 bPTC0)
-                    {
-                        bPTC0.RenderGlElement(_shader, coursor.CoursorGloalPosition, _patchShaderGeometry, _patchC0Shader);
-                    }
+                    //else if (el is ModelGeneration.BezierPatchTubeC0 bPTC0)
+                    //{
+                    //    bPTC0.RenderGlElement(_shader, coursor.CoursorGloalPosition, _patchShaderGeometry, _patchC0Shader);
+                    //}
                     else if (el is ModelGeneration.BezierPatchC2 bPC2)
                     {
                         bPC2.RenderGlElement(_shader, coursor.CoursorGloalPosition, _patchShaderGeometryC2);
@@ -178,10 +178,10 @@ namespace Geometric2
                     {
                         bPC0.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometry, _patchC0Shader);
                     }
-                    else if (el is ModelGeneration.BezierPatchTubeC0 bPTC0)
-                    {
-                        bPTC0.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometry, _patchC0Shader);
-                    }
+                    //else if (el is ModelGeneration.BezierPatchTubeC0 bPTC0)
+                    //{
+                    //    bPTC0.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometry, _patchC0Shader);
+                    //}
                     else if (el is ModelGeneration.BezierPatchC2 bPC2)
                     {
                         bPC2.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometryC2);
@@ -225,17 +225,17 @@ namespace Geometric2
                 }
             }
 
-            if (selectedBezierPatchTubeC0 != null)
-            {
-                foreach (var p in selectedBezierPatchTubeC0.bezierPoints)
-                {
-                    if (p.IsSelected)
-                    {
-                        p.CreateGlElement(_shader);
-                        p.RenderGlElement(_shader, coursor.CoursorGloalPosition, _shaderGeometry);
-                    }
-                }
-            }
+            //if (selectedBezierPatchTubeC0 != null)
+            //{
+            //    foreach (var p in selectedBezierPatchTubeC0.bezierPoints)
+            //    {
+            //        if (p.IsSelected)
+            //        {
+            //            p.CreateGlElement(_shader);
+            //            p.RenderGlElement(_shader, coursor.CoursorGloalPosition, _shaderGeometry);
+            //        }
+            //    }
+            //}
 
             if (selectedBezierPatchC2 != null)
             {
@@ -345,20 +345,20 @@ namespace Geometric2
                             }
                         }
 
-                        if (selectedBezierPatchTubeC0 != null)
-                        {
-                            foreach (var p in selectedBezierPatchTubeC0.bezierPoints)
-                            {
-                                Vector3 u = coursor.CoursorGloalPosition - _camera.GetCameraPosition();
-                                Vector3 ap = coursor.CoursorGloalPosition - (p.CenterPosition + p.Translation + p.TemporaryTranslation);
-                                float currentDist = Vector3.Cross(ap, u).Length / u.Length;
-                                if (currentDist < dist)
-                                {
-                                    dist = currentDist;
-                                    element = p;
-                                }
-                            }
-                        }
+                        //if (selectedBezierPatchTubeC0 != null)
+                        //{
+                        //    foreach (var p in selectedBezierPatchTubeC0.bezierPoints)
+                        //    {
+                        //        Vector3 u = coursor.CoursorGloalPosition - _camera.GetCameraPosition();
+                        //        Vector3 ap = coursor.CoursorGloalPosition - (p.CenterPosition + p.Translation + p.TemporaryTranslation);
+                        //        float currentDist = Vector3.Cross(ap, u).Length / u.Length;
+                        //        if (currentDist < dist)
+                        //        {
+                        //            dist = currentDist;
+                        //            element = p;
+                        //        }
+                        //    }
+                        //}
 
                         if (selectedBezierPatchC2 != null)
                         {
@@ -546,19 +546,19 @@ namespace Geometric2
                             }
                         }
 
-                        if (el is ModelGeneration.BezierPatchTubeC0 bpTC0)
-                        {
-                            //bpC0.Translation += mouseMove;
-                            List<ModelGeneration.Point> mocedPoints = new List<ModelGeneration.Point>();
-                            foreach (var pp in bpTC0.bezierPoints)
-                            {
-                                if (!mocedPoints.Contains(pp))
-                                {
-                                    mocedPoints.Add(pp);
-                                    pp.Translation += mouseMove;
-                                }
-                            }
-                        }
+                        //if (el is ModelGeneration.BezierPatchTubeC0 bpTC0)
+                        //{
+                        //    //bpC0.Translation += mouseMove;
+                        //    List<ModelGeneration.Point> mocedPoints = new List<ModelGeneration.Point>();
+                        //    foreach (var pp in bpTC0.bezierPoints)
+                        //    {
+                        //        if (!mocedPoints.Contains(pp))
+                        //        {
+                        //            mocedPoints.Add(pp);
+                        //            pp.Translation += mouseMove;
+                        //        }
+                        //    }
+                        //}
 
                         if (el is ModelGeneration.BezierPatchC2 bpC2)
                         {

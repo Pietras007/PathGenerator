@@ -106,7 +106,7 @@ namespace Geometric2
         private InterpolatedBezierC2 selectedInterpolatedBezierC2 = null;
 
         private BezierPatchC0 selectedBezierPatchC0 = null;
-        private BezierPatchTubeC0 selectedBezierPatchTubeC0 = null;
+        //private BezierPatchTubeC0 selectedBezierPatchTubeC0 = null;
 
         private BezierPatchC2 selectedBezierPatchC2 = null;
         private BezierPatchTubeC2 selectedBezierPatchTubeC2 = null;
@@ -229,10 +229,10 @@ namespace Geometric2
                         selectedBezierPatchC0 = _bezierPatchC0;
                     }
 
-                    else if (element is BezierPatchTubeC0 _bezierPatchTubeC0)
-                    {
-                        selectedBezierPatchTubeC0 = _bezierPatchTubeC0;
-                    }
+                    //else if (element is BezierPatchTubeC0 _bezierPatchTubeC0)
+                    //{
+                    //    selectedBezierPatchTubeC0 = _bezierPatchTubeC0;
+                    //}
 
                     else if (element is BezierPatchC2 _bezierPatchC2)
                     {
@@ -285,15 +285,15 @@ namespace Geometric2
                         }
                     }
 
-                    else if (element is BezierPatchTubeC0 _bezierPatchTubeC0)
-                    {
-                        foreach (var x in _bezierPatchTubeC0.bezierPoints)
-                        {
-                            SelectedElements.Remove(x);
-                            elementsOnScene.Items.Remove(x);
-                            Elements.Remove(x);
-                        }
-                    }
+                    //else if (element is BezierPatchTubeC0 _bezierPatchTubeC0)
+                    //{
+                    //    foreach (var x in _bezierPatchTubeC0.bezierPoints)
+                    //    {
+                    //        SelectedElements.Remove(x);
+                    //        elementsOnScene.Items.Remove(x);
+                    //        Elements.Remove(x);
+                    //    }
+                    //}
 
                     else if (element is BezierPatchC2 _bezierPatchC2)
                     {
@@ -381,13 +381,13 @@ namespace Geometric2
                 }
             }
 
-            if (selectedBezierPatchTubeC0 != null)
-            {
-                foreach (var el in selectedBezierPatchTubeC0.bezierPoints)
-                {
-                    DeselectElement(el);
-                }
-            }
+            //if (selectedBezierPatchTubeC0 != null)
+            //{
+            //    foreach (var el in selectedBezierPatchTubeC0.bezierPoints)
+            //    {
+            //        DeselectElement(el);
+            //    }
+            //}
 
             if (selectedBezierPatchC2 != null)
             {
@@ -562,25 +562,25 @@ namespace Geometric2
                     }
                 }
 
-                else if (el is BezierPatchTubeC0 bct0)
-                {
-                    foreach (var p in bct0.bezierPoints)
-                    {
-                        p.Translation += p.TemporaryTranslation;
-                        p.TemporaryTranslation = new Vector3();
-                        p.ElementScale *= p.TempElementScale;
-                        p.TempElementScale = 1.0f;
+                //else if (el is BezierPatchTubeC0 bct0)
+                //{
+                //    foreach (var p in bct0.bezierPoints)
+                //    {
+                //        p.Translation += p.TemporaryTranslation;
+                //        p.TemporaryTranslation = new Vector3();
+                //        p.ElementScale *= p.TempElementScale;
+                //        p.TempElementScale = 1.0f;
 
-                        var currentCenterPos = new Vector3(new Vector4(p.CenterPosition, 1.0f) * TranslationMatrix.CreateTranslationMatrix(p.Translation) * TranslationMatrix.CreateTranslationMatrix(-transformCenterLines.rotationCenterPoint) * Matrix4.CreateFromQuaternion(p.TempRotationQuaternion) * TranslationMatrix.CreateTranslationMatrix(transformCenterLines.rotationCenterPoint));
-                        p.Translation = currentCenterPos - p.CenterPosition;
+                //        var currentCenterPos = new Vector3(new Vector4(p.CenterPosition, 1.0f) * TranslationMatrix.CreateTranslationMatrix(p.Translation) * TranslationMatrix.CreateTranslationMatrix(-transformCenterLines.rotationCenterPoint) * Matrix4.CreateFromQuaternion(p.TempRotationQuaternion) * TranslationMatrix.CreateTranslationMatrix(transformCenterLines.rotationCenterPoint));
+                //        p.Translation = currentCenterPos - p.CenterPosition;
 
-                        p.RotationQuaternion = p.TempRotationQuaternion * p.RotationQuaternion;
-                        p.ElementRotationX = 0.0f;
-                        p.ElementRotationY = 0.0f;
-                        p.ElementRotationZ = 0.0f;
-                        p.TempRotationQuaternion = Quaternion.FromEulerAngles(0.0f, 0.0f, 0.0f);
-                    }
-                }
+                //        p.RotationQuaternion = p.TempRotationQuaternion * p.RotationQuaternion;
+                //        p.ElementRotationX = 0.0f;
+                //        p.ElementRotationY = 0.0f;
+                //        p.ElementRotationZ = 0.0f;
+                //        p.TempRotationQuaternion = Quaternion.FromEulerAngles(0.0f, 0.0f, 0.0f);
+                //    }
+                //}
 
                 else if (el is BezierPatchC2 bc2)
                 {
@@ -684,18 +684,18 @@ namespace Geometric2
                                 }
                             }
                         }
-                        else if (el is BezierPatchTubeC0 bct0)
-                        {
-                            List<ModelGeneration.Point> mocedPoints = new List<ModelGeneration.Point>();
-                            foreach (var p in bct0.bezierPoints)
-                            {
-                                if (!mocedPoints.Contains(p))
-                                {
-                                    mocedPoints.Add(p);
-                                    p.Translation.Z = p.Translation.Z + res;
-                                }
-                            }
-                        }
+                        //else if (el is BezierPatchTubeC0 bct0)
+                        //{
+                        //    List<ModelGeneration.Point> mocedPoints = new List<ModelGeneration.Point>();
+                        //    foreach (var p in bct0.bezierPoints)
+                        //    {
+                        //        if (!mocedPoints.Contains(p))
+                        //        {
+                        //            mocedPoints.Add(p);
+                        //            p.Translation.Z = p.Translation.Z + res;
+                        //        }
+                        //    }
+                        //}
                         else if (el is BezierPatchC2 bc2)
                         {
                             foreach (var p in bc2.bezierPoints)
@@ -746,18 +746,18 @@ namespace Geometric2
                                 }
                             }
                         }
-                        else if (el is BezierPatchTubeC0 bct0)
-                        {
-                            List<ModelGeneration.Point> mocedPoints = new List<ModelGeneration.Point>();
-                            foreach (var p in bct0.bezierPoints)
-                            {
-                                if (!mocedPoints.Contains(p))
-                                {
-                                    mocedPoints.Add(p);
-                                    p.Translation.Y = p.Translation.Y + res;
-                                }
-                            }
-                        }
+                        //else if (el is BezierPatchTubeC0 bct0)
+                        //{
+                        //    List<ModelGeneration.Point> mocedPoints = new List<ModelGeneration.Point>();
+                        //    foreach (var p in bct0.bezierPoints)
+                        //    {
+                        //        if (!mocedPoints.Contains(p))
+                        //        {
+                        //            mocedPoints.Add(p);
+                        //            p.Translation.Y = p.Translation.Y + res;
+                        //        }
+                        //    }
+                        //}
                         else if (el is BezierPatchC2 bc2)
                         {
                             List<ModelGeneration.Point> mocedPoints = new List<ModelGeneration.Point>();
@@ -813,18 +813,18 @@ namespace Geometric2
                                 }
                             }
                         }
-                        else if (el is BezierPatchTubeC0 bct0)
-                        {
-                            List<ModelGeneration.Point> mocedPoints = new List<ModelGeneration.Point>();
-                            foreach (var p in bct0.bezierPoints)
-                            {
-                                if (!mocedPoints.Contains(p))
-                                {
-                                    mocedPoints.Add(p);
-                                    p.Translation.X = p.Translation.X + res;
-                                }
-                            }
-                        }
+                        //else if (el is BezierPatchTubeC0 bct0)
+                        //{
+                        //    List<ModelGeneration.Point> mocedPoints = new List<ModelGeneration.Point>();
+                        //    foreach (var p in bct0.bezierPoints)
+                        //    {
+                        //        if (!mocedPoints.Contains(p))
+                        //        {
+                        //            mocedPoints.Add(p);
+                        //            p.Translation.X = p.Translation.X + res;
+                        //        }
+                        //    }
+                        //}
                         else if (el is BezierPatchC2 bc2)
                         {
                             List<ModelGeneration.Point> mocedPoints = new List<ModelGeneration.Point>();
@@ -886,17 +886,17 @@ namespace Geometric2
                             }
                         }
 
-                        else if (el is BezierPatchTubeC0 bct0)
-                        {
-                            foreach (var p in bct0.bezierPoints)
-                            {
-                                if (!mocedPoints.Contains(p))
-                                {
-                                    mocedPoints.Add(p);
-                                    p.ElementRotationX = res;
-                                }
-                            }
-                        }
+                        //else if (el is BezierPatchTubeC0 bct0)
+                        //{
+                        //    foreach (var p in bct0.bezierPoints)
+                        //    {
+                        //        if (!mocedPoints.Contains(p))
+                        //        {
+                        //            mocedPoints.Add(p);
+                        //            p.ElementRotationX = res;
+                        //        }
+                        //    }
+                        //}
 
                         else if (el is BezierPatchC2 bc2)
                         {
@@ -952,17 +952,17 @@ namespace Geometric2
                             }
                         }
 
-                        else if (el is BezierPatchTubeC0 bct0)
-                        {
-                            foreach (var p in bct0.bezierPoints)
-                            {
-                                if (!mocedPoints.Contains(p))
-                                {
-                                    mocedPoints.Add(p);
-                                    p.ElementRotationY += res;
-                                }
-                            }
-                        }
+                        //else if (el is BezierPatchTubeC0 bct0)
+                        //{
+                        //    foreach (var p in bct0.bezierPoints)
+                        //    {
+                        //        if (!mocedPoints.Contains(p))
+                        //        {
+                        //            mocedPoints.Add(p);
+                        //            p.ElementRotationY += res;
+                        //        }
+                        //    }
+                        //}
 
                         else if (el is BezierPatchC2 bc2)
                         {
@@ -1018,17 +1018,17 @@ namespace Geometric2
                             }
                         }
 
-                        else if (el is BezierPatchTubeC0 bct0)
-                        {
-                            foreach (var p in bct0.bezierPoints)
-                            {
-                                if (!mocedPoints.Contains(p))
-                                {
-                                    mocedPoints.Add(p);
-                                    p.ElementRotationZ += res;
-                                }
-                            }
-                        }
+                        //else if (el is BezierPatchTubeC0 bct0)
+                        //{
+                        //    foreach (var p in bct0.bezierPoints)
+                        //    {
+                        //        if (!mocedPoints.Contains(p))
+                        //        {
+                        //            mocedPoints.Add(p);
+                        //            p.ElementRotationZ += res;
+                        //        }
+                        //    }
+                        //}
 
                         else if (el is BezierPatchC2 bc2)
                         {
@@ -1311,7 +1311,7 @@ namespace Geometric2
             float[] values = new float[5];
             BezierPatchTube bezierPatch = new BezierPatchTube(values);
             bezierPatch.ShowDialog();
-            BezierPatchTubeC0 bezierPatcTubehC0 = new BezierPatchTubeC0(bezierPatchC0Number, _camera, glControl1.Width, glControl1.Height, values);
+            BezierPatchC0 bezierPatcTubehC0 = new BezierPatchC0(bezierPatchC0Number, _camera, glControl1.Width, glControl1.Height, values, true);
             checkBox1.Checked = false;
             bezierPatchTubeC0Number++;
             bezierPatcTubehC0.CreateGlElement(_shader, _patchShaderGeometry, _patchC0Shader);
@@ -1330,7 +1330,7 @@ namespace Geometric2
             }
 
             drawingStatus = DrawingStatus.No;
-            selectedBezierPatchTubeC0 = bezierPatcTubehC0;
+            selectedBezierPatchC0 = bezierPatcTubehC0;
             UpdateDrawingStatus();
         }
 
@@ -1357,37 +1357,37 @@ namespace Geometric2
 
         private void trackBar8_Scroll(object sender, EventArgs e)
         {
-            if (selectedBezierPatchTubeC0 != null)
-            {
-                selectedBezierPatchTubeC0.SegmentsU = trackBar8.Value;
-                textBox12.Text = selectedBezierPatchTubeC0.SegmentsU.ToString();
-                selectedBezierPatchTubeC0.RegenerateBezierPatchC0();
-            }
+            //if (selectedBezierPatchTubeC0 != null)
+            //{
+            //    selectedBezierPatchTubeC0.SegmentsU = trackBar8.Value;
+            //    textBox12.Text = selectedBezierPatchTubeC0.SegmentsU.ToString();
+            //    selectedBezierPatchTubeC0.RegenerateBezierPatchC0();
+            //}
         }
 
         private void trackBar7_Scroll(object sender, EventArgs e)
         {
-            if (selectedBezierPatchTubeC0 != null)
-            {
-                selectedBezierPatchTubeC0.SegmentsV = trackBar7.Value;
-                textBox11.Text = selectedBezierPatchTubeC0.SegmentsV.ToString();
-                selectedBezierPatchTubeC0.RegenerateBezierPatchC0();
-            }
+            //if (selectedBezierPatchTubeC0 != null)
+            //{
+            //    selectedBezierPatchTubeC0.SegmentsV = trackBar7.Value;
+            //    textBox11.Text = selectedBezierPatchTubeC0.SegmentsV.ToString();
+            //    selectedBezierPatchTubeC0.RegenerateBezierPatchC0();
+            //}
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if (selectedBezierPatchTubeC0 != null)
-            {
-                if (checkBox1.Checked)
-                {
-                    selectedBezierPatchTubeC0.DrawPolyline = true;
-                }
-                else
-                {
-                    selectedBezierPatchTubeC0.DrawPolyline = false;
-                }
-            }
+            //if (selectedBezierPatchTubeC0 != null)
+            //{
+            //    if (checkBox1.Checked)
+            //    {
+            //        selectedBezierPatchTubeC0.DrawPolyline = true;
+            //    }
+            //    else
+            //    {
+            //        selectedBezierPatchTubeC0.DrawPolyline = false;
+            //    }
+            //}
         }
 
         private void TEST_Click(object sender, EventArgs e)
@@ -1498,7 +1498,7 @@ namespace Geometric2
                 List<ModelGeneration.InterpolatedBezierC2> interBezier = new List<ModelGeneration.InterpolatedBezierC2>();
                 patchC0 = new List<ModelGeneration.BezierPatchC0>();
                 List<ModelGeneration.BezierPatchC2> patchC2 = new List<ModelGeneration.BezierPatchC2>();
-                List<ModelGeneration.BezierPatchTubeC0> patchTubeC0 = new List<ModelGeneration.BezierPatchTubeC0>();
+                //List<ModelGeneration.BezierPatchTubeC0> patchTubeC0 = new List<ModelGeneration.BezierPatchTubeC0>();
                 List<ModelGeneration.BezierPatchTubeC2> patchTubeC2 = new List<ModelGeneration.BezierPatchTubeC2>();
 
                 using (XmlReader reader = XmlReader.Create(fileName, new XmlReaderSettings() { ConformanceLevel = ConformanceLevel.Fragment }))
@@ -1906,22 +1906,22 @@ namespace Geometric2
                         }
 
 
-                        if (el is ModelGeneration.BezierPatchTubeC0 bezierPatchTubeC0)
-                        {
-                            writer.WriteStartElement("PatchC0");
-                            writer.WriteAttributeString("Name", bezierPatchTubeC0.FullName);
-                            writer.WriteAttributeString("M", bezierPatchTubeC0.splitA.ToString());
-                            writer.WriteAttributeString("N", bezierPatchTubeC0.splitB.ToString());
-                            writer.WriteAttributeString("MSlices", bezierPatchTubeC0.SegmentsU.ToString());
-                            writer.WriteAttributeString("NSlices", bezierPatchTubeC0.SegmentsV.ToString());
-                            writer.WriteStartElement("Points");
-                            foreach (var pp in bezierPatchTubeC0.bezierPoints)
-                            {
-                                this.addPointRef(writer, pp);
-                            }
-                            writer.WriteEndElement();
-                            writer.WriteEndElement();
-                        }
+                        //if (el is ModelGeneration.BezierPatchTubeC0 bezierPatchTubeC0)
+                        //{
+                        //    writer.WriteStartElement("PatchC0");
+                        //    writer.WriteAttributeString("Name", bezierPatchTubeC0.FullName);
+                        //    writer.WriteAttributeString("M", bezierPatchTubeC0.splitA.ToString());
+                        //    writer.WriteAttributeString("N", bezierPatchTubeC0.splitB.ToString());
+                        //    writer.WriteAttributeString("MSlices", bezierPatchTubeC0.SegmentsU.ToString());
+                        //    writer.WriteAttributeString("NSlices", bezierPatchTubeC0.SegmentsV.ToString());
+                        //    writer.WriteStartElement("Points");
+                        //    foreach (var pp in bezierPatchTubeC0.bezierPoints)
+                        //    {
+                        //        this.addPointRef(writer, pp);
+                        //    }
+                        //    writer.WriteEndElement();
+                        //    writer.WriteEndElement();
+                        //}
 
                         if (el is ModelGeneration.BezierPatchC2 bezierPatchC2)
                         {
@@ -2019,10 +2019,10 @@ namespace Geometric2
                         ReplacePoint(bpc2.bezierPoints, searchingPoint, selectedPoints[0]);
                     }
 
-                    if (ele is BezierPatchTubeC0 bptc0)
-                    {
-                        ReplacePoint(bptc0.bezierPoints, searchingPoint, selectedPoints[0]);
-                    }
+                    //if (ele is BezierPatchTubeC0 bptc0)
+                    //{
+                    //    ReplacePoint(bptc0.bezierPoints, searchingPoint, selectedPoints[0]);
+                    //}
 
                     if (ele is BezierPatchTubeC2 bptc2)
                     {

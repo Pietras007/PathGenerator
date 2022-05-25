@@ -36,8 +36,11 @@ namespace Geometric2.ModelGeneration
         private int width, height;
         private float _width, _length;
         private float x0, y0;
+        private float r;
 
-        public BezierPatchC0(int bezierC0Number, Camera _camera, int width, int height, float[] values)
+        private bool isTube;
+
+        public BezierPatchC0(int bezierC0Number, Camera _camera, int width, int height, float[] values, bool isTube = false)
         {
             bezierPoints = new List<Point>();
             this._camera = _camera;
@@ -45,6 +48,7 @@ namespace Geometric2.ModelGeneration
             this._length = values[1];
             this.splitA = (int)values[2];
             this.splitB = (int)values[3];
+            this.r = values.Length > 4 ? values[4] : 0.0f;
             this.SegmentsU = 1;
             this.SegmentsV = 1;
             x0 = 0.0f;
@@ -53,11 +57,12 @@ namespace Geometric2.ModelGeneration
             this.width = width;
             this.height = height;
             this.bezierPatchC0Number = bezierC0Number;
+            this.isTube = isTube;
             FullName = "BezierPatchC0 " + bezierPatchC0Number;
             GenerateBezierPoints();
         }
 
-        public BezierPatchC0(int bezierC0Number, Camera _camera, int width, int height)
+        public BezierPatchC0(int bezierC0Number, Camera _camera, int width, int height, bool isTube = false)
         {
             bezierPoints = new List<Point>();
             this._camera = _camera;
@@ -69,6 +74,7 @@ namespace Geometric2.ModelGeneration
             this.width = width;
             this.height = height;
             this.bezierPatchC0Number = bezierC0Number;
+            this.isTube = isTube;
         }
 
         public override string ToString()
@@ -179,24 +185,55 @@ namespace Geometric2.ModelGeneration
 
         private void GenerateBezierPoints()
         {
-            bezierPoints.Clear();
-            float xdiff = _width / (3 * splitA);
-            float ydiff = _length / (3 * splitB);
-            int k = 0;
-            for (int i = 0; i < 3 * splitA + 1; i++)
+            if (isTube)
             {
-                y0 = 0.0f;
-                for (int j = 0; j < 3 * splitB + 1; j++)
-                {
-                    Point point = new Point(new Vector3(x0, y0, 0.0f), pointNumber, _camera);
-                    pointNumber++;
-                    point.FullName += "_patchC0_" + bezierPatchC0Number;
-                    bezierPoints.Add(point);
-                    y0 += ydiff;
-                    k++;
-                }
+                if (splitB < 3) splitB = 3;
+            }
 
-                x0 += xdiff;
+            bezierPoints.Clear();
+            if (isTube)
+            {
+                float z = 0.0f;
+                float zDiff = _length / (3 * splitA);
+                float angleDiff = 2 * (float)Math.PI / (3 * splitB);
+                int k = 0;
+                for (int i = 0; i < 3 * splitA + 1; i++)
+                {
+                    float angle = 0.0f;
+                    for (int j = 0; j < 3 * splitB; j++)
+                    {
+                        Point point = new Point(new Vector3(r * (float)Math.Sin(angle), r * (float)Math.Cos(angle), z), pointNumber, _camera);
+                        pointNumber++;
+                        point.FullName += "_patchTubeC0_" + bezierPatchC0Number;
+                        bezierPoints.Add(point);
+                        angle += angleDiff;
+                        k++;
+                    }
+                    bezierPoints.Add(bezierPoints[k - 3 * splitB]);
+                    k++;
+                    z += zDiff;
+                }
+            }
+            else
+            {
+                float xdiff = _width / (3 * splitA);
+                float ydiff = _length / (3 * splitB);
+                int k = 0;
+                for (int i = 0; i < 3 * splitA + 1; i++)
+                {
+                    y0 = 0.0f;
+                    for (int j = 0; j < 3 * splitB + 1; j++)
+                    {
+                        Point point = new Point(new Vector3(x0, y0, 0.0f), pointNumber, _camera);
+                        pointNumber++;
+                        point.FullName += "_patchC0_" + bezierPatchC0Number;
+                        bezierPoints.Add(point);
+                        y0 += ydiff;
+                        k++;
+                    }
+
+                    x0 += xdiff;
+                }
             }
         }
 
@@ -206,19 +243,44 @@ namespace Geometric2.ModelGeneration
             int k = 0;
             for (int i = 0; i < 3 * splitA + 1; i++)
             {
-                for (int j = 0; j < 3 * splitB + 1; j++)
+                if (isTube)
                 {
-                    if (j != 0)
+                    for (int j = 0; j < 3 * splitB; j++)
                     {
-                        pointLines.Add(bezierPoints[k - 1]);
-                        pointLines.Add(bezierPoints[k]);
+                        if (j != 0)
+                        {
+                            pointLines.Add(bezierPoints[k - 1]);
+                            pointLines.Add(bezierPoints[k]);
+
+                        }
+                        if (i != 0)
+                        {
+                            pointLines.Add(bezierPoints[k]);
+                            pointLines.Add(bezierPoints[k - (3 * splitB + 1)]);
+
+                        }
+                        k++;
                     }
-                    if (i != 0)
-                    {
-                        pointLines.Add(bezierPoints[k - (3 * splitB + 1)]);
-                        pointLines.Add(bezierPoints[k]);
-                    }
+                    pointLines.Add(bezierPoints[k - 1]);
+                    pointLines.Add(bezierPoints[k]);
                     k++;
+                }
+                else
+                {
+                    for (int j = 0; j < 3 * splitB + 1; j++)
+                    {
+                        if (j != 0)
+                        {
+                            pointLines.Add(bezierPoints[k - 1]);
+                            pointLines.Add(bezierPoints[k]);
+                        }
+                        if (i != 0)
+                        {
+                            pointLines.Add(bezierPoints[k - (3 * splitB + 1)]);
+                            pointLines.Add(bezierPoints[k]);
+                        }
+                        k++;
+                    }
                 }
             }
 

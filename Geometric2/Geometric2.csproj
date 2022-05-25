@@ -115,7 +115,6 @@
     <Compile Include="ModelGeneration\BezierC2.cs" />
     <Compile Include="ModelGeneration\BezierPatchC0.cs" />
     <Compile Include="ModelGeneration\BezierPatchC2.cs" />
-    <Compile Include="ModelGeneration\BezierPatchTubeC0.cs" />
     <Compile Include="ModelGeneration\BezierPatchTubeC2.cs" />
     <Compile Include="ModelGeneration\Coursor.cs" />
     <Compile Include="ModelGeneration\Element.cs" />
