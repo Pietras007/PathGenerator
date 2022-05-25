@@ -13,24 +13,22 @@ namespace Geometric2.ModelGeneration
     {
         public bool DrawPolyline { get; set; }
         public List<Point> points;
-        int pointNumber = 0;
-        Camera _camera;
-        int width, height;
-        int gregoryPatchNumber;
-        public int GregoryPolylineVBO, GregoryPolylineVAO, GregoryPolylineEBO;
-        public int GregoryVBO, GregoryVAO, GregoryEBO;
-
-        private float[] polylinePoints;
-        uint[] polylineIndices;
-
         public int SegmentsU { get; set; }
         public int SegmentsV { get; set; }
 
-        int splitA = 20;
-        int splitB = 20;
-        private float[] GregoryPoints = new float[3 * 20];
-        uint[] GregoryIndices = new uint[20];
+        private float[] polylinePoints;
+        private uint[] polylineIndices;
 
+        private float[] GregoryPoints = new float[3 * 20];
+        private uint[] GregoryIndices = new uint[20];
+
+        private int pointNumber = 0;
+        private Camera _camera;
+        private int width, height;
+        private int gregoryPatchNumber;
+        private int GregoryPolylineVBO, GregoryPolylineVAO, GregoryPolylineEBO;
+        private int GregoryVBO, GregoryVAO, GregoryEBO;
+       
         public GregoryPiece(int gregoryPatchNumber, Camera _camera, int width, int height)
         {
             points = new List<Point>();
@@ -39,8 +37,8 @@ namespace Geometric2.ModelGeneration
             this.height = height;
             this.gregoryPatchNumber = gregoryPatchNumber;
             FullName = "GregoryPatch " + gregoryPatchNumber;
-            this.SegmentsU = 20;
-            this.SegmentsV = 20;
+            this.SegmentsU = 2;
+            this.SegmentsV = 4;
         }
 
         public override string ToString()
@@ -81,7 +79,6 @@ namespace Geometric2.ModelGeneration
             RegenerateGregory();
             TempRotationQuaternion = Quaternion.FromEulerAngles((float)(2 * Math.PI * ElementRotationX / 360), (float)(2 * Math.PI * ElementRotationY / 360), (float)(2 * Math.PI * ElementRotationZ / 360));
             Matrix4 model = ModelMatrix.CreateModelMatrix(ElementScale * TempElementScale, RotationQuaternion, CenterPosition + Translation + TemporaryTranslation, rotationCentre, TempRotationQuaternion);
-            DrawPolyline = false;
             if (DrawPolyline)
             {
                 _shader.Use();
@@ -94,8 +91,8 @@ namespace Geometric2.ModelGeneration
 
             _teselationShader.Use();
             _teselationShader.SetMatrix4("model", model);
-            _teselationShader.SetFloat("splitA", splitA);
-            _teselationShader.SetFloat("splitB", splitB);
+            _teselationShader.SetFloat("SegmentsU", SegmentsU);
+            _teselationShader.SetFloat("SegmentsV", SegmentsV);
             if (IsSelected)
             {
                 _teselationShader.SetVector3("fragmentColor", ColorHelper.ColorToVector(Color.Orange));
