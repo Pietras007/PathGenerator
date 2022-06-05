@@ -7,6 +7,6 @@ namespace SharpSceneSerializer.DTOs
     public class Scene
     {
         public List<Point> Points { get; set; }
-        public List<IGeometryObject> Geometry { get; set; }
+        public List<object> Geometry { get; set; }
     }
 }

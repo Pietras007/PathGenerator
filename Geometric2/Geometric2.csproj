@@ -316,6 +316,7 @@
     <None Include="GregoryShaders\Gregory.tesc" />
     <None Include="GregoryShaders\Gregory.tese" />
     <None Include="GregoryShaders\Gregory.vert" />
+    <None Include="JsonSchema\schema.json" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <None Include="PatchC0Shaders\PatchC0.frag" />

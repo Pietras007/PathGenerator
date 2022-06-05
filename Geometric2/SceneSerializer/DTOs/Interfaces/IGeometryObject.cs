@@ -6,12 +6,11 @@ using SharpSceneSerializer.DTOs.Enums;
 
 namespace SharpSceneSerializer.DTOs.Interfaces
 {
-
-    [JsonInterfaceConverter(typeof(InterfaceConverter<IGeometryObject>))]
+    //[JsonInterfaceConverter(typeof(InterfaceConverter<IGeometryObject>))]
     //[JsonConverter(typeof(IGeometryObject))]
-    public interface IGeometryObject
+    public class IGeometryObject
     {
         [Required]
-        ObjectType ObjectType { get; }
+        public ObjectType ObjectType { get; }
     }
 }
