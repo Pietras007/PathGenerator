@@ -2108,19 +2108,14 @@ namespace Geometric2
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                //SharpSceneSerializer.DTOs.GeometryObjects.Point
                 Scene scene = new Scene();
                 scene.Points = new List<SharpSceneSerializer.DTOs.GeometryObjects.Point>();
                 scene.Geometry = new List<object>();
-
                 foreach (var el in Elements)
                 {
                     if (el is ModelGeneration.Point point)
                     {
-                        SharpSceneSerializer.DTOs.Types.Float3 pos = new SharpSceneSerializer.DTOs.Types.Float3();
-                        pos.X = point.Position().X;
-                        pos.Y = point.Position().Y;
-                        pos.Z = point.Position().Z;
+                        SharpSceneSerializer.DTOs.Types.Float3 pos = new SharpSceneSerializer.DTOs.Types.Float3(point.Position().X, point.Position().Y, point.Position().Z);
                         var name = point.ToString();
                         SharpSceneSerializer.DTOs.GeometryObjects.Point point1 = new SharpSceneSerializer.DTOs.GeometryObjects.Point();
                         point1.Id = (uint)point.pointNumber;
@@ -2133,41 +2128,34 @@ namespace Geometric2
                     {
                         SharpSceneSerializer.DTOs.GeometryObjects.Torus _tor = new SharpSceneSerializer.DTOs.GeometryObjects.Torus();
                         _tor.Id = (uint)torus.torusNumber;
-                        _tor.Position = new SharpSceneSerializer.DTOs.Types.Float3();
-                        _tor.Position.X = torus.Position().X;
-                        _tor.Position.Y = torus.Position().Y;
-                        _tor.Position.Z = torus.Position().Z;
-                        _tor.Scale = new SharpSceneSerializer.DTOs.Types.Float3();
-                        _tor.Scale.X = torus.ElementScale;
-                        _tor.Scale.Y = torus.ElementScale;
-                        _tor.Scale.Z = torus.ElementScale;
+                        _tor.Position = new SharpSceneSerializer.DTOs.Types.Float3(torus.Position().X, torus.Position().Y, torus.Position().Z);
+                        _tor.Scale = new SharpSceneSerializer.DTOs.Types.Float3(torus.ElementScale, torus.ElementScale, torus.ElementScale);
                         _tor.SmallRadius = torus.torus_r;
                         _tor.LargeRadius = torus.torus_R;
-                        _tor.Samples = new SharpSceneSerializer.DTOs.Types.Uint2();
-                        _tor.Samples.X = (uint)torus.torusMinorDividions;
-                        _tor.Samples.Y = (uint)torus.torusMajorDividions;
+                        _tor.Samples = new SharpSceneSerializer.DTOs.Types.Uint2((uint)torus.torusMinorDividions, (uint)torus.torusMajorDividions);
                         _tor.Name = torus.FullName;
                         Vector3 rot = QuaternionChange.ToEulerAngles(torus.RotationQuaternion);
-                        _tor.Rotation = new SharpSceneSerializer.DTOs.Types.Float3();
-                        _tor.Rotation.X = rot.X;
-                        _tor.Rotation.Y = rot.Y;
-                        _tor.Rotation.Z = rot.Z;
+                        _tor.Rotation = new SharpSceneSerializer.DTOs.Types.Float3(rot.X, rot.Y, rot.Z);
                         scene.Geometry.Add(_tor);
                     }
 
-                    //if (el is ModelGeneration.BezierC0 bezierC0)
-                    //{
-                    //    writer.WriteStartElement("BezierC0");
-                    //    writer.WriteAttributeString("Name", bezierC0.FullName);
-                    //    writer.WriteStartElement("Points");
-                    //    foreach (var p in bezierC0.bezierPoints)
-                    //    {
-                    //        this.addPointRef(writer, p);
-                    //    }
+                    if (el is ModelGeneration.BezierC0 bezierC0)
+                    {
+                        SharpSceneSerializer.DTOs.GeometryObjects.BezierC0 _bC0 = new SharpSceneSerializer.DTOs.GeometryObjects.BezierC0();
+                        _bC0.Name = bezierC0.FullName;
+                        _bC0.Id = (uint)bezierC0.bezierC0Number;
+                        SharpSceneSerializer.DTOs.GeometryObjects.PointRef[] pointrefs = new SharpSceneSerializer.DTOs.GeometryObjects.PointRef[bezierC0.bezierPoints.Count];
+                        int idx = 0;
+                        foreach (var bP in bezierC0.bezierPoints)
+                        {
+                            pointrefs[idx] = new SharpSceneSerializer.DTOs.GeometryObjects.PointRef();
+                            pointrefs[idx].Id = (uint)bP.pointNumber;
+                            idx++;
+                        }
 
-                    //    writer.WriteEndElement();
-                    //    writer.WriteEndElement();
-                    //}
+                        _bC0.ControlPoints = pointrefs;
+                        scene.Geometry.Add(_bC0);
+                    }
 
                     //if (el is ModelGeneration.BezierC2 bezierC2)
                     //{
@@ -2303,15 +2291,16 @@ namespace Geometric2
 
                     foreach (var _geom in result.scene.Geometry)
                     {
-                        var geomObject = Newtonsoft.Json.JsonConvert.DeserializeObject<IGeometryObject>(_geom.ToString());
-                        if (geomObject.ObjectType == SharpSceneSerializer.DTOs.Enums.ObjectType.torus)
+                        var geomString = _geom.ToString();
+                        var geomObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(geomString);
+                        if (geomObject.objectType == SharpSceneSerializer.DTOs.Enums.ObjectType.torus)
                         {
                             var _tor = Newtonsoft.Json.JsonConvert.DeserializeObject<SharpSceneSerializer.DTOs.GeometryObjects.Torus>(_geom.ToString());
                             var torusName = _tor.Name;
                             var MinorRadius = _tor.SmallRadius;
                             var MajorRadius = _tor.LargeRadius;
-                            var MajorSegments = (int)_tor.Samples.X;
-                            var MinorSegments = (int)_tor.Samples.Y;
+                            var MinorSegments = (int)_tor.Samples.X;
+                            var MajorSegments = (int)_tor.Samples.Y;
                             ModelGeneration.Torus torus = new ModelGeneration.Torus();
                             torus.FullName = torusName;
                             torus.torusNumber = torusNumber;
@@ -2327,6 +2316,18 @@ namespace Geometric2
                             torusNumber++;
                             toruses.Add(torus);
                         }
+                        else if(geomObject.objectType == SharpSceneSerializer.DTOs.Enums.ObjectType.bezierC0)
+                        {
+                            var _bC0 = Newtonsoft.Json.JsonConvert.DeserializeObject<SharpSceneSerializer.DTOs.GeometryObjects.BezierC0>(_geom.ToString());
+                            ModelGeneration.BezierC0 bezierC0_ = new BezierC0((int)_bC0.Id, _camera, glControl1.Width, glControl1.Height);
+                            bezierC0_.FullName = _bC0.Name;
+                            foreach(var pp in _bC0.ControlPoints)
+                            {
+                                bezierC0_.bezierPoints.Add(points.Where(x => x.pointNumber == pp.Id).First());
+                            }
+
+                            bezierC0.Add(bezierC0_);
+                        }
                     }
 
                     //using (XmlReader reader = XmlReader.Create(fileName, new XmlReaderSettings() { ConformanceLevel = ConformanceLevel.Fragment }))
@@ -2337,23 +2338,7 @@ namespace Geometric2
                     //        {
                     //            case XmlNodeType.Element:
                     //                
-                    //                else if (reader.Name == "Rotation" && previous == "Torus")
-                    //                {
-                    //                    ModelGeneration.Torus t = toruses.Last();
-                    //                    var X = float.Parse(reader.GetAttribute("X"));
-                    //                    var Y = float.Parse(reader.GetAttribute("Y"));
-                    //                    var Z = float.Parse(reader.GetAttribute("Z"));
-                    //                    var W = float.Parse(reader.GetAttribute("W"));
-                    //                    t.RotationQuaternion = new Quaternion(X, Y, Z, W);
-                    //                }
-                    //                else if (reader.Name == "Scale" && previous == "Torus")
-                    //                {
-                    //                    ModelGeneration.Torus t = toruses.Last();
-                    //                    var X = float.Parse(reader.GetAttribute("X"));
-                    //                    //var Y = float.Parse(reader.GetAttribute("Y"));
-                    //                    //var Z = float.Parse(reader.GetAttribute("Z"));
-                    //                    t.ElementScale = X;
-                    //                }
+
                     //                else if (reader.Name == "BezierC0")
                     //                {
                     //                    previous = "BezierC0";
@@ -2475,12 +2460,12 @@ namespace Geometric2
                     }
                     Elements.AddRange(toruses);
 
-                    //foreach (var b in bezierC0)
-                    //{
-                    //    elementsOnScene.Items.Add(b);
-                    //    b.CreateGlElement(_shader, _shaderGeometry);
-                    //}
-                    //Elements.AddRange(bezierC0);
+                    foreach (var b in bezierC0)
+                    {
+                        elementsOnScene.Items.Add(b);
+                        b.CreateGlElement(_shader, _shaderGeometry);
+                    }
+                    Elements.AddRange(bezierC0);
 
                     //foreach (var b in bezierC2)
                     //{

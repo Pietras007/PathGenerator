@@ -6,10 +6,10 @@ namespace SharpSceneSerializer.DTOs.Types
     {
         public bool U { get; set; }
         public bool V { get; set; }
-        //public Bool2(bool U, bool V)
-        //{
-        //    this.U = U;
-        //    this.V = V;
-        //}
+        public Bool2(bool U, bool V)
+        {
+            this.U = U;
+            this.V = V;
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace Geometric2.ModelGeneration
 
         public int torusMajorDividions = 6;
         public int torusMinorDividions = 6;
-        int bezierC0Number;
+        public int bezierC0Number;
 
         int renderNum;
         Camera _camera;
