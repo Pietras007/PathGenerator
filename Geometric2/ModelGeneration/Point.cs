@@ -38,6 +38,9 @@ namespace Geometric2.ModelGeneration
 
         public override string ToString()
         {
+            if (FullName == null) FullName = "";
+            if (ElementName == null) ElementName = "";
+
             return FullName + " " + ElementName;
         }
 

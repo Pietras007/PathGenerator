@@ -3,7 +3,6 @@ using System.Windows.Forms;
 using OpenTK.Graphics.OpenGL4;
 using Geometric2.MatrixHelpers;
 using Geometric2.ModelGeneration;
-using System.Numerics;
 using OpenTK;
 using Geometric2.Helpers;
 using System.Diagnostics;

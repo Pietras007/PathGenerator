@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -10,7 +9,6 @@ using Geometric2.RasterizationClasses;
 using OpenTK.Graphics.OpenGL4;
 using Geometric2.MatrixHelpers;
 using Geometric2.ModelGeneration;
-using System.Numerics;
 using OpenTK;
 using Geometric2.Helpers;
 using System.Diagnostics;
@@ -21,6 +19,9 @@ using System.Xml;
 using System.Linq;
 using System.IO;
 using Geometric2.DrillLines;
+using System.Xml;
+using SharpSceneSerializer;
+using SharpSceneSerializer.DTOs;
 
 namespace Geometric2
 {
@@ -2092,6 +2093,187 @@ namespace Geometric2
                 h.gp3.CreateGlElement(_shader, _patchShaderGeometry, _gregoryShader);
                 Elements.Add(h.gp3);
                 elementsOnScene.Items.Add(h.gp3);
+            }
+        }
+
+        private void saveAsJSONToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
+            saveFileDialog.FileName = "Model";
+            saveFileDialog.FilterIndex = 1;
+            saveFileDialog.RestoreDirectory = true;
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                //SharpSceneSerializer.DTOs.GeometryObjects.Point
+                Scene scene = new Scene();
+                scene.Points = new List<SharpSceneSerializer.DTOs.GeometryObjects.Point>();
+                //scene.Geometry = new List<SharpSceneSerializer.DTOs.Interfaces.IGeometryObject>();
+
+                foreach (var el in Elements)
+                {
+                    if (el is ModelGeneration.Point point)
+                    {
+                        SharpSceneSerializer.DTOs.Types.Float3 pos = new SharpSceneSerializer.DTOs.Types.Float3(point.Position().X, point.Position().X, point.Position().X);
+                        pos.X = point.Position().X;
+                        pos.Y = point.Position().Y;
+                        pos.Z = point.Position().Z;
+                        var name = point.ToString();
+                        SharpSceneSerializer.DTOs.GeometryObjects.Point point1 = new SharpSceneSerializer.DTOs.GeometryObjects.Point();
+                        point1.Id = (uint)point.pointNumber;
+                        point1.Name = name;
+                        point1.Position = pos;
+                        scene.Points.Add(point1);
+                    }
+
+                    if (el is ModelGeneration.Torus torus)
+                    {
+                        SharpSceneSerializer.DTOs.GeometryObjects.Torus _tor = new SharpSceneSerializer.DTOs.GeometryObjects.Torus();
+                        _tor.Id = (uint)torus.torusNumber;
+                        _tor.Position.X = torus.Position().X;
+                        _tor.Position.Y = torus.Position().Y;
+                        _tor.Position.Z = torus.Position().Z;
+                        //_tor.Rotation = new SharpSceneSerializer.DTOs.Types.Float3()
+                        _tor.Scale.X = torus.ElementScale;
+                        _tor.Scale.Y = torus.ElementScale;
+                        _tor.Scale.Z = torus.ElementScale;
+                        _tor.SmallRadius = torus.torus_r;
+                        _tor.LargeRadius = torus.torus_R;
+                        _tor.Samples.X = (uint)torus.torusMinorDividions;
+                        _tor.Samples.Y = (uint)torus.torusMajorDividions;
+                        _tor.Name = torus.FullName;
+                        Vector3 rot = QuaternionChange.ToEulerAngles(torus.RotationQuaternion);
+                        _tor.Rotation.X = rot.X;
+                        _tor.Rotation.Y = rot.Y;
+                        _tor.Rotation.Z = rot.Z;
+                        //scene.Geometry.Add(_tor);
+                    }
+
+                    //if (el is ModelGeneration.BezierC0 bezierC0)
+                    //{
+                    //    writer.WriteStartElement("BezierC0");
+                    //    writer.WriteAttributeString("Name", bezierC0.FullName);
+                    //    writer.WriteStartElement("Points");
+                    //    foreach (var p in bezierC0.bezierPoints)
+                    //    {
+                    //        this.addPointRef(writer, p);
+                    //    }
+
+                    //    writer.WriteEndElement();
+                    //    writer.WriteEndElement();
+                    //}
+
+                    //if (el is ModelGeneration.BezierC2 bezierC2)
+                    //{
+                    //    writer.WriteStartElement("BezierC2");
+                    //    writer.WriteAttributeString("Name", bezierC2.FullName);
+                    //    writer.WriteStartElement("Points");
+                    //    foreach (var p in bezierC2.deBoorePoints)
+                    //    {
+                    //        this.addPointRef(writer, p);
+                    //    }
+
+                    //    writer.WriteEndElement();
+                    //    writer.WriteEndElement();
+                    //}
+
+                    //if (el is ModelGeneration.InterpolatedBezierC2 interpolatedbezierC0)
+                    //{
+                    //    writer.WriteStartElement("BezierInter");
+                    //    writer.WriteAttributeString("Name", interpolatedbezierC0.FullName);
+                    //    writer.WriteStartElement("Points");
+                    //    foreach (var p in interpolatedbezierC0.interpolatedBC2Points)
+                    //    {
+                    //        this.addPointRef(writer, p);
+                    //    }
+
+                    //    writer.WriteEndElement();
+                    //    writer.WriteEndElement();
+                    //}
+
+                    //if (el is ModelGeneration.BezierPatchC0 bezierPatchC0)
+                    //{
+                    //    writer.WriteStartElement("PatchC0");
+                    //    writer.WriteAttributeString("Name", bezierPatchC0.FullName);
+                    //    writer.WriteAttributeString("M", bezierPatchC0.splitA.ToString());
+                    //    writer.WriteAttributeString("N", bezierPatchC0.splitB.ToString());
+                    //    writer.WriteAttributeString("MSlices", bezierPatchC0.SegmentsU.ToString());
+                    //    writer.WriteAttributeString("NSlices", bezierPatchC0.SegmentsV.ToString());
+                    //    writer.WriteStartElement("Points");
+                    //    foreach (var pp in bezierPatchC0.bezierPoints)
+                    //    {
+                    //        this.addPointRef(writer, pp);
+                    //    }
+                    //    writer.WriteEndElement();
+                    //    writer.WriteEndElement();
+                    //}
+
+                    //if (el is ModelGeneration.BezierPatchC2 bezierPatchC2)
+                    //{
+                    //    writer.WriteStartElement("PatchC2");
+                    //    writer.WriteAttributeString("Name", bezierPatchC2.FullName);
+                    //    writer.WriteAttributeString("M", bezierPatchC2.splitA.ToString());
+                    //    writer.WriteAttributeString("N", bezierPatchC2.splitB.ToString());
+                    //    writer.WriteAttributeString("MSlices", bezierPatchC2.SegmentsU.ToString());
+                    //    writer.WriteAttributeString("NSlices", bezierPatchC2.SegmentsV.ToString());
+                    //    writer.WriteStartElement("Points");
+                    //    foreach (var pp in bezierPatchC2.bezierPoints)
+                    //    {
+                    //        this.addPointRef(writer, pp);
+                    //    }
+                    //    writer.WriteEndElement();
+                    //    writer.WriteEndElement();
+                    //}
+
+
+                    //if (el is ModelGeneration.BezierPatchTubeC2 bezierPatchTubeC2)
+                    //{
+                    //    writer.WriteStartElement("PatchC2");
+                    //    writer.WriteAttributeString("Name", bezierPatchTubeC2.FullName);
+                    //    writer.WriteAttributeString("M", bezierPatchTubeC2.splitA.ToString());
+                    //    writer.WriteAttributeString("N", bezierPatchTubeC2.splitB.ToString());
+                    //    writer.WriteAttributeString("MSlices", bezierPatchTubeC2.SegmentsU.ToString());
+                    //    writer.WriteAttributeString("NSlices", bezierPatchTubeC2.SegmentsV.ToString());
+                    //    writer.WriteStartElement("Points");
+                    //    foreach (var pp in bezierPatchTubeC2.bezierPoints)
+                    //    {
+                    //        this.addPointRef(writer, pp);
+                    //    }
+                    //    writer.WriteEndElement();
+                    //    writer.WriteEndElement();
+                    //}
+                }
+
+                SceneSerializer.Serialize(scene, saveFileDialog.FileName, true);
+            }
+        }
+
+        private void loadModelJSONToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Elements.Clear();
+            SelectedElements.Clear();
+            elementsOnScene.Items.Clear();
+            Elements.Add(xyzLines);
+            Elements.Add(transformCenterLines);
+            pointNumber = 0;
+            torusNumber = 0;
+            bezierC0Number = 0;
+            bezierC2Number = 0;
+            interpolatedBezierC2Number = 0;
+            bezierPatchC0Number = 0;
+            bezierPatchTubeC0Number = 0;
+            bezierPatchC2Number = 0;
+            bezierPatchTubeC2Number = 0;
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
+            openFileDialog.FilterIndex = 2;
+            openFileDialog.Title = "Select Xml File";
+            openFileDialog.RestoreDirectory = true;
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string fileName = openFileDialog.FileName;
             }
         }
 
