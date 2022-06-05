@@ -95,14 +95,6 @@ namespace Geometric2
             this.trackBar6 = new System.Windows.Forms.TrackBar();
             this.label45 = new System.Windows.Forms.Label();
             this.c0PatchDrawPolyline = new System.Windows.Forms.CheckBox();
-            this.c0PatchTube = new System.Windows.Forms.TabPage();
-            this.label46 = new System.Windows.Forms.Label();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.textBox12 = new System.Windows.Forms.TextBox();
-            this.trackBar7 = new System.Windows.Forms.TrackBar();
-            this.trackBar8 = new System.Windows.Forms.TrackBar();
-            this.label47 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.c2patch = new System.Windows.Forms.TabPage();
             this.label40 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -176,6 +168,7 @@ namespace Geometric2
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.DrawTab = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.addGregory = new System.Windows.Forms.Button();
             this.addBezierPatchTubeC2 = new System.Windows.Forms.Button();
             this.addBezierPatchC2 = new System.Windows.Forms.Button();
             this.addBezierPatchTubeC0 = new System.Windows.Forms.Button();
@@ -197,7 +190,6 @@ namespace Geometric2
             this.addPoint = new System.Windows.Forms.Button();
             this.elementsOnScene = new System.Windows.Forms.ListBox();
             this.CoursorTab = new System.Windows.Forms.TabPage();
-            this.addGregory = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.eyeDistTrackBar)).BeginInit();
@@ -213,9 +205,6 @@ namespace Geometric2
             this.TEST.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).BeginInit();
-            this.c0PatchTube.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar8)).BeginInit();
             this.c2patch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
@@ -424,7 +413,6 @@ namespace Geometric2
             this.bezierPatchC0DrawPolyline.Controls.Add(this.BezierC2);
             this.bezierPatchC0DrawPolyline.Controls.Add(this.tabPage1);
             this.bezierPatchC0DrawPolyline.Controls.Add(this.TEST);
-            this.bezierPatchC0DrawPolyline.Controls.Add(this.c0PatchTube);
             this.bezierPatchC0DrawPolyline.Controls.Add(this.c2patch);
             this.bezierPatchC0DrawPolyline.Controls.Add(this.c2patchtube);
             this.bezierPatchC0DrawPolyline.Location = new System.Drawing.Point(0, 256);
@@ -928,91 +916,6 @@ namespace Geometric2
             this.c0PatchDrawPolyline.Text = "Draw Polyline";
             this.c0PatchDrawPolyline.UseVisualStyleBackColor = true;
             this.c0PatchDrawPolyline.CheckedChanged += new System.EventHandler(this.c0PatchDrawPolyline_CheckedChanged);
-            // 
-            // c0PatchTube
-            // 
-            this.c0PatchTube.Controls.Add(this.label46);
-            this.c0PatchTube.Controls.Add(this.textBox11);
-            this.c0PatchTube.Controls.Add(this.textBox12);
-            this.c0PatchTube.Controls.Add(this.trackBar7);
-            this.c0PatchTube.Controls.Add(this.trackBar8);
-            this.c0PatchTube.Controls.Add(this.label47);
-            this.c0PatchTube.Controls.Add(this.checkBox1);
-            this.c0PatchTube.Location = new System.Drawing.Point(4, 22);
-            this.c0PatchTube.Name = "c0PatchTube";
-            this.c0PatchTube.Size = new System.Drawing.Size(157, 422);
-            this.c0PatchTube.TabIndex = 5;
-            this.c0PatchTube.Text = "C0 Patch Tube";
-            this.c0PatchTube.UseVisualStyleBackColor = true;
-            // 
-            // label46
-            // 
-            this.label46.AutoSize = true;
-            this.label46.Location = new System.Drawing.Point(6, 31);
-            this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(65, 13);
-            this.label46.TabIndex = 62;
-            this.label46.Text = "Segments U";
-            // 
-            // textBox11
-            // 
-            this.textBox11.Location = new System.Drawing.Point(24, 117);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.ReadOnly = true;
-            this.textBox11.Size = new System.Drawing.Size(38, 20);
-            this.textBox11.TabIndex = 61;
-            this.textBox11.Text = "1";
-            // 
-            // textBox12
-            // 
-            this.textBox12.Location = new System.Drawing.Point(26, 50);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.ReadOnly = true;
-            this.textBox12.Size = new System.Drawing.Size(38, 20);
-            this.textBox12.TabIndex = 60;
-            this.textBox12.Text = "1";
-            // 
-            // trackBar7
-            // 
-            this.trackBar7.Location = new System.Drawing.Point(74, 101);
-            this.trackBar7.Maximum = 63;
-            this.trackBar7.Minimum = 1;
-            this.trackBar7.Name = "trackBar7";
-            this.trackBar7.Size = new System.Drawing.Size(67, 45);
-            this.trackBar7.TabIndex = 59;
-            this.trackBar7.Value = 1;
-            this.trackBar7.Scroll += new System.EventHandler(this.trackBar7_Scroll);
-            // 
-            // trackBar8
-            // 
-            this.trackBar8.Location = new System.Drawing.Point(75, 31);
-            this.trackBar8.Maximum = 63;
-            this.trackBar8.Minimum = 1;
-            this.trackBar8.Name = "trackBar8";
-            this.trackBar8.Size = new System.Drawing.Size(67, 45);
-            this.trackBar8.TabIndex = 58;
-            this.trackBar8.Value = 1;
-            this.trackBar8.Scroll += new System.EventHandler(this.trackBar8_Scroll);
-            // 
-            // label47
-            // 
-            this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(8, 89);
-            this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(64, 13);
-            this.label47.TabIndex = 57;
-            this.label47.Text = "Segments V";
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(31, 167);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(90, 17);
-            this.checkBox1.TabIndex = 8;
-            this.checkBox1.Text = "Draw Polyline";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // c2patch
             // 
@@ -1784,6 +1687,16 @@ namespace Geometric2
             this.panel2.Size = new System.Drawing.Size(88, 699);
             this.panel2.TabIndex = 1;
             // 
+            // addGregory
+            // 
+            this.addGregory.Location = new System.Drawing.Point(7, 616);
+            this.addGregory.Name = "addGregory";
+            this.addGregory.Size = new System.Drawing.Size(75, 34);
+            this.addGregory.TabIndex = 18;
+            this.addGregory.Text = "Gregory";
+            this.addGregory.UseVisualStyleBackColor = true;
+            this.addGregory.Click += new System.EventHandler(this.addGregory_Click);
+            // 
             // addBezierPatchTubeC2
             // 
             this.addBezierPatchTubeC2.Location = new System.Drawing.Point(6, 576);
@@ -1991,16 +1904,6 @@ namespace Geometric2
             this.CoursorTab.Text = "Coursor";
             this.CoursorTab.UseVisualStyleBackColor = true;
             // 
-            // addGregory
-            // 
-            this.addGregory.Location = new System.Drawing.Point(7, 616);
-            this.addGregory.Name = "addGregory";
-            this.addGregory.Size = new System.Drawing.Size(75, 34);
-            this.addGregory.TabIndex = 18;
-            this.addGregory.Text = "Gregory";
-            this.addGregory.UseVisualStyleBackColor = true;
-            this.addGregory.Click += new System.EventHandler(this.addGregory_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2035,10 +1938,6 @@ namespace Geometric2
             this.TEST.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).EndInit();
-            this.c0PatchTube.ResumeLayout(false);
-            this.c0PatchTube.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar8)).EndInit();
             this.c2patch.ResumeLayout(false);
             this.c2patch.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
@@ -2198,20 +2097,12 @@ namespace Geometric2
         private System.Windows.Forms.Button addBezierPatchTubeC0;
         private System.Windows.Forms.Button addBEzierPatchC0;
         private System.Windows.Forms.CheckBox c0PatchDrawPolyline;
-        private System.Windows.Forms.TabPage c0PatchTube;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.TrackBar trackBar3;
         private System.Windows.Forms.TrackBar trackBar6;
         private System.Windows.Forms.Label label45;
-        private System.Windows.Forms.Label label46;
-        private System.Windows.Forms.TextBox textBox11;
-        private System.Windows.Forms.TextBox textBox12;
-        private System.Windows.Forms.TrackBar trackBar7;
-        private System.Windows.Forms.TrackBar trackBar8;
-        private System.Windows.Forms.Label label47;
         private System.Windows.Forms.TabPage c2patch;
         private System.Windows.Forms.Label label40;
         private System.Windows.Forms.TextBox textBox1;

@@ -1312,7 +1312,7 @@ namespace Geometric2
             BezierPatchTube bezierPatch = new BezierPatchTube(values);
             bezierPatch.ShowDialog();
             BezierPatchC0 bezierPatcTubehC0 = new BezierPatchC0(bezierPatchC0Number, _camera, glControl1.Width, glControl1.Height, values, true);
-            checkBox1.Checked = false;
+            c0PatchDrawPolyline.Checked = false;
             bezierPatchTubeC0Number++;
             bezierPatcTubehC0.CreateGlElement(_shader, _patchShaderGeometry, _patchC0Shader);
             elementsOnScene.Items.Add(bezierPatcTubehC0);
