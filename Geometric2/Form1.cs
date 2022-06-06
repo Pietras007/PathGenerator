@@ -2157,33 +2157,41 @@ namespace Geometric2
                         scene.Geometry.Add(_bC0);
                     }
 
-                    //if (el is ModelGeneration.BezierC2 bezierC2)
-                    //{
-                    //    writer.WriteStartElement("BezierC2");
-                    //    writer.WriteAttributeString("Name", bezierC2.FullName);
-                    //    writer.WriteStartElement("Points");
-                    //    foreach (var p in bezierC2.deBoorePoints)
-                    //    {
-                    //        this.addPointRef(writer, p);
-                    //    }
+                    if (el is ModelGeneration.BezierC2 bezierC2)
+                    {
+                        SharpSceneSerializer.DTOs.GeometryObjects.BezierC2 _bC2 = new SharpSceneSerializer.DTOs.GeometryObjects.BezierC2();
+                        _bC2.Name = bezierC2.FullName;
+                        _bC2.Id = (uint)bezierC2.bezierC2Number;
+                        SharpSceneSerializer.DTOs.GeometryObjects.PointRef[] pointrefs = new SharpSceneSerializer.DTOs.GeometryObjects.PointRef[bezierC2.deBoorePoints.Count];
+                        int idx = 0;
+                        foreach (var bP in bezierC2.deBoorePoints)
+                        {
+                            pointrefs[idx] = new SharpSceneSerializer.DTOs.GeometryObjects.PointRef();
+                            pointrefs[idx].Id = (uint)bP.pointNumber;
+                            idx++;
+                        }
 
-                    //    writer.WriteEndElement();
-                    //    writer.WriteEndElement();
-                    //}
+                        _bC2.DeBoorPoints = pointrefs;
+                        scene.Geometry.Add(_bC2);
+                    }
 
-                    //if (el is ModelGeneration.InterpolatedBezierC2 interpolatedbezierC0)
-                    //{
-                    //    writer.WriteStartElement("BezierInter");
-                    //    writer.WriteAttributeString("Name", interpolatedbezierC0.FullName);
-                    //    writer.WriteStartElement("Points");
-                    //    foreach (var p in interpolatedbezierC0.interpolatedBC2Points)
-                    //    {
-                    //        this.addPointRef(writer, p);
-                    //    }
+                    if (el is ModelGeneration.InterpolatedBezierC2 interpolatedbezierC0)
+                    {
+                        SharpSceneSerializer.DTOs.GeometryObjects.InterpolatedC2 _iC2 = new SharpSceneSerializer.DTOs.GeometryObjects.InterpolatedC2();
+                        _iC2.Name = interpolatedbezierC0.FullName;
+                        _iC2.Id = (uint)interpolatedbezierC0.interpolatedBezierC2Number;
+                        SharpSceneSerializer.DTOs.GeometryObjects.PointRef[] pointrefs = new SharpSceneSerializer.DTOs.GeometryObjects.PointRef[interpolatedbezierC0.interpolatedBC2Points.Count];
+                        int idx = 0;
+                        foreach (var bP in interpolatedbezierC0.interpolatedBC2Points)
+                        {
+                            pointrefs[idx] = new SharpSceneSerializer.DTOs.GeometryObjects.PointRef();
+                            pointrefs[idx].Id = (uint)bP.pointNumber;
+                            idx++;
+                        }
 
-                    //    writer.WriteEndElement();
-                    //    writer.WriteEndElement();
-                    //}
+                        _iC2.ControlPoints = pointrefs;
+                        scene.Geometry.Add(_iC2);
+                    }
 
                     //if (el is ModelGeneration.BezierPatchC0 bezierPatchC0)
                     //{
@@ -2328,6 +2336,30 @@ namespace Geometric2
 
                             bezierC0.Add(bezierC0_);
                         }
+                        else if (geomObject.objectType == SharpSceneSerializer.DTOs.Enums.ObjectType.bezierC2)
+                        {
+                            var _bC2 = Newtonsoft.Json.JsonConvert.DeserializeObject<SharpSceneSerializer.DTOs.GeometryObjects.BezierC2>(_geom.ToString());
+                            ModelGeneration.BezierC2 bezierC2_ = new BezierC2((int)_bC2.Id, _camera, glControl1.Width, glControl1.Height);
+                            bezierC2_.FullName = _bC2.Name;
+                            foreach (var pp in _bC2.DeBoorPoints)
+                            {
+                                bezierC2_.deBoorePoints.Add(points.Where(x => x.pointNumber == pp.Id).First());
+                            }
+
+                            bezierC2.Add(bezierC2_);
+                        }
+                        else if (geomObject.objectType == SharpSceneSerializer.DTOs.Enums.ObjectType.interpolatedC2)
+                        {
+                            var _iC2 = Newtonsoft.Json.JsonConvert.DeserializeObject<SharpSceneSerializer.DTOs.GeometryObjects.InterpolatedC2>(_geom.ToString());
+                            ModelGeneration.InterpolatedBezierC2 iC2_ = new InterpolatedBezierC2((int)_iC2.Id, _camera, glControl1.Width, glControl1.Height);
+                            iC2_.FullName = _iC2.Name;
+                            foreach (var pp in _iC2.ControlPoints)
+                            {
+                                iC2_.interpolatedBC2Points.Add(points.Where(x => x.pointNumber == pp.Id).First());
+                            }
+
+                            interBezier.Add(iC2_);
+                        }
                     }
 
                     //using (XmlReader reader = XmlReader.Create(fileName, new XmlReaderSettings() { ConformanceLevel = ConformanceLevel.Fragment }))
@@ -2467,19 +2499,19 @@ namespace Geometric2
                     }
                     Elements.AddRange(bezierC0);
 
-                    //foreach (var b in bezierC2)
-                    //{
-                    //    elementsOnScene.Items.Add(b);
-                    //    b.CreateGlElement(_shader, _shaderGeometry);
-                    //}
-                    //Elements.AddRange(bezierC2);
+                    foreach (var b in bezierC2)
+                    {
+                        elementsOnScene.Items.Add(b);
+                        b.CreateGlElement(_shader, _shaderGeometry);
+                    }
+                    Elements.AddRange(bezierC2);
 
-                    //foreach (var b in interBezier)
-                    //{
-                    //    elementsOnScene.Items.Add(b);
-                    //    b.CreateGlElement(_shader, _shaderGeometry);
-                    //}
-                    //Elements.AddRange(interBezier);
+                    foreach (var b in interBezier)
+                    {
+                        elementsOnScene.Items.Add(b);
+                        b.CreateGlElement(_shader, _shaderGeometry);
+                    }
+                    Elements.AddRange(interBezier);
 
                     //foreach (var p in patchC0)
                     //{

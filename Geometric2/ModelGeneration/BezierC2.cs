@@ -30,7 +30,7 @@ namespace Geometric2.ModelGeneration
         uint[] bezierC2Indices;
 
 
-        int bezierC2Number;
+        public int bezierC2Number;
 
         int renderNum;
         Camera _camera;
