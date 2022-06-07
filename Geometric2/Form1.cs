@@ -2197,15 +2197,15 @@ namespace Geometric2
                         SharpSceneSerializer.DTOs.GeometryObjects.BezierSurfaceC0 _bSCO = new SharpSceneSerializer.DTOs.GeometryObjects.BezierSurfaceC0();
                         _bSCO.Id = (uint)bezierPatchC0.bezierPatchC0Number;
                         _bSCO.Name = bezierPatchC0.FullName;
-                        _bSCO.Size = new SharpSceneSerializer.DTOs.Types.Uint2((uint)bezierPatchC0.splitA, (uint)bezierPatchC0.splitB);
+                        _bSCO.Size = new SharpSceneSerializer.DTOs.Types.Uint2((uint)bezierPatchC0.splitB, (uint)bezierPatchC0.splitA);
                         _bSCO.Patches = new SharpSceneSerializer.DTOs.GeometryObjects.BezierPatchC0[_bSCO.Size.X * _bSCO.Size.Y];
 
-                        uint width = (uint)bezierPatchC0.splitA * 3 + 1;
+                        uint width = (uint)bezierPatchC0.splitB * 3 + 1;
                         int patch_idx = 0;
                         int point_patch_idx = 0;
-                        for (uint i = 0; i < bezierPatchC0.splitB; i++)
+                        for (uint i = 0; i < bezierPatchC0.splitA; i++)
                         {
-                            for (uint j = 0; j < bezierPatchC0.splitA; j++)
+                            for (uint j = 0; j < bezierPatchC0.splitB; j++)
                             {
                                 SharpSceneSerializer.DTOs.GeometryObjects.PointRef[] _pointrefs = new SharpSceneSerializer.DTOs.GeometryObjects.PointRef[16];
                                 point_patch_idx = 0;
@@ -2224,7 +2224,7 @@ namespace Geometric2
 
                                 _bSCO.Patches[patch_idx] = new SharpSceneSerializer.DTOs.GeometryObjects.BezierPatchC0();
                                 _bSCO.Patches[patch_idx].controlPoints = _pointrefs;
-                                _bSCO.Patches[patch_idx].Samples = new SharpSceneSerializer.DTOs.Types.Uint2((uint)bezierPatchC0.SegmentsU, (uint)bezierPatchC0.SegmentsV);
+                                _bSCO.Patches[patch_idx].Samples = new SharpSceneSerializer.DTOs.Types.Uint2((uint)bezierPatchC0.SegmentsV, (uint)bezierPatchC0.SegmentsU);
                                 patch_idx++;
                             }
                         }
@@ -2238,15 +2238,15 @@ namespace Geometric2
                         SharpSceneSerializer.DTOs.GeometryObjects.BezierSurfaceC2 _bSC2 = new SharpSceneSerializer.DTOs.GeometryObjects.BezierSurfaceC2();
                         _bSC2.Id = (uint)bezierPatchC2.bezierPatchC2Number;
                         _bSC2.Name = bezierPatchC2.FullName;
-                        _bSC2.Size = new SharpSceneSerializer.DTOs.Types.Uint2((uint)bezierPatchC2.splitA, (uint)bezierPatchC2.splitB);
+                        _bSC2.Size = new SharpSceneSerializer.DTOs.Types.Uint2((uint)bezierPatchC2.splitB, (uint)bezierPatchC2.splitA);
                         _bSC2.Patches = new SharpSceneSerializer.DTOs.GeometryObjects.BezierPatchC2[_bSC2.Size.X * _bSC2.Size.Y];
 
-                        uint width = (uint)bezierPatchC2.splitA + 3;
+                        uint width = (uint)bezierPatchC2.splitB + 3;
                         int patch_idx = 0;
                         int point_patch_idx = 0;
-                        for (uint i = 0; i < bezierPatchC2.splitB; i++)
+                        for (uint i = 0; i < bezierPatchC2.splitA; i++)
                         {
-                            for (uint j = 0; j < bezierPatchC2.splitA; j++)
+                            for (uint j = 0; j < bezierPatchC2.splitB; j++)
                             {
                                 SharpSceneSerializer.DTOs.GeometryObjects.PointRef[] _pointrefs = new SharpSceneSerializer.DTOs.GeometryObjects.PointRef[16];
                                 point_patch_idx = 0;
@@ -2265,7 +2265,7 @@ namespace Geometric2
 
                                 _bSC2.Patches[patch_idx] = new SharpSceneSerializer.DTOs.GeometryObjects.BezierPatchC2();
                                 _bSC2.Patches[patch_idx].controlPoints = _pointrefs;
-                                _bSC2.Patches[patch_idx].Samples = new SharpSceneSerializer.DTOs.Types.Uint2((uint)bezierPatchC2.SegmentsU, (uint)bezierPatchC2.SegmentsV);
+                                _bSC2.Patches[patch_idx].Samples = new SharpSceneSerializer.DTOs.Types.Uint2((uint)bezierPatchC2.SegmentsV, (uint)bezierPatchC2.SegmentsU);
                                 patch_idx++;
                             }
                         }
@@ -2396,20 +2396,20 @@ namespace Geometric2
                             ModelGeneration.BezierPatchC0 bPC0_ = new BezierPatchC0((int)_bSC0.Id, _camera, glControl1.Width, glControl1.Height);
                             bPC0_.FullName = _bSC0.Name;
                             bPC0_.bezierPatchC0Number = (int)_bSC0.Id;
-                            bPC0_.splitA = (int)_bSC0.Size.X;
-                            bPC0_.splitB = (int)_bSC0.Size.Y;
-                            bPC0_.SegmentsU = (int)_bSC0.Patches[0].Samples.X;
-                            bPC0_.SegmentsV = (int)_bSC0.Patches[0].Samples.Y;
+                            bPC0_.splitB = (int)_bSC0.Size.X;
+                            bPC0_.splitA = (int)_bSC0.Size.Y;
+                            bPC0_.SegmentsV = (int)_bSC0.Patches[0].Samples.X;
+                            bPC0_.SegmentsU = (int)_bSC0.Patches[0].Samples.Y;
 
                             bPC0_.bezierPoints = new List<ModelGeneration.Point>();
-                            var bezierPoints = new uint[((uint)bPC0_.splitB * 3 + 1) * ((uint)bPC0_.splitA * 3 + 1)];
+                            var bezierPoints = new uint[((uint)bPC0_.splitA * 3 + 1) * ((uint)bPC0_.splitB * 3 + 1)];
 
-                            uint width = (uint)bPC0_.splitA * 3 + 1;
-                            for (uint v = 0; v < bPC0_.splitB; v++)
+                            uint width = (uint)bPC0_.splitB * 3 + 1;
+                            for (uint v = 0; v < bPC0_.splitA; v++)
                             {
-                                for (uint u = 0; u < bPC0_.splitA; u++)
+                                for (uint u = 0; u < bPC0_.splitB; u++)
                                 {
-                                    var patch = _bSC0.Patches[bPC0_.splitA * v + u];
+                                    var patch = _bSC0.Patches[bPC0_.splitB * v + u];
                                     for (uint kk = 0; kk < 4; kk++)
                                     {
                                         for (uint l = 0; l < 4; l++)
@@ -2436,20 +2436,20 @@ namespace Geometric2
                             ModelGeneration.BezierPatchC2 bPC2_ = new BezierPatchC2((int)_bSC2.Id, _camera, glControl1.Width, glControl1.Height);
                             bPC2_.FullName = _bSC2.Name;
                             bPC2_.bezierPatchC2Number = (int)_bSC2.Id;
-                            bPC2_.splitA = (int)_bSC2.Size.X;
-                            bPC2_.splitB = (int)_bSC2.Size.Y;
-                            bPC2_.SegmentsU = (int)_bSC2.Patches[0].Samples.X;
-                            bPC2_.SegmentsV = (int)_bSC2.Patches[0].Samples.Y;
+                            bPC2_.splitB = (int)_bSC2.Size.X;
+                            bPC2_.splitA = (int)_bSC2.Size.Y;
+                            bPC2_.SegmentsV = (int)_bSC2.Patches[0].Samples.X;
+                            bPC2_.SegmentsU = (int)_bSC2.Patches[0].Samples.Y;
 
                             bPC2_.bezierPoints = new List<ModelGeneration.Point>();
-                            var bezierPoints = new uint[((uint)bPC2_.splitB + 3) * ((uint)bPC2_.splitA + 3)];
+                            var bezierPoints = new uint[((uint)bPC2_.splitA + 3) * ((uint)bPC2_.splitB + 3)];
 
-                            uint width = (uint)bPC2_.splitA + 3;
-                            for (uint v = 0; v < bPC2_.splitB; v++)
+                            uint width = (uint)bPC2_.splitB + 3;
+                            for (uint v = 0; v < bPC2_.splitA; v++)
                             {
-                                for (uint u = 0; u < bPC2_.splitA; u++)
+                                for (uint u = 0; u < bPC2_.splitB; u++)
                                 {
-                                    var patch = _bSC2.Patches[bPC2_.splitA * v + u];
+                                    var patch = _bSC2.Patches[bPC2_.splitB * v + u];
                                     for (uint kk = 0; kk < 4; kk++)
                                     {
                                         for (uint l = 0; l < 4; l++)
