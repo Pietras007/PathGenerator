@@ -40,8 +40,6 @@ namespace Geometric2
             GL.Enable(EnableCap.DepthTest);
             _shader = new Shader("./../../../Shaders/VertexShader.vert", "./../../../Shaders/FragmentShader.frag");
             _shaderGeometry = new ShaderGeometry("./../../../Shaders/VertexShaderGeometry.vert", "./../../../Shaders/FragmentShaderGeometry.frag", "./../../../Shaders/GeometryShaderGeometry.geom");
-            _patchShaderGeometry = new ShaderGeometry("./../../../Shaders/PatchVertexShader.vert", "./../../../Shaders/PatchFragmentShader.frag", "./../../../Shaders/PatchShaderGeometry.geom");
-            _patchShaderGeometryC2 = new ShaderGeometry("./../../../Shaders/PatchVertexShader.vert", "./../../../Shaders/PatchFragmentShader.frag", "./../../../Shaders/PatchShaderGeometryC2.geom");
             _gregoryShader = new TeselationShader("./../../../GregoryShaders/Gregory.vert", "./../../../GregoryShaders/Gregory.frag", "./../../../GregoryShaders/Gregory.tesc", "./../../../GregoryShaders/Gregory.tese");
             _patchC0Shader = new TeselationShader("./../../../PatchC0Shaders/PatchC0.vert", "./../../../PatchC0Shaders/PatchC0.frag", "./../../../PatchC0Shaders/PatchC0.tesc", "./../../../PatchC0Shaders/PatchC0.tese");
             _patchC2Shader = new TeselationShader("./../../../PatchC2Shaders/PatchC2.vert", "./../../../PatchC2Shaders/PatchC2.frag", "./../../../PatchC2Shaders/PatchC2.tesc", "./../../../PatchC2Shaders/PatchC2.tese");
@@ -71,14 +69,6 @@ namespace Geometric2
             _shaderGeometry.SetMatrix4("view", viewMatrix);
             _shaderGeometry.SetMatrix4("projection", projectionMatrix);
 
-            _patchShaderGeometry.Use();
-            _patchShaderGeometry.SetMatrix4("view", viewMatrix);
-            _patchShaderGeometry.SetMatrix4("projection", projectionMatrix);
-
-            _patchShaderGeometryC2.Use();
-            _patchShaderGeometryC2.SetMatrix4("view", viewMatrix);
-            _patchShaderGeometryC2.SetMatrix4("projection", projectionMatrix);
-
             _gregoryShader.Use();
             _gregoryShader.SetMatrix4("view", viewMatrix);
             _gregoryShader.SetMatrix4("projection", projectionMatrix);
@@ -91,22 +81,17 @@ namespace Geometric2
             _patchC2Shader.SetMatrix4("view", viewMatrix);
             _patchC2Shader.SetMatrix4("projection", projectionMatrix);
 
-            //_shaderGeometry.SetVector3("fragmentColor", ColorHelper.ColorToVector(Color.Black));
             if (anaglyphOn)
             {
                 Matrix4 anaglyphViewMatrix = _camera.GetViewMatrix(_camera.EyeSeparation);
                 Matrix4 anaglyphProjectionMatrixRed = _camera.GetAnaglyphProjectionMatrixRed();
                 _shader.SetMatrix4("projection", anaglyphProjectionMatrixRed);
                 _shaderGeometry.SetMatrix4("projection", anaglyphProjectionMatrixRed);
-                _patchShaderGeometry.SetMatrix4("projection", anaglyphProjectionMatrixRed);
-                _patchShaderGeometryC2.SetMatrix4("projection", anaglyphProjectionMatrixRed);
                 _gregoryShader.SetMatrix4("projection", anaglyphProjectionMatrixRed);
                 _patchC0Shader.SetMatrix4("projection", anaglyphProjectionMatrixRed);
                 _patchC2Shader.SetMatrix4("projection", anaglyphProjectionMatrixRed);
                 _shader.SetMatrix4("view", anaglyphViewMatrix);
                 _shaderGeometry.SetMatrix4("view", anaglyphViewMatrix);
-                _patchShaderGeometry.SetMatrix4("view", anaglyphViewMatrix);
-                _patchShaderGeometryC2.SetMatrix4("view", anaglyphViewMatrix);
                 _gregoryShader.SetMatrix4("view", anaglyphViewMatrix);
                 _patchC0Shader.SetMatrix4("view", anaglyphViewMatrix);
                 _patchC2Shader.SetMatrix4("view", anaglyphViewMatrix);
@@ -122,15 +107,11 @@ namespace Geometric2
                 Matrix4 anaglyphProjectionMatrixBlue = _camera.GetAnaglyphProjectionMatrixBlue();
                 _shader.SetMatrix4("projection", anaglyphProjectionMatrixBlue);
                 _shaderGeometry.SetMatrix4("projection", anaglyphProjectionMatrixBlue);
-                _patchShaderGeometry.SetMatrix4("projection", anaglyphProjectionMatrixBlue);
-                _patchShaderGeometryC2.SetMatrix4("projection", anaglyphProjectionMatrixBlue);
                 _gregoryShader.SetMatrix4("projection", anaglyphProjectionMatrixBlue);
                 _patchC0Shader.SetMatrix4("projection", anaglyphProjectionMatrixBlue);
                 _patchC2Shader.SetMatrix4("projection", anaglyphProjectionMatrixBlue);
                 _shader.SetMatrix4("view", anaglyphViewMatrix);
                 _shaderGeometry.SetMatrix4("view", anaglyphViewMatrix);
-                _patchShaderGeometry.SetMatrix4("view", anaglyphViewMatrix);
-                _patchShaderGeometryC2.SetMatrix4("view", anaglyphViewMatrix);
                 _gregoryShader.SetMatrix4("view", anaglyphViewMatrix);
                 _patchC0Shader.SetMatrix4("view", anaglyphViewMatrix);
                 _patchC2Shader.SetMatrix4("view", anaglyphViewMatrix);
@@ -157,23 +138,15 @@ namespace Geometric2
                 {
                     if (el is ModelGeneration.BezierPatchC0 bPC0)
                     {
-                        bPC0.RenderGlElement(_shader, coursor.CoursorGloalPosition, _patchShaderGeometry, _patchC0Shader);
+                        bPC0.RenderGlElement(_shader, coursor.CoursorGloalPosition, _shaderGeometry, _patchC0Shader);
                     }
-                    //else if (el is ModelGeneration.BezierPatchTubeC0 bPTC0)
-                    //{
-                    //    bPTC0.RenderGlElement(_shader, coursor.CoursorGloalPosition, _patchShaderGeometry, _patchC0Shader);
-                    //}
                     else if (el is ModelGeneration.BezierPatchC2 bPC2)
                     {
-                        bPC2.RenderGlElement(_shader, coursor.CoursorGloalPosition, _patchShaderGeometryC2, _patchC2Shader);
+                        bPC2.RenderGlElement(_shader, coursor.CoursorGloalPosition, _shaderGeometry, _patchC2Shader);
                     }
-                    //else if (el is ModelGeneration.BezierPatchTubeC2 bPTC2)
-                    //{
-                    //    bPTC2.RenderGlElement(_shader, coursor.CoursorGloalPosition, _patchShaderGeometryC2);
-                    //}
                     else if (el is ModelGeneration.GregoryPiece gP)
                     {
-                        gP.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometry, _gregoryShader);
+                        gP.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _shaderGeometry, _gregoryShader);
                     }
                     else
                     {
@@ -184,23 +157,15 @@ namespace Geometric2
                 {
                     if (el is ModelGeneration.BezierPatchC0 bPC0)
                     {
-                        bPC0.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometry, _patchC0Shader);
+                        bPC0.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _shaderGeometry, _patchC0Shader);
                     }
-                    //else if (el is ModelGeneration.BezierPatchTubeC0 bPTC0)
-                    //{
-                    //    bPTC0.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometry, _patchC0Shader);
-                    //}
                     else if (el is ModelGeneration.BezierPatchC2 bPC2)
                     {
-                        bPC2.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometryC2, _patchC2Shader);
+                        bPC2.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _shaderGeometry, _patchC2Shader);
                     }
-                    //else if (el is ModelGeneration.BezierPatchTubeC2 bPTC2)
-                    //{
-                    //    bPTC2.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometryC2);
-                    //}
                     else if (el is ModelGeneration.GregoryPiece gP)
                     {
-                        gP.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometry, _gregoryShader);
+                        gP.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _shaderGeometry, _gregoryShader);
                     }
                     else
                     {
@@ -233,18 +198,6 @@ namespace Geometric2
                 }
             }
 
-            //if (selectedBezierPatchTubeC0 != null)
-            //{
-            //    foreach (var p in selectedBezierPatchTubeC0.bezierPoints)
-            //    {
-            //        if (p.IsSelected)
-            //        {
-            //            p.CreateGlElement(_shader);
-            //            p.RenderGlElement(_shader, coursor.CoursorGloalPosition, _shaderGeometry);
-            //        }
-            //    }
-            //}
-
             if (selectedBezierPatchC2 != null)
             {
                 foreach (var p in selectedBezierPatchC2.bezierPoints)
@@ -256,18 +209,6 @@ namespace Geometric2
                     }
                 }
             }
-
-            //if (selectedBezierPatchTubeC2 != null)
-            //{
-            //    foreach (var p in selectedBezierPatchTubeC2.bezierPoints)
-            //    {
-            //        if (p.IsSelected)
-            //        {
-            //            p.CreateGlElement(_shader);
-            //            p.RenderGlElement(_shader, coursor.CoursorGloalPosition, _shaderGeometry);
-            //        }
-            //    }
-            //}
         }
 
         private void glControl1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -353,21 +294,6 @@ namespace Geometric2
                             }
                         }
 
-                        //if (selectedBezierPatchTubeC0 != null)
-                        //{
-                        //    foreach (var p in selectedBezierPatchTubeC0.bezierPoints)
-                        //    {
-                        //        Vector3 u = coursor.CoursorGloalPosition - _camera.GetCameraPosition();
-                        //        Vector3 ap = coursor.CoursorGloalPosition - (p.CenterPosition + p.Translation + p.TemporaryTranslation);
-                        //        float currentDist = Vector3.Cross(ap, u).Length / u.Length;
-                        //        if (currentDist < dist)
-                        //        {
-                        //            dist = currentDist;
-                        //            element = p;
-                        //        }
-                        //    }
-                        //}
-
                         if (selectedBezierPatchC2 != null)
                         {
                             foreach (var p in selectedBezierPatchC2.bezierPoints)
@@ -382,21 +308,6 @@ namespace Geometric2
                                 }
                             }
                         }
-
-                        //if (selectedBezierPatchTubeC2 != null)
-                        //{
-                        //    foreach (var p in selectedBezierPatchTubeC2.bezierPoints)
-                        //    {
-                        //        Vector3 u = coursor.CoursorGloalPosition - _camera.GetCameraPosition();
-                        //        Vector3 ap = coursor.CoursorGloalPosition - (p.CenterPosition + p.Translation + p.TemporaryTranslation);
-                        //        float currentDist = Vector3.Cross(ap, u).Length / u.Length;
-                        //        if (currentDist < dist)
-                        //        {
-                        //            dist = currentDist;
-                        //            element = p;
-                        //        }
-                        //    }
-                        //}
 
                         if (dist < maxDist && element != null)
                         {
@@ -543,7 +454,6 @@ namespace Geometric2
                         if (el is ModelGeneration.BezierPatchC0 bpC0)
                         {
                             List<ModelGeneration.Point> mocedPoints = new List<ModelGeneration.Point>();
-                            //bpC0.Translation += mouseMove;
                             foreach (var pp in bpC0.bezierPoints)
                             {
                                 if (!mocedPoints.Contains(pp))
@@ -554,23 +464,8 @@ namespace Geometric2
                             }
                         }
 
-                        //if (el is ModelGeneration.BezierPatchTubeC0 bpTC0)
-                        //{
-                        //    //bpC0.Translation += mouseMove;
-                        //    List<ModelGeneration.Point> mocedPoints = new List<ModelGeneration.Point>();
-                        //    foreach (var pp in bpTC0.bezierPoints)
-                        //    {
-                        //        if (!mocedPoints.Contains(pp))
-                        //        {
-                        //            mocedPoints.Add(pp);
-                        //            pp.Translation += mouseMove;
-                        //        }
-                        //    }
-                        //}
-
                         if (el is ModelGeneration.BezierPatchC2 bpC2)
                         {
-                            //bpC0.Translation += mouseMove;
                             List<ModelGeneration.Point> mocedPoints = new List<ModelGeneration.Point>();
                             foreach (var pp in bpC2.bezierPoints)
                             {
@@ -581,20 +476,6 @@ namespace Geometric2
                                 }
                             }
                         }
-
-                        //if (el is ModelGeneration.BezierPatchTubeC2 bpTC2)
-                        //{
-                        //    //bpC0.Translation += mouseMove;
-                        //    List<ModelGeneration.Point> mocedPoints = new List<ModelGeneration.Point>();
-                        //    foreach (var pp in bpTC2.bezierPoints)
-                        //    {
-                        //        if (!mocedPoints.Contains(pp))
-                        //        {
-                        //            mocedPoints.Add(pp);
-                        //            pp.Translation += mouseMove;
-                        //        }
-                        //    }
-                        //}
                     }
                 }
 

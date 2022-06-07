@@ -91,8 +91,8 @@ namespace Geometric2
 
         private Shader _shader;
         private ShaderGeometry _shaderGeometry;
-        private ShaderGeometry _patchShaderGeometry;
-        private ShaderGeometry _patchShaderGeometryC2;
+        //private ShaderGeometry _patchShaderGeometry;
+        //private ShaderGeometry _patchShaderGeometryC2;
         private TeselationShader _gregoryShader;
         private TeselationShader _patchC0Shader;
         private TeselationShader _patchC2Shader;
@@ -1321,7 +1321,7 @@ namespace Geometric2
             BezierPatchC0 bezierPatcTubehC0 = new BezierPatchC0(pointNumber, bezierPatchC0Number, _camera, glControl1.Width, glControl1.Height, values, true);
             c0PatchDrawPolyline.Checked = false;
             bezierPatchTubeC0Number++;
-            bezierPatcTubehC0.CreateGlElement(_shader, _patchShaderGeometry, _patchC0Shader);
+            bezierPatcTubehC0.CreateGlElement(_shader, _shaderGeometry, _patchC0Shader);
             elementsOnScene.Items.Add(bezierPatcTubehC0);
             Elements.Add(bezierPatcTubehC0);
             List<ModelGeneration.Point> points = new List<ModelGeneration.Point>();
@@ -1736,14 +1736,14 @@ namespace Geometric2
                 foreach (var p in patchC0)
                 {
                     elementsOnScene.Items.Add(p);
-                    p.CreateGlElement(_shader, _patchShaderGeometry, _patchC0Shader);
+                    p.CreateGlElement(_shader, _shaderGeometry, _patchC0Shader);
                 }
                 Elements.AddRange(patchC0);
 
                 foreach (var p in patchC2)
                 {
                     elementsOnScene.Items.Add(p);
-                    p.CreateGlElement(_shader, _patchShaderGeometry, _patchC2Shader);
+                    p.CreateGlElement(_shader, _shaderGeometry, _patchC2Shader);
                 }
                 Elements.AddRange(patchC2);
 
@@ -2084,19 +2084,19 @@ namespace Geometric2
             Elements.AddRange(holes);
             foreach (var h in holes)
             {
-                h.CreateGlElement(_shader, _patchShaderGeometry, _gregoryShader);
+                h.CreateGlElement(_shader, _shaderGeometry, _gregoryShader);
                 Elements.Add(h);
                 elementsOnScene.Items.Add(h);
 
-                h.gp1.CreateGlElement(_shader, _patchShaderGeometry, _gregoryShader);
+                h.gp1.CreateGlElement(_shader, _shaderGeometry, _gregoryShader);
                 Elements.Add(h.gp1);
                 elementsOnScene.Items.Add(h.gp1);
 
-                h.gp2.CreateGlElement(_shader, _patchShaderGeometry, _gregoryShader);
+                h.gp2.CreateGlElement(_shader, _shaderGeometry, _gregoryShader);
                 Elements.Add(h.gp2);
                 elementsOnScene.Items.Add(h.gp2);
 
-                h.gp3.CreateGlElement(_shader, _patchShaderGeometry, _gregoryShader);
+                h.gp3.CreateGlElement(_shader, _shaderGeometry, _gregoryShader);
                 Elements.Add(h.gp3);
                 elementsOnScene.Items.Add(h.gp3);
             }
@@ -2587,7 +2587,7 @@ namespace Geometric2
                     foreach (var p in patchC0)
                     {
                         elementsOnScene.Items.Add(p);
-                        p.CreateGlElement(_shader, _patchShaderGeometry, _patchC0Shader);
+                        p.CreateGlElement(_shader, _shaderGeometry, _patchC0Shader);
                     }
                     Elements.AddRange(patchC0);
 
@@ -2618,7 +2618,7 @@ namespace Geometric2
             BezierPatchC2 bezierPatchC2 = new BezierPatchC2(pointNumber, bezierPatchC0Number, _camera, glControl1.Width, glControl1.Height, values);
             checkBox2.Checked = false;
             bezierPatchC2Number++;
-            bezierPatchC2.CreateGlElement(_shader, _patchShaderGeometry, _patchC2Shader);
+            bezierPatchC2.CreateGlElement(_shader, _shaderGeometry, _patchC2Shader);
             elementsOnScene.Items.Add(bezierPatchC2);
             Elements.Add(bezierPatchC2);
             foreach (var p in bezierPatchC2.bezierPoints)
@@ -2641,7 +2641,7 @@ namespace Geometric2
             BezierPatchC2 bezierPatcTubehC2 = new BezierPatchC2(pointNumber, bezierPatchC2Number, _camera, glControl1.Width, glControl1.Height, values, true);
             checkBox3.Checked = false;
             bezierPatchTubeC2Number++;
-            bezierPatcTubehC2.CreateGlElement(_shader, _patchShaderGeometry, _patchC2Shader);
+            bezierPatcTubehC2.CreateGlElement(_shader, _shaderGeometry, _patchC2Shader);
             elementsOnScene.Items.Add(bezierPatcTubehC2);
             Elements.Add(bezierPatcTubehC2);
             List<ModelGeneration.Point> points = new List<ModelGeneration.Point>();
@@ -2675,7 +2675,7 @@ namespace Geometric2
             BezierPatchC0 bezierPatchC0 = new BezierPatchC0(pointNumber, bezierPatchC0Number, _camera, glControl1.Width, glControl1.Height, values);
             bezierC0DrawPolyline.Checked = false;
             bezierPatchC0Number++;
-            bezierPatchC0.CreateGlElement(_shader, _patchShaderGeometry, _patchC0Shader);
+            bezierPatchC0.CreateGlElement(_shader, _shaderGeometry, _patchC0Shader);
             elementsOnScene.Items.Add(bezierPatchC0);
             Elements.Add(bezierPatchC0);
             foreach (var p in bezierPatchC0.bezierPoints)

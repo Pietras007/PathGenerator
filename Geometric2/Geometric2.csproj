@@ -335,13 +335,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Shaders\PatchFragmentShader.frag" />
-    <None Include="Shaders\PatchShaderGeometryC2.geom" />
-    <None Include="Shaders\PatchShaderGeometry.geom" />
     <None Include="Shaders\GeometryShaderGeometry.geom" />
     <None Include="Shaders\FragmentShaderGeometry.frag" />
     <None Include="Shaders\FragmentShader.frag" />
-    <None Include="Shaders\PatchVertexShader.vert" />
     <None Include="Shaders\VertexShaderGeometry.vert" />
     <None Include="Shaders\VertexShader.vert" />
   </ItemGroup>
