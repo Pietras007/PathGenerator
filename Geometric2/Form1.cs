@@ -85,6 +85,8 @@ namespace Geometric2
             rotationPointComboBox.SelectedIndex = 2;
             transformCenterLines.selectedElements = SelectedElements;
             this.glControl1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseWheel);
+            pointNumber = new int[1];
+            pointNumber[0] = 0;
         }
 
         private Shader _shader;
@@ -115,7 +117,8 @@ namespace Geometric2
         private BezierPatchTubeC2 selectedBezierPatchTubeC2 = null;
 
         int prev_xPosMouse = -1, prev_yPosMouse = -1;
-        int pointNumber, torusNumber, bezierC0Number, bezierC2Number, interpolatedBezierC2Number, bezierPatchC0Number, bezierPatchTubeC0Number, bezierPatchC2Number, bezierPatchTubeC2Number;
+        int[] pointNumber = new int[1];
+        int torusNumber, bezierC0Number, bezierC2Number, interpolatedBezierC2Number, bezierPatchC0Number, bezierPatchTubeC0Number, bezierPatchC2Number, bezierPatchTubeC2Number;
         bool isMovingCameraCentre, anaglyphOn;
 
         List<ModelGeneration.BezierPatchC0> patchC0 = null;
@@ -1314,7 +1317,7 @@ namespace Geometric2
             float[] values = new float[5];
             BezierPatchTube bezierPatch = new BezierPatchTube(values);
             bezierPatch.ShowDialog();
-            BezierPatchC0 bezierPatcTubehC0 = new BezierPatchC0(bezierPatchC0Number, _camera, glControl1.Width, glControl1.Height, values, true);
+            BezierPatchC0 bezierPatcTubehC0 = new BezierPatchC0(pointNumber, bezierPatchC0Number, _camera, glControl1.Width, glControl1.Height, values, true);
             checkBox1.Checked = false;
             bezierPatchTubeC0Number++;
             bezierPatcTubehC0.CreateGlElement(_shader, _patchShaderGeometry, _patchC0Shader);
@@ -1475,7 +1478,7 @@ namespace Geometric2
             elementsOnScene.Items.Clear();
             Elements.Add(xyzLines);
             Elements.Add(transformCenterLines);
-            pointNumber = 0;
+            pointNumber[0] = 0;
             torusNumber = 0;
             bezierC0Number = 0;
             bezierC2Number = 0;
@@ -1518,8 +1521,8 @@ namespace Geometric2
                                     ModelGeneration.Point point = new ModelGeneration.Point();
                                     point._camera = _camera;
                                     point.FullName = pointName;
-                                    point.pointNumber = pointNumber;
-                                    pointNumber++;
+                                    point.pointNumber = pointNumber[0];
+                                    pointNumber[0]++;
                                     points.Add(point);
                                 }
                                 else if (reader.Name == "Position" && previous == "Point")
@@ -1743,7 +1746,7 @@ namespace Geometric2
                 }
                 Elements.AddRange(patchC2);
 
-                pointNumber += points.Count;
+
                 torusNumber += toruses.Count;
                 bezierC0Number += bezierC0.Count;
                 bezierC2Number += bezierC2.Count;
@@ -2101,7 +2104,7 @@ namespace Geometric2
         private void saveAsJSONToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
+            saveFileDialog.Filter = "json files (*.json)|*.json|All files (*.*)|*.*";
             saveFileDialog.FileName = "Model";
             saveFileDialog.FilterIndex = 1;
             saveFileDialog.RestoreDirectory = true;
@@ -2201,12 +2204,12 @@ namespace Geometric2
                         _bSCO.Size = new SharpSceneSerializer.DTOs.Types.Uint2((uint)bezierPatchC0.splitA, (uint)bezierPatchC0.splitB);
                         _bSCO.Patches = new SharpSceneSerializer.DTOs.GeometryObjects.BezierPatchC0[_bSCO.Size.X * _bSCO.Size.Y];
 
-                        uint width = (uint)bezierPatchC0.splitB * 3 + 1;
+                        uint width = (uint)bezierPatchC0.splitA * 3 + 1;
                         int patch_idx = 0;
                         int point_patch_idx = 0;
-                        for (uint i = 0; i < bezierPatchC0.splitA; i++)
+                        for (uint i = 0; i < bezierPatchC0.splitB; i++)
                         {
-                            for (uint j = 0; j < bezierPatchC0.splitB; j++)
+                            for (uint j = 0; j < bezierPatchC0.splitA; j++)
                             {
                                 SharpSceneSerializer.DTOs.GeometryObjects.PointRef[] _pointrefs = new SharpSceneSerializer.DTOs.GeometryObjects.PointRef[16];
                                 point_patch_idx = 0;
@@ -2217,11 +2220,13 @@ namespace Geometric2
                                         uint width_pos = 3 * j + l;
                                         uint height_pos = 3 * i + k;
                                         uint pos = height_pos * width + width_pos;
+                                        _pointrefs[point_patch_idx] = new SharpSceneSerializer.DTOs.GeometryObjects.PointRef();
                                         _pointrefs[point_patch_idx].Id = (uint)bezierPatchC0.bezierPoints[(int)pos].pointNumber;
                                         point_patch_idx++;
                                     }
                                 }
 
+                                _bSCO.Patches[patch_idx] = new SharpSceneSerializer.DTOs.GeometryObjects.BezierPatchC0();
                                 _bSCO.Patches[patch_idx].controlPoints = _pointrefs;
                                 _bSCO.Patches[patch_idx].Samples = new SharpSceneSerializer.DTOs.Types.Uint2((uint)bezierPatchC0.SegmentsU, (uint)bezierPatchC0.SegmentsV);
                                 patch_idx++;
@@ -2279,7 +2284,7 @@ namespace Geometric2
             elementsOnScene.Items.Clear();
             Elements.Add(xyzLines);
             Elements.Add(transformCenterLines);
-            pointNumber = 0;
+            pointNumber[0] = 0;
             torusNumber = 0;
             bezierC0Number = 0;
             bezierC2Number = 0;
@@ -2318,6 +2323,8 @@ namespace Geometric2
                         point.CenterPosition = new Vector3(_p.Position.X, _p.Position.Y, _p.Position.Z);
                         points.Add(point);
                     }
+
+                    pointNumber[0] += points.Count;
 
                     foreach (var _geom in result.scene.Geometry)
                     {
@@ -2390,31 +2397,35 @@ namespace Geometric2
                             bPC0_.bezierPatchC0Number = (int)_bSC0.Id;
                             bPC0_.splitA = (int)_bSC0.Size.X;
                             bPC0_.splitB = (int)_bSC0.Size.Y;
+                            bPC0_.SegmentsU = (int)_bSC0.Patches[0].Samples.X;
+                            bPC0_.SegmentsV = (int)_bSC0.Patches[0].Samples.Y;
                             //_bSC0.ParameterWrapped
-                            bPC0_.bezierPoints = new List<ModelGeneration.Point>();
-                            float xdiff = _width / (3 * splitA);
-                            float ydiff = _length / (3 * splitB);
-                            int k = 0;
-                            for (int i = 0; i < 3 * bPC0_.splitA + 1; i++)
-                            {
-                                y0 = 0.0f;
-                                for (int j = 0; j < 3 * bPC0_.splitB + 1; j++)
-                                {
-                                    bPC0_.bezierPoints.Add(points.Where(x => x.pointNumber == _bSC0.Patches[].Id).First());
-                                    Point point = new Point(new Vector3(x0, y0, 0.0f), pointNumber, _camera);
-                                    pointNumber++;
-                                    point.FullName += "_patchC0_" + bezierPatchC0Number;
-                                    bezierPoints.Add(point);
-                                    y0 += ydiff;
-                                    k++;
-                                }
 
-                                x0 += xdiff;
-                            }
-                            _bSC0.Patches
-                            foreach (var pp in _iC2.ControlPoints)
+                            bPC0_.bezierPoints = new List<ModelGeneration.Point>();
+                            var bezierPoints = new uint[((uint)bPC0_.splitB * 3 + 1) * ((uint)bPC0_.splitA * 3 + 1)];
+
+                            uint width = (uint)bPC0_.splitA * 3 + 1;
+                            for (uint v = 0; v < bPC0_.splitB; v++)
                             {
-                                iC2_.interpolatedBC2Points.Add(points.Where(x => x.pointNumber == pp.Id).First());
+                                for (uint u = 0; u < bPC0_.splitA; u++)
+                                {
+                                    var patch = _bSC0.Patches[bPC0_.splitA * v + u];
+                                    for (uint kk = 0; kk < 4; kk++)
+                                    {
+                                        for (uint l = 0; l < 4; l++)
+                                        {
+                                            uint width_pos = 3 * u + l;
+                                            uint height_pos = 3 * v + kk;
+                                            uint pos = height_pos * width + width_pos;
+                                            bezierPoints[pos] = patch.controlPoints[kk*4 + l].Id;
+                                        }
+                                    }
+                                }
+                            }
+
+                            foreach(var pp in bezierPoints)
+                            {
+                                bPC0_.bezierPoints.Add(points.Where(x => x.pointNumber == (int)pp).First());
                             }
 
                             patchC0.Add(bPC0_);
@@ -2572,12 +2583,12 @@ namespace Geometric2
                     }
                     Elements.AddRange(interBezier);
 
-                    //foreach (var p in patchC0)
-                    //{
-                    //    elementsOnScene.Items.Add(p);
-                    //    p.CreateGlElement(_shader, _patchShaderGeometry, _patchC0Shader);
-                    //}
-                    //Elements.AddRange(patchC0);
+                    foreach (var p in patchC0)
+                    {
+                        elementsOnScene.Items.Add(p);
+                        p.CreateGlElement(_shader, _patchShaderGeometry, _patchC0Shader);
+                    }
+                    Elements.AddRange(patchC0);
 
                     //foreach (var p in patchC2)
                     //{
@@ -2585,8 +2596,7 @@ namespace Geometric2
                     //    p.CreateGlElement(_shader, _patchShaderGeometry);
                     //}
                     //Elements.AddRange(patchC2);
-
-                    pointNumber += points.Count;
+                    
                     torusNumber += toruses.Count;
                     bezierC0Number += bezierC0.Count;
                     bezierC2Number += bezierC2.Count;
@@ -2604,7 +2614,7 @@ namespace Geometric2
             float[] values = new float[4];
             BezierPatch bezierPatch = new BezierPatch(values);
             bezierPatch.ShowDialog();
-            BezierPatchC2 bezierPatchC2 = new BezierPatchC2(bezierPatchC0Number, _camera, glControl1.Width, glControl1.Height, values);
+            BezierPatchC2 bezierPatchC2 = new BezierPatchC2(pointNumber, bezierPatchC0Number, _camera, glControl1.Width, glControl1.Height, values);
             checkBox2.Checked = false;
             bezierPatchC2Number++;
             bezierPatchC2.CreateGlElement(_shader, _patchShaderGeometry);
@@ -2627,7 +2637,7 @@ namespace Geometric2
             float[] values = new float[5];
             BezierPatchTube bezierPatch = new BezierPatchTube(values);
             bezierPatch.ShowDialog();
-            BezierPatchTubeC2 bezierPatcTubehC2 = new BezierPatchTubeC2(bezierPatchC2Number, _camera, glControl1.Width, glControl1.Height, values);
+            BezierPatchTubeC2 bezierPatcTubehC2 = new BezierPatchTubeC2(pointNumber, bezierPatchC2Number, _camera, glControl1.Width, glControl1.Height, values);
             checkBox3.Checked = false;
             bezierPatchTubeC2Number++;
             bezierPatcTubehC2.CreateGlElement(_shader, _patchShaderGeometry);
@@ -2661,7 +2671,7 @@ namespace Geometric2
             float[] values = new float[4];
             BezierPatch bezierPatch = new BezierPatch(values);
             bezierPatch.ShowDialog();
-            BezierPatchC0 bezierPatchC0 = new BezierPatchC0(bezierPatchC0Number, _camera, glControl1.Width, glControl1.Height, values);
+            BezierPatchC0 bezierPatchC0 = new BezierPatchC0(pointNumber, bezierPatchC0Number, _camera, glControl1.Width, glControl1.Height, values);
             bezierC0DrawPolyline.Checked = false;
             bezierPatchC0Number++;
             bezierPatchC0.CreateGlElement(_shader, _patchShaderGeometry, _patchC0Shader);

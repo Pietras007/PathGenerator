@@ -41,7 +41,7 @@ namespace Geometric2.ModelGeneration
             if (FullName == null) FullName = "";
             if (ElementName == null) ElementName = "";
 
-            return FullName + " " + ElementName;
+            return FullName + " " + ElementName + " NO: " + pointNumber;
         }
 
         public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader = null, TeselationShader _gregoryShader = null)

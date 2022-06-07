@@ -33,6 +33,7 @@ namespace Geometric2
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadModelJSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createPathsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsJSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -199,7 +200,6 @@ namespace Geometric2
             this.addPoint = new System.Windows.Forms.Button();
             this.elementsOnScene = new System.Windows.Forms.ListBox();
             this.CoursorTab = new System.Windows.Forms.TabPage();
-            this.loadModelJSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.eyeDistTrackBar)).BeginInit();
@@ -260,7 +260,7 @@ namespace Geometric2
             this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1719, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1821, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -283,6 +283,13 @@ namespace Geometric2
             this.loadModelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadModelToolStripMenuItem.Text = "Load Model (XML)";
             this.loadModelToolStripMenuItem.Click += new System.EventHandler(this.loadModelToolStripMenuItem_Click);
+            // 
+            // loadModelJSONToolStripMenuItem
+            // 
+            this.loadModelJSONToolStripMenuItem.Name = "loadModelJSONToolStripMenuItem";
+            this.loadModelJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadModelJSONToolStripMenuItem.Text = "Load Model (JSON)";
+            this.loadModelJSONToolStripMenuItem.Click += new System.EventHandler(this.loadModelJSONToolStripMenuItem_Click);
             // 
             // createPathsToolStripMenuItem
             // 
@@ -1753,7 +1760,7 @@ namespace Geometric2
             this.tabControl1.Location = new System.Drawing.Point(1457, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(262, 896);
+            this.tabControl1.Size = new System.Drawing.Size(352, 896);
             this.tabControl1.TabIndex = 3;
             // 
             // DrawTab
@@ -1763,7 +1770,7 @@ namespace Geometric2
             this.DrawTab.Location = new System.Drawing.Point(4, 22);
             this.DrawTab.Name = "DrawTab";
             this.DrawTab.Padding = new System.Windows.Forms.Padding(3);
-            this.DrawTab.Size = new System.Drawing.Size(254, 870);
+            this.DrawTab.Size = new System.Drawing.Size(344, 870);
             this.DrawTab.TabIndex = 0;
             this.DrawTab.Text = "Draw";
             this.DrawTab.UseVisualStyleBackColor = true;
@@ -1790,7 +1797,7 @@ namespace Geometric2
             this.panel2.Controls.Add(this.addTorus);
             this.panel2.Controls.Add(this.label16);
             this.panel2.Controls.Add(this.addPoint);
-            this.panel2.Location = new System.Drawing.Point(166, 6);
+            this.panel2.Location = new System.Drawing.Point(250, 6);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(88, 699);
             this.panel2.TabIndex = 1;
@@ -1997,7 +2004,7 @@ namespace Geometric2
             this.elementsOnScene.FormattingEnabled = true;
             this.elementsOnScene.Location = new System.Drawing.Point(6, 6);
             this.elementsOnScene.Name = "elementsOnScene";
-            this.elementsOnScene.Size = new System.Drawing.Size(153, 849);
+            this.elementsOnScene.Size = new System.Drawing.Size(238, 849);
             this.elementsOnScene.TabIndex = 0;
             this.elementsOnScene.SelectedIndexChanged += new System.EventHandler(this.elementsOnScene_SelectedIndexChanged);
             // 
@@ -2012,18 +2019,11 @@ namespace Geometric2
             this.CoursorTab.Text = "Coursor";
             this.CoursorTab.UseVisualStyleBackColor = true;
             // 
-            // loadModelJSONToolStripMenuItem
-            // 
-            this.loadModelJSONToolStripMenuItem.Name = "loadModelJSONToolStripMenuItem";
-            this.loadModelJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.loadModelJSONToolStripMenuItem.Text = "Load Model (JSON)";
-            this.loadModelJSONToolStripMenuItem.Click += new System.EventHandler(this.loadModelJSONToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1719, 932);
+            this.ClientSize = new System.Drawing.Size(1821, 952);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.glControl1);
