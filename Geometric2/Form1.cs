@@ -2193,22 +2193,44 @@ namespace Geometric2
                         scene.Geometry.Add(_iC2);
                     }
 
-                    //if (el is ModelGeneration.BezierPatchC0 bezierPatchC0)
-                    //{
-                    //    writer.WriteStartElement("PatchC0");
-                    //    writer.WriteAttributeString("Name", bezierPatchC0.FullName);
-                    //    writer.WriteAttributeString("M", bezierPatchC0.splitA.ToString());
-                    //    writer.WriteAttributeString("N", bezierPatchC0.splitB.ToString());
-                    //    writer.WriteAttributeString("MSlices", bezierPatchC0.SegmentsU.ToString());
-                    //    writer.WriteAttributeString("NSlices", bezierPatchC0.SegmentsV.ToString());
-                    //    writer.WriteStartElement("Points");
-                    //    foreach (var pp in bezierPatchC0.bezierPoints)
-                    //    {
-                    //        this.addPointRef(writer, pp);
-                    //    }
-                    //    writer.WriteEndElement();
-                    //    writer.WriteEndElement();
-                    //}
+                    if (el is ModelGeneration.BezierPatchC0 bezierPatchC0)
+                    {
+                        SharpSceneSerializer.DTOs.GeometryObjects.BezierSurfaceC0 _bSCO = new SharpSceneSerializer.DTOs.GeometryObjects.BezierSurfaceC0();
+                        _bSCO.Id = (uint)bezierPatchC0.bezierPatchC0Number;
+                        _bSCO.Name = bezierPatchC0.FullName;
+                        _bSCO.Size = new SharpSceneSerializer.DTOs.Types.Uint2((uint)bezierPatchC0.splitA, (uint)bezierPatchC0.splitB);
+                        _bSCO.Patches = new SharpSceneSerializer.DTOs.GeometryObjects.BezierPatchC0[_bSCO.Size.X * _bSCO.Size.Y];
+
+                        uint width = (uint)bezierPatchC0.splitB * 3 + 1;
+                        int patch_idx = 0;
+                        int point_patch_idx = 0;
+                        for (uint i = 0; i < bezierPatchC0.splitA; i++)
+                        {
+                            for (uint j = 0; j < bezierPatchC0.splitB; j++)
+                            {
+                                SharpSceneSerializer.DTOs.GeometryObjects.PointRef[] _pointrefs = new SharpSceneSerializer.DTOs.GeometryObjects.PointRef[16];
+                                point_patch_idx = 0;
+                                for (uint k = 0; k < 4; k++)
+                                {
+                                    for (uint l = 0; l < 4; l++)
+                                    {
+                                        uint width_pos = 3 * j + l;
+                                        uint height_pos = 3 * i + k;
+                                        uint pos = height_pos * width + width_pos;
+                                        _pointrefs[point_patch_idx].Id = (uint)bezierPatchC0.bezierPoints[(int)pos].pointNumber;
+                                        point_patch_idx++;
+                                    }
+                                }
+
+                                _bSCO.Patches[patch_idx].controlPoints = _pointrefs;
+                                _bSCO.Patches[patch_idx].Samples = new SharpSceneSerializer.DTOs.Types.Uint2((uint)bezierPatchC0.SegmentsU, (uint)bezierPatchC0.SegmentsV);
+                                patch_idx++;
+                            }
+                        }
+
+                        _bSCO.ParameterWrapped = new SharpSceneSerializer.DTOs.Types.Bool2(true, false);
+                        scene.Geometry.Add(_bSCO);
+                    }
 
                     //if (el is ModelGeneration.BezierPatchC2 bezierPatchC2)
                     //{
@@ -2324,12 +2346,12 @@ namespace Geometric2
                             torusNumber++;
                             toruses.Add(torus);
                         }
-                        else if(geomObject.objectType == SharpSceneSerializer.DTOs.Enums.ObjectType.bezierC0)
+                        else if (geomObject.objectType == SharpSceneSerializer.DTOs.Enums.ObjectType.bezierC0)
                         {
                             var _bC0 = Newtonsoft.Json.JsonConvert.DeserializeObject<SharpSceneSerializer.DTOs.GeometryObjects.BezierC0>(_geom.ToString());
                             ModelGeneration.BezierC0 bezierC0_ = new BezierC0((int)_bC0.Id, _camera, glControl1.Width, glControl1.Height);
                             bezierC0_.FullName = _bC0.Name;
-                            foreach(var pp in _bC0.ControlPoints)
+                            foreach (var pp in _bC0.ControlPoints)
                             {
                                 bezierC0_.bezierPoints.Add(points.Where(x => x.pointNumber == pp.Id).First());
                             }
@@ -2359,6 +2381,43 @@ namespace Geometric2
                             }
 
                             interBezier.Add(iC2_);
+                        }
+                        else if (geomObject.objectType == SharpSceneSerializer.DTOs.Enums.ObjectType.bezierSurfaceC0)
+                        {
+                            var _bSC0 = Newtonsoft.Json.JsonConvert.DeserializeObject<SharpSceneSerializer.DTOs.GeometryObjects.BezierSurfaceC0>(_geom.ToString());
+                            ModelGeneration.BezierPatchC0 bPC0_ = new BezierPatchC0((int)_bSC0.Id, _camera, glControl1.Width, glControl1.Height);
+                            bPC0_.FullName = _bSC0.Name;
+                            bPC0_.bezierPatchC0Number = (int)_bSC0.Id;
+                            bPC0_.splitA = (int)_bSC0.Size.X;
+                            bPC0_.splitB = (int)_bSC0.Size.Y;
+                            //_bSC0.ParameterWrapped
+                            bPC0_.bezierPoints = new List<ModelGeneration.Point>();
+                            float xdiff = _width / (3 * splitA);
+                            float ydiff = _length / (3 * splitB);
+                            int k = 0;
+                            for (int i = 0; i < 3 * bPC0_.splitA + 1; i++)
+                            {
+                                y0 = 0.0f;
+                                for (int j = 0; j < 3 * bPC0_.splitB + 1; j++)
+                                {
+                                    bPC0_.bezierPoints.Add(points.Where(x => x.pointNumber == _bSC0.Patches[].Id).First());
+                                    Point point = new Point(new Vector3(x0, y0, 0.0f), pointNumber, _camera);
+                                    pointNumber++;
+                                    point.FullName += "_patchC0_" + bezierPatchC0Number;
+                                    bezierPoints.Add(point);
+                                    y0 += ydiff;
+                                    k++;
+                                }
+
+                                x0 += xdiff;
+                            }
+                            _bSC0.Patches
+                            foreach (var pp in _iC2.ControlPoints)
+                            {
+                                iC2_.interpolatedBC2Points.Add(points.Where(x => x.pointNumber == pp.Id).First());
+                            }
+
+                            patchC0.Add(bPC0_);
                         }
                     }
 

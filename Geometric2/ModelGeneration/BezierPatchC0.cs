@@ -30,7 +30,7 @@ namespace Geometric2.ModelGeneration
 
         private float[] bezierPatchC0Points;
         private uint[] bezierPatchC0Indices;
-        private int bezierPatchC0Number;
+        public int bezierPatchC0Number;
 
         private Camera _camera;
         private int width, height;
