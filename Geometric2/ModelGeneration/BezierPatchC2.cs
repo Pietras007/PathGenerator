@@ -24,7 +24,7 @@ namespace Geometric2.ModelGeneration
         int[] pointNumber = new int[1];
 
 
-        int bezierPatchC2Number;
+        public int bezierPatchC2Number;
         public List<Point> bezierPoints { get; set; }
         public int bezierPatchC2PolylineVBO, bezierPatchC2PolylineVAO, bezierPatchC2polylineEBO;
         public int bezierPatchC2VBO, bezierPatchC2VAO, bezierPatchC2EBO;
@@ -108,35 +108,6 @@ namespace Geometric2.ModelGeneration
             GL.BufferData(BufferTarget.ElementArrayBuffer, bezierPatchC2Indices.Length * sizeof(uint), bezierPatchC2Indices, BufferUsageHint.DynamicDraw);
             GL.VertexAttribPointer(a_Position_Loc_gregoryShader, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
             GL.EnableVertexAttribArray(0);
-
-
-
-            //var a_geometry_Position_Location = _patchGeometryShader.GetAttribLocation("a_Position");
-            ////var a_geometry_Position_Location = _geometryShader.GetAttribLocation("a_Position");
-            ////var a_geometry_Position_Location = _geometryShader.GetAttribLocation("a_Position");
-            //bezierPatchC2VAO = GL.GenVertexArray();
-            //bezierPatchC2VBO = GL.GenBuffer();
-            //bezierPatchC2EBO = GL.GenBuffer();
-            //GL.BindVertexArray(bezierPatchC2VAO);
-            //GL.BindBuffer(BufferTarget.ArrayBuffer, bezierPatchC2VBO);
-            //GL.BufferData(BufferTarget.ArrayBuffer, bezierPatchC2Points.Length * sizeof(float), bezierPatchC2Points, BufferUsageHint.DynamicDraw);
-            //GL.BindBuffer(BufferTarget.ElementArrayBuffer, bezierPatchC2EBO);
-            //GL.BufferData(BufferTarget.ElementArrayBuffer, bezierPatchC2Indices.Length * sizeof(uint), bezierPatchC2Indices, BufferUsageHint.DynamicDraw);
-
-            //GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 15 * sizeof(float), 0);
-            //GL.EnableVertexAttribArray(0);
-
-            //GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 15 * sizeof(float), (3 * sizeof(float)));
-            //GL.EnableVertexAttribArray(1);
-
-            //GL.VertexAttribPointer(2, 3, VertexAttribPointerType.Float, false, 15 * sizeof(float), (6 * sizeof(float)));
-            //GL.EnableVertexAttribArray(2);
-
-            //GL.VertexAttribPointer(3, 3, VertexAttribPointerType.Float, false, 15 * sizeof(float), (9 * sizeof(float)));
-            //GL.EnableVertexAttribArray(3);
-
-            //GL.VertexAttribPointer(4, 3, VertexAttribPointerType.Float, false, 15 * sizeof(float), (12 * sizeof(float)));
-            //GL.EnableVertexAttribArray(4);
         }
 
         public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _patchGeometryShader, TeselationShader _teselationShader)
@@ -184,30 +155,6 @@ namespace Geometric2.ModelGeneration
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
 
             _shader.Use();
-
-
-
-            //_patchGeometryShader.Use();
-            //_patchGeometryShader.SetMatrix4("model", model2);
-            //if (IsSelected)
-            //{
-            //    _patchGeometryShader.SetVector3("fragmentColor", ColorHelper.ColorToVector(Color.Orange));
-            //}
-            //else
-            //{
-            //    _patchGeometryShader.SetVector3("fragmentColor", ColorHelper.ColorToVector(Color.Black));
-            //}
-            ////_patchGeometryShader.SetMatrix4("view", _camera.GetViewMatrix());
-            ////_patchGeometryShader.SetMatrix4("projection", _camera.GetProjectionMatrix());
-            ////_patchGeometryShader.SetVector3("fragmentColor", ColorHelper.ColorToVector(Color.White));
-            ////_patchGeometryShader.SetMatrix4("persp", _camera.GetProjectionMatrix());
-            ////_patchGeometryShader.SetInt("width", width);
-            ////_patchGeometryShader.SetInt("height", height);
-            //GL.BindVertexArray(bezierPatchC2VAO);
-            //GL.DrawElements(PrimitiveType.LinesAdjacency, bezierPatchC2Indices.Length, DrawElementsType.UnsignedInt, 0);
-            //GL.BindVertexArray(0);
-
-            //_shader.Use();
         }
 
 
@@ -395,76 +342,9 @@ namespace Geometric2.ModelGeneration
                     }
                 }
             }
-            //int idx = 0;
-            //for (int i = 0; i < splitA; i++)
-            //{
-            //    for (int j = 0; j < splitB; j++)
-            //    {
-            //        for (int k = 0; k < SegmentsU; k++)
-            //        {
-            //            for (int l = 0; l < SegmentsV; l += 120)
-            //            {
-            //                float begin = (float)l / SegmentsV;
-            //                float end = (float)(l + 120) / SegmentsV;
-            //                int parts = ((SegmentsV - l) < 120) ? (SegmentsV - l) : 120;
-            //                if (end > 1.0f) end = 1.0f;
-
-            //                AddPatch(i, j, (float)k / SegmentsU, (float)(k + 1) / SegmentsU, begin, end, parts, idx);
-            //                idx += 4;
-            //            }
-            //        }
-            //    }
-            //}
 
             bezierPatchC2Points = vertices.ToArray();
             bezierPatchC2Indices = indices.ToArray();
         }
-
-        //void AddPatch(int i, int j, float t1, float t2, float begin, float end, int parts, int idx)
-        //{
-        //    int w = splitB + 3;
-        //    int start = i * w + j;
-        //    int indexStart = idx;
-
-
-        //    for (int k = 0; k < 4; k++)
-        //    {
-        //        var pos = bezierPoints[start].Position();
-        //        vertices.Add(pos.X);
-        //        vertices.Add(pos.Y);
-        //        vertices.Add(pos.Z);
-        //        if (i == 0 && j == 0 && t1 == 0)
-        //        {
-        //            vertices.Add(0.12f);
-        //        }
-        //        else
-        //        {
-        //            vertices.Add(1.0f);
-        //        }
-        //        vertices.Add(0.0f);
-        //        vertices.Add(0.0f);
-        //        pos = bezierPoints[start + 1].Position();
-        //        vertices.Add(pos.X);
-        //        vertices.Add(pos.Y);
-        //        vertices.Add(pos.Z);
-        //        pos = bezierPoints[start + 2].Position();
-        //        vertices.Add(pos.X);
-        //        vertices.Add(pos.Y);
-        //        vertices.Add(pos.Z);
-        //        pos = bezierPoints[start + 3].Position();
-        //        vertices.Add(pos.X);
-        //        vertices.Add(pos.Y);
-        //        vertices.Add(pos.Z);
-        //        indices.Add((uint)idx);
-        //        idx++;
-        //        start += w;
-        //    }
-
-        //    vertices[15 * (indexStart + 1) + 3] = t1;
-        //    vertices[15 * (indexStart + 1) + 4] = t2;
-        //    vertices[15 * (indexStart + 2) + 3] = begin;
-        //    vertices[15 * (indexStart + 2) + 4] = end;
-        //    vertices[15 * (indexStart + 2) + 5] = parts;
-        //}
     }
 }
