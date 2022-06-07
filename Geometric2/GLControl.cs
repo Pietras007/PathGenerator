@@ -44,6 +44,7 @@ namespace Geometric2
             _patchShaderGeometryC2 = new ShaderGeometry("./../../../Shaders/PatchVertexShader.vert", "./../../../Shaders/PatchFragmentShader.frag", "./../../../Shaders/PatchShaderGeometryC2.geom");
             _gregoryShader = new TeselationShader("./../../../GregoryShaders/Gregory.vert", "./../../../GregoryShaders/Gregory.frag", "./../../../GregoryShaders/Gregory.tesc", "./../../../GregoryShaders/Gregory.tese");
             _patchC0Shader = new TeselationShader("./../../../PatchC0Shaders/PatchC0.vert", "./../../../PatchC0Shaders/PatchC0.frag", "./../../../PatchC0Shaders/PatchC0.tesc", "./../../../PatchC0Shaders/PatchC0.tese");
+            _patchC2Shader = new TeselationShader("./../../../PatchC2Shaders/PatchC2.vert", "./../../../PatchC2Shaders/PatchC2.frag", "./../../../PatchC2Shaders/PatchC2.tesc", "./../../../PatchC2Shaders/PatchC2.tese");
 
             coursor.CreateCoursor(_shader);
             foreach (var el in Elements)
@@ -86,6 +87,10 @@ namespace Geometric2
             _patchC0Shader.SetMatrix4("view", viewMatrix);
             _patchC0Shader.SetMatrix4("projection", projectionMatrix);
 
+            _patchC2Shader.Use();
+            _patchC2Shader.SetMatrix4("view", viewMatrix);
+            _patchC2Shader.SetMatrix4("projection", projectionMatrix);
+
             //_shaderGeometry.SetVector3("fragmentColor", ColorHelper.ColorToVector(Color.Black));
             if (anaglyphOn)
             {
@@ -97,12 +102,14 @@ namespace Geometric2
                 _patchShaderGeometryC2.SetMatrix4("projection", anaglyphProjectionMatrixRed);
                 _gregoryShader.SetMatrix4("projection", anaglyphProjectionMatrixRed);
                 _patchC0Shader.SetMatrix4("projection", anaglyphProjectionMatrixRed);
+                _patchC2Shader.SetMatrix4("projection", anaglyphProjectionMatrixRed);
                 _shader.SetMatrix4("view", anaglyphViewMatrix);
                 _shaderGeometry.SetMatrix4("view", anaglyphViewMatrix);
                 _patchShaderGeometry.SetMatrix4("view", anaglyphViewMatrix);
                 _patchShaderGeometryC2.SetMatrix4("view", anaglyphViewMatrix);
                 _gregoryShader.SetMatrix4("view", anaglyphViewMatrix);
                 _patchC0Shader.SetMatrix4("view", anaglyphViewMatrix);
+                _patchC2Shader.SetMatrix4("view", anaglyphViewMatrix);
 
                 GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
                 GL.ColorMask(true, false, false, true);
@@ -119,12 +126,14 @@ namespace Geometric2
                 _patchShaderGeometryC2.SetMatrix4("projection", anaglyphProjectionMatrixBlue);
                 _gregoryShader.SetMatrix4("projection", anaglyphProjectionMatrixBlue);
                 _patchC0Shader.SetMatrix4("projection", anaglyphProjectionMatrixBlue);
+                _patchC2Shader.SetMatrix4("projection", anaglyphProjectionMatrixBlue);
                 _shader.SetMatrix4("view", anaglyphViewMatrix);
                 _shaderGeometry.SetMatrix4("view", anaglyphViewMatrix);
                 _patchShaderGeometry.SetMatrix4("view", anaglyphViewMatrix);
                 _patchShaderGeometryC2.SetMatrix4("view", anaglyphViewMatrix);
                 _gregoryShader.SetMatrix4("view", anaglyphViewMatrix);
                 _patchC0Shader.SetMatrix4("view", anaglyphViewMatrix);
+                _patchC2Shader.SetMatrix4("view", anaglyphViewMatrix);
 
                 RenderScene(viewMatrix, projectionMatrix);
                 GL.ColorMask(true, true, true, true);
@@ -156,12 +165,12 @@ namespace Geometric2
                     //}
                     else if (el is ModelGeneration.BezierPatchC2 bPC2)
                     {
-                        bPC2.RenderGlElement(_shader, coursor.CoursorGloalPosition, _patchShaderGeometryC2);
+                        bPC2.RenderGlElement(_shader, coursor.CoursorGloalPosition, _patchShaderGeometryC2, _patchC2Shader);
                     }
-                    else if (el is ModelGeneration.BezierPatchTubeC2 bPTC2)
-                    {
-                        bPTC2.RenderGlElement(_shader, coursor.CoursorGloalPosition, _patchShaderGeometryC2);
-                    }
+                    //else if (el is ModelGeneration.BezierPatchTubeC2 bPTC2)
+                    //{
+                    //    bPTC2.RenderGlElement(_shader, coursor.CoursorGloalPosition, _patchShaderGeometryC2);
+                    //}
                     else if (el is ModelGeneration.GregoryPiece gP)
                     {
                         gP.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometry, _gregoryShader);
@@ -183,12 +192,12 @@ namespace Geometric2
                     //}
                     else if (el is ModelGeneration.BezierPatchC2 bPC2)
                     {
-                        bPC2.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometryC2);
+                        bPC2.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometryC2, _patchC2Shader);
                     }
-                    else if (el is ModelGeneration.BezierPatchTubeC2 bPTC2)
-                    {
-                        bPTC2.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometryC2);
-                    }
+                    //else if (el is ModelGeneration.BezierPatchTubeC2 bPTC2)
+                    //{
+                    //    bPTC2.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometryC2);
+                    //}
                     else if (el is ModelGeneration.GregoryPiece gP)
                     {
                         gP.RenderGlElement(_shader, transformCenterLines.rotationCenterPoint, _patchShaderGeometry, _gregoryShader);
@@ -248,17 +257,17 @@ namespace Geometric2
                 }
             }
 
-            if (selectedBezierPatchTubeC2 != null)
-            {
-                foreach (var p in selectedBezierPatchTubeC2.bezierPoints)
-                {
-                    if (p.IsSelected)
-                    {
-                        p.CreateGlElement(_shader);
-                        p.RenderGlElement(_shader, coursor.CoursorGloalPosition, _shaderGeometry);
-                    }
-                }
-            }
+            //if (selectedBezierPatchTubeC2 != null)
+            //{
+            //    foreach (var p in selectedBezierPatchTubeC2.bezierPoints)
+            //    {
+            //        if (p.IsSelected)
+            //        {
+            //            p.CreateGlElement(_shader);
+            //            p.RenderGlElement(_shader, coursor.CoursorGloalPosition, _shaderGeometry);
+            //        }
+            //    }
+            //}
         }
 
         private void glControl1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -374,20 +383,20 @@ namespace Geometric2
                             }
                         }
 
-                        if (selectedBezierPatchTubeC2 != null)
-                        {
-                            foreach (var p in selectedBezierPatchTubeC2.bezierPoints)
-                            {
-                                Vector3 u = coursor.CoursorGloalPosition - _camera.GetCameraPosition();
-                                Vector3 ap = coursor.CoursorGloalPosition - (p.CenterPosition + p.Translation + p.TemporaryTranslation);
-                                float currentDist = Vector3.Cross(ap, u).Length / u.Length;
-                                if (currentDist < dist)
-                                {
-                                    dist = currentDist;
-                                    element = p;
-                                }
-                            }
-                        }
+                        //if (selectedBezierPatchTubeC2 != null)
+                        //{
+                        //    foreach (var p in selectedBezierPatchTubeC2.bezierPoints)
+                        //    {
+                        //        Vector3 u = coursor.CoursorGloalPosition - _camera.GetCameraPosition();
+                        //        Vector3 ap = coursor.CoursorGloalPosition - (p.CenterPosition + p.Translation + p.TemporaryTranslation);
+                        //        float currentDist = Vector3.Cross(ap, u).Length / u.Length;
+                        //        if (currentDist < dist)
+                        //        {
+                        //            dist = currentDist;
+                        //            element = p;
+                        //        }
+                        //    }
+                        //}
 
                         if (dist < maxDist && element != null)
                         {
@@ -573,19 +582,19 @@ namespace Geometric2
                             }
                         }
 
-                        if (el is ModelGeneration.BezierPatchTubeC2 bpTC2)
-                        {
-                            //bpC0.Translation += mouseMove;
-                            List<ModelGeneration.Point> mocedPoints = new List<ModelGeneration.Point>();
-                            foreach (var pp in bpTC2.bezierPoints)
-                            {
-                                if (!mocedPoints.Contains(pp))
-                                {
-                                    mocedPoints.Add(pp);
-                                    pp.Translation += mouseMove;
-                                }
-                            }
-                        }
+                        //if (el is ModelGeneration.BezierPatchTubeC2 bpTC2)
+                        //{
+                        //    //bpC0.Translation += mouseMove;
+                        //    List<ModelGeneration.Point> mocedPoints = new List<ModelGeneration.Point>();
+                        //    foreach (var pp in bpTC2.bezierPoints)
+                        //    {
+                        //        if (!mocedPoints.Contains(pp))
+                        //        {
+                        //            mocedPoints.Add(pp);
+                        //            pp.Translation += mouseMove;
+                        //        }
+                        //    }
+                        //}
                     }
                 }
 
