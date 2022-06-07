@@ -21,7 +21,7 @@ namespace Geometric2.ModelGeneration
 
         private List<float> vertices = new List<float>();
         private List<uint> indices = new List<uint>();
-        private int pointNumber = 0;
+        private int[] pointNumber = new int[1];
 
         private int bezierPatchC0PolylineVBO, bezierPatchC0PolylineVAO, bezierPatchC0polylineEBO;
         private int bezierPatchC0VBO, bezierPatchC0VAO, bezierPatchC0EBO;
@@ -30,7 +30,7 @@ namespace Geometric2.ModelGeneration
 
         private float[] bezierPatchC0Points;
         private uint[] bezierPatchC0Indices;
-        private int bezierPatchC0Number;
+        public int bezierPatchC0Number;
 
         private Camera _camera;
         private int width, height;
@@ -40,9 +40,10 @@ namespace Geometric2.ModelGeneration
 
         private bool isTube;
 
-        public BezierPatchC0(int bezierC0Number, Camera _camera, int width, int height, float[] values, bool isTube = false)
+        public BezierPatchC0(int[] pointNumber, int bezierC0Number, Camera _camera, int width, int height, float[] values, bool isTube = false)
         {
             bezierPoints = new List<Point>();
+            this.pointNumber = pointNumber;
             this._camera = _camera;
             this._width = values[0];
             this._length = values[1];
@@ -202,8 +203,8 @@ namespace Geometric2.ModelGeneration
                     float angle = 0.0f;
                     for (int j = 0; j < 3 * splitB; j++)
                     {
-                        Point point = new Point(new Vector3(r * (float)Math.Sin(angle), r * (float)Math.Cos(angle), z), pointNumber, _camera);
-                        pointNumber++;
+                        Point point = new Point(new Vector3(r * (float)Math.Sin(angle), r * (float)Math.Cos(angle), z), pointNumber[0], _camera);
+                        pointNumber[0]++;
                         point.FullName += "_patchTubeC0_" + bezierPatchC0Number;
                         bezierPoints.Add(point);
                         angle += angleDiff;
@@ -224,8 +225,8 @@ namespace Geometric2.ModelGeneration
                     y0 = 0.0f;
                     for (int j = 0; j < 3 * splitB + 1; j++)
                     {
-                        Point point = new Point(new Vector3(x0, y0, 0.0f), pointNumber, _camera);
-                        pointNumber++;
+                        Point point = new Point(new Vector3(x0, y0, 0.0f), pointNumber[0], _camera);
+                        pointNumber[0]++;
                         point.FullName += "_patchC0_" + bezierPatchC0Number;
                         bezierPoints.Add(point);
                         y0 += ydiff;

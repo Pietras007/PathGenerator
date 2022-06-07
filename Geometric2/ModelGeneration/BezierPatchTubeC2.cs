@@ -33,11 +33,12 @@ namespace Geometric2.ModelGeneration
         public int splitA, splitB;
         float r;
         float x, y;
-        int pointNumber = 0;
+        private int[] pointNumber = new int[1];
 
-        public BezierPatchTubeC2(int bezierC2Number, Camera _camera, int width, int height, float[] values)
+        public BezierPatchTubeC2(int[] pointNumber, int bezierC2Number, Camera _camera, int width, int height, float[] values)
         {
             bezierPoints = new List<Point>();
+            this.pointNumber = pointNumber;
             this._camera = _camera;
             this._width = values[0];
             this._length = values[1];
@@ -202,8 +203,8 @@ namespace Geometric2.ModelGeneration
                 float angle = 0.0f;
                 for (int j = 0; j < splitB; j++)
                 {
-                    Point point = new Point(new Vector3(r * (float)Math.Sin(angle), r * (float)Math.Cos(angle), z), pointNumber, _camera);
-                    pointNumber++;
+                    Point point = new Point(new Vector3(r * (float)Math.Sin(angle), r * (float)Math.Cos(angle), z), pointNumber[0], _camera);
+                    pointNumber[0]++;
                     point.FullName += "_patchTubeC2_" + bezierPatchTubeC2Number;
                     bezierPoints.Add(point);
                     angle += angleDiff;

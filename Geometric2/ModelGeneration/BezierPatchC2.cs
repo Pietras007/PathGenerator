@@ -21,7 +21,7 @@ namespace Geometric2.ModelGeneration
         uint[] bezierPatchC2Indices;
         private float[] polylinePoints;
         uint[] polylineIndices;
-        int pointNumber = 0;
+        int[] pointNumber = new int[1];
 
 
         int bezierPatchC2Number;
@@ -35,9 +35,10 @@ namespace Geometric2.ModelGeneration
         float x0, y0;
         private object bezierPatchC0Points;
 
-        public BezierPatchC2(int bezierC2Number, Camera _camera, int width, int height, float[] values)
+        public BezierPatchC2(int[] pointNumber, int bezierC2Number, Camera _camera, int width, int height, float[] values)
         {
             bezierPoints = new List<Point>();
+            this.pointNumber = pointNumber;
             this._camera = _camera;
             this._width = values[0];
             this._length = values[1];
@@ -212,8 +213,8 @@ namespace Geometric2.ModelGeneration
                 y0 = -ydiff;
                 for (int j = -1; j <= splitB + 1; j++)
                 {
-                    Point point = new Point(new Vector3(x0, y0, 0.0f), pointNumber, _camera);
-                    pointNumber++;
+                    Point point = new Point(new Vector3(x0, y0, 0.0f), pointNumber[0], _camera);
+                    pointNumber[0]++;
                     point.FullName += "_patchC2_" + bezierPatchC2Number;
                     bezierPoints.Add(point);
                     y0 += ydiff;

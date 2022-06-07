@@ -38,7 +38,10 @@ namespace Geometric2.ModelGeneration
 
         public override string ToString()
         {
-            return FullName + " " + ElementName;
+            if (FullName == null) FullName = "";
+            if (ElementName == null) ElementName = "";
+
+            return FullName + " " + ElementName + " NO: " + pointNumber;
         }
 
         public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader = null, TeselationShader _gregoryShader = null)

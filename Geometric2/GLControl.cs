@@ -3,7 +3,6 @@ using System.Windows.Forms;
 using OpenTK.Graphics.OpenGL4;
 using Geometric2.MatrixHelpers;
 using Geometric2.ModelGeneration;
-using System.Numerics;
 using OpenTK;
 using Geometric2.Helpers;
 using System.Diagnostics;
@@ -275,8 +274,8 @@ namespace Geometric2
                     case DrawingStatus.No:
                         break;
                     case DrawingStatus.Point:
-                        ModelGeneration.Point point = new ModelGeneration.Point(coursor.CoursorGloalPosition, pointNumber, _camera);
-                        pointNumber++;
+                        ModelGeneration.Point point = new ModelGeneration.Point(coursor.CoursorGloalPosition, pointNumber[0], _camera);
+                        pointNumber[0]++;
                         point.CreateGlElement(_shader);
                         elementsOnScene.Items.Add(point);
                         Elements.Add(point);
@@ -410,8 +409,8 @@ namespace Geometric2
                     case DrawingStatus.BezierC0NewPoint:
                         if (selectedBezierC0 != null)
                         {
-                            ModelGeneration.Point p = new ModelGeneration.Point(coursor.CoursorGloalPosition, pointNumber, _camera);
-                            pointNumber++;
+                            ModelGeneration.Point p = new ModelGeneration.Point(coursor.CoursorGloalPosition, pointNumber[0], _camera);
+                            pointNumber[0]++;
                             p.CreateGlElement(_shader);
                             elementsOnScene.Items.Add(p);
                             Elements.Add(p);
@@ -425,8 +424,8 @@ namespace Geometric2
                     case DrawingStatus.BezierC2NewPoint:
                         if (selectedBezierC2 != null)
                         {
-                            ModelGeneration.Point p = new ModelGeneration.Point(coursor.CoursorGloalPosition, pointNumber, _camera);
-                            pointNumber++;
+                            ModelGeneration.Point p = new ModelGeneration.Point(coursor.CoursorGloalPosition, pointNumber[0], _camera);
+                            pointNumber[0]++;
                             p.CreateGlElement(_shader);
                             elementsOnScene.Items.Add(p);
                             Elements.Add(p);
@@ -440,8 +439,8 @@ namespace Geometric2
                     case DrawingStatus.InterpolationBezierC2NewPoint:
                         if (selectedInterpolatedBezierC2 != null)
                         {
-                            ModelGeneration.Point p = new ModelGeneration.Point(coursor.CoursorGloalPosition, pointNumber, _camera);
-                            pointNumber++;
+                            ModelGeneration.Point p = new ModelGeneration.Point(coursor.CoursorGloalPosition, pointNumber[0], _camera);
+                            pointNumber[0]++;
                             p.CreateGlElement(_shader);
                             elementsOnScene.Items.Add(p);
                             Elements.Add(p);

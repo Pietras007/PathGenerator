@@ -24,7 +24,7 @@ namespace Geometric2.ModelGeneration
         uint[] interpolatedBezierC2Indices;
 
         int renderNum;
-        int interpolatedBezierC2Number;
+        public int interpolatedBezierC2Number;
         Camera _camera;
         int width, height;
 
