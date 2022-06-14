@@ -188,20 +188,20 @@ namespace Geometric2.ModelGeneration
         {
             if (isTube)
             {
-                if (splitB < 3) splitB = 3;
+                if (splitA < 3) splitA = 3;
             }
 
             bezierPoints.Clear();
             if (isTube)
             {
                 float z = 0.0f;
-                float zDiff = _length / (splitA);
-                float angleDiff = 2 * (float)Math.PI / (splitB);
+                float zDiff = _length / (splitB);
+                float angleDiff = 2 * (float)Math.PI / (splitA);
                 int k = 0;
-                for (int i = -1; i <= splitA + 1; i++)
+                for (int i = -1; i <= splitB + 1; i++)
                 {
                     float angle = 0.0f;
-                    for (int j = 0; j < splitB; j++)
+                    for (int j = 0; j < splitA; j++)
                     {
                         Point point = new Point(new Vector3(r * (float)Math.Sin(angle), r * (float)Math.Cos(angle), z), pointNumber[0], _camera);
                         pointNumber[0]++;
@@ -210,11 +210,11 @@ namespace Geometric2.ModelGeneration
                         angle += angleDiff;
                         k++;
                     }
-                    bezierPoints.Add(bezierPoints[k - splitB]);
+                    bezierPoints.Add(bezierPoints[k - splitA]);
                     k++;
-                    bezierPoints.Add(bezierPoints[k - splitB]);
+                    bezierPoints.Add(bezierPoints[k - splitA]);
                     k++;
-                    bezierPoints.Add(bezierPoints[k - splitB]);
+                    bezierPoints.Add(bezierPoints[k - splitA]);
                     k++;
                     z += zDiff;
                 }
@@ -222,14 +222,14 @@ namespace Geometric2.ModelGeneration
             else
             {
 
-                float xdiff = _width / splitA;
-                float ydiff = _length / splitB;
+                float xdiff = _width / splitB;
+                float ydiff = _length / splitA;
                 x0 = -xdiff;
                 int k = 0;
-                for (int i = -1; i <= splitA + 1; i++)
+                for (int i = -1; i <= splitB + 1; i++)
                 {
                     y0 = -ydiff;
-                    for (int j = -1; j <= splitB + 1; j++)
+                    for (int j = -1; j <= splitA + 1; j++)
                     {
                         Point point = new Point(new Vector3(x0, y0, 0.0f), pointNumber[0], _camera);
                         pointNumber[0]++;
@@ -247,11 +247,11 @@ namespace Geometric2.ModelGeneration
         {
             List<Point> pointLines = new List<Point>();
             int k = 0;
-            for (int i = -1; i <= splitA + 1; i++)
+            for (int i = -1; i <= splitB + 1; i++)
             {
                 if (isTube)
                 {
-                    for (int j = 0; j < splitB; j++)
+                    for (int j = 0; j < splitA; j++)
                     {
                         if (j != 0)
                         {
@@ -262,7 +262,7 @@ namespace Geometric2.ModelGeneration
                         if (i != -1)
                         {
                             pointLines.Add(bezierPoints[k]);
-                            pointLines.Add(bezierPoints[k - (splitB + 3)]);
+                            pointLines.Add(bezierPoints[k - (splitA + 3)]);
                         }
                         k++;
                     }
@@ -279,7 +279,7 @@ namespace Geometric2.ModelGeneration
                 }
                 else
                 {
-                    for (int j = -1; j <= splitB + 1; j++)
+                    for (int j = -1; j <= splitA + 1; j++)
                     {
                         if (j != -1)
                         {
@@ -288,7 +288,7 @@ namespace Geometric2.ModelGeneration
                         }
                         if (i != -1)
                         {
-                            pointLines.Add(bezierPoints[k - (splitB + 3)]);
+                            pointLines.Add(bezierPoints[k - (splitA + 3)]);
                             pointLines.Add(bezierPoints[k]);
                         }
                         k++;
@@ -325,10 +325,10 @@ namespace Geometric2.ModelGeneration
                 vertices.Add(b.Position().Z);
             }
 
-            uint width = (uint)splitB + 3;
-            for (uint i = 0; i < splitA; i++)
+            uint width = (uint)splitA + 3;
+            for (uint i = 0; i < splitB; i++)
             {
-                for (uint j = 0; j < splitB; j++)
+                for (uint j = 0; j < splitA; j++)
                 {
                     for (uint k = 0; k < 4; k++)
                     {
