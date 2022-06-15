@@ -335,9 +335,9 @@ namespace Geometric2.ModelGeneration
             bezierPatchC0Indices = indices.ToArray();
         }
 
-        public List<SinglePatch> GetAllPatches()
+        public List<PatchC0> GetAllPatches()
         {
-            List<SinglePatch> res = new List<SinglePatch>();// w razie czego tu szukac bledu
+            List<PatchC0> res = new List<PatchC0>();
             int stride = 3 * splitB + 1;
             for (int i = 0; i < splitA; ++i)
             {
@@ -354,7 +354,7 @@ namespace Geometric2.ModelGeneration
                         }
                         patch.Add(line);
                     }
-                    SinglePatch sp;
+                    PatchC0 sp;
                     sp.bezier = this;
                     sp.patch = patch;
                     res.Add(sp);

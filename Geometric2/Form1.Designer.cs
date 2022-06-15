@@ -105,14 +105,31 @@ namespace Geometric2
             this.trackBar2 = new System.Windows.Forms.TrackBar();
             this.label41 = new System.Windows.Forms.Label();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.c2patchtube = new System.Windows.Forms.TabPage();
+            this.Gregory = new System.Windows.Forms.TabPage();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.label48 = new System.Windows.Forms.Label();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.label49 = new System.Windows.Forms.Label();
+            this.textBox14 = new System.Windows.Forms.TextBox();
+            this.trackBar11 = new System.Windows.Forms.TrackBar();
+            this.trackBar12 = new System.Windows.Forms.TrackBar();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.label46 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.label47 = new System.Windows.Forms.Label();
+            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.trackBar7 = new System.Windows.Forms.TrackBar();
+            this.trackBar8 = new System.Windows.Forms.TrackBar();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.label42 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.trackBar9 = new System.Windows.Forms.TrackBar();
-            this.trackBar10 = new System.Windows.Forms.TrackBar();
-            this.label43 = new System.Windows.Forms.Label();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.label43 = new System.Windows.Forms.Label();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.trackBar10 = new System.Windows.Forms.TrackBar();
+            this.trackBar9 = new System.Windows.Forms.TrackBar();
             this.RotationTranslationScale = new System.Windows.Forms.TabControl();
             this.ElementsSelected = new System.Windows.Forms.TabPage();
             this.ApplyRotTransScaleButton = new System.Windows.Forms.Button();
@@ -210,9 +227,16 @@ namespace Geometric2
             this.c2patch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
-            this.c2patchtube.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar9)).BeginInit();
+            this.Gregory.SuspendLayout();
+            this.panel7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar12)).BeginInit();
+            this.panel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar8)).BeginInit();
+            this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar9)).BeginInit();
             this.RotationTranslationScale.SuspendLayout();
             this.ElementsSelected.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.elementScaleUpDown)).BeginInit();
@@ -269,35 +293,35 @@ namespace Geometric2
             // loadModelToolStripMenuItem
             // 
             this.loadModelToolStripMenuItem.Name = "loadModelToolStripMenuItem";
-            this.loadModelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadModelToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.loadModelToolStripMenuItem.Text = "Load Model (XML)";
             this.loadModelToolStripMenuItem.Click += new System.EventHandler(this.loadModelToolStripMenuItem_Click);
             // 
             // loadModelJSONToolStripMenuItem
             // 
             this.loadModelJSONToolStripMenuItem.Name = "loadModelJSONToolStripMenuItem";
-            this.loadModelJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadModelJSONToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.loadModelJSONToolStripMenuItem.Text = "Load Model (JSON)";
             this.loadModelJSONToolStripMenuItem.Click += new System.EventHandler(this.loadModelJSONToolStripMenuItem_Click);
             // 
             // createPathsToolStripMenuItem
             // 
             this.createPathsToolStripMenuItem.Name = "createPathsToolStripMenuItem";
-            this.createPathsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.createPathsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.createPathsToolStripMenuItem.Text = "Create Paths";
             this.createPathsToolStripMenuItem.Click += new System.EventHandler(this.createPathsToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.saveAsToolStripMenuItem.Text = "Save As.. (XML)";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // saveAsJSONToolStripMenuItem
             // 
             this.saveAsJSONToolStripMenuItem.Name = "saveAsJSONToolStripMenuItem";
-            this.saveAsJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsJSONToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.saveAsJSONToolStripMenuItem.Text = "Save As.. (JSON)";
             this.saveAsJSONToolStripMenuItem.Click += new System.EventHandler(this.saveAsJSONToolStripMenuItem_Click);
             // 
@@ -432,7 +456,7 @@ namespace Geometric2
             this.bezierPatchC0DrawPolyline.Controls.Add(this.tabPage1);
             this.bezierPatchC0DrawPolyline.Controls.Add(this.TEST);
             this.bezierPatchC0DrawPolyline.Controls.Add(this.c2patch);
-            this.bezierPatchC0DrawPolyline.Controls.Add(this.c2patchtube);
+            this.bezierPatchC0DrawPolyline.Controls.Add(this.Gregory);
             this.bezierPatchC0DrawPolyline.Location = new System.Drawing.Point(0, 256);
             this.bezierPatchC0DrawPolyline.Name = "bezierPatchC0DrawPolyline";
             this.bezierPatchC0DrawPolyline.SelectedIndex = 0;
@@ -1020,63 +1044,248 @@ namespace Geometric2
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
-            // c2patchtube
+            // Gregory
             // 
-            this.c2patchtube.Controls.Add(this.label42);
-            this.c2patchtube.Controls.Add(this.textBox6);
-            this.c2patchtube.Controls.Add(this.textBox7);
-            this.c2patchtube.Controls.Add(this.trackBar9);
-            this.c2patchtube.Controls.Add(this.trackBar10);
-            this.c2patchtube.Controls.Add(this.label43);
-            this.c2patchtube.Controls.Add(this.checkBox3);
-            this.c2patchtube.Location = new System.Drawing.Point(4, 22);
-            this.c2patchtube.Name = "c2patchtube";
-            this.c2patchtube.Size = new System.Drawing.Size(157, 422);
-            this.c2patchtube.TabIndex = 7;
-            this.c2patchtube.Text = "C2 Patch Tube";
-            this.c2patchtube.UseVisualStyleBackColor = true;
+            this.Gregory.Controls.Add(this.panel7);
+            this.Gregory.Controls.Add(this.panel6);
+            this.Gregory.Controls.Add(this.panel5);
+            this.Gregory.Location = new System.Drawing.Point(4, 22);
+            this.Gregory.Name = "Gregory";
+            this.Gregory.Size = new System.Drawing.Size(157, 422);
+            this.Gregory.TabIndex = 7;
+            this.Gregory.Text = "Gregory";
+            this.Gregory.UseVisualStyleBackColor = true;
+            // 
+            // panel7
+            // 
+            this.panel7.Controls.Add(this.label48);
+            this.panel7.Controls.Add(this.checkBox4);
+            this.panel7.Controls.Add(this.textBox13);
+            this.panel7.Controls.Add(this.label49);
+            this.panel7.Controls.Add(this.textBox14);
+            this.panel7.Controls.Add(this.trackBar11);
+            this.panel7.Controls.Add(this.trackBar12);
+            this.panel7.Location = new System.Drawing.Point(8, 267);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(144, 127);
+            this.panel7.TabIndex = 54;
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Location = new System.Drawing.Point(3, 8);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(65, 13);
+            this.label48.TabIndex = 52;
+            this.label48.Text = "Segments U";
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(32, 108);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(90, 17);
+            this.checkBox4.TabIndex = 46;
+            this.checkBox4.Text = "Draw Polyline";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
+            // 
+            // textBox13
+            // 
+            this.textBox13.Location = new System.Drawing.Point(23, 82);
+            this.textBox13.Name = "textBox13";
+            this.textBox13.ReadOnly = true;
+            this.textBox13.Size = new System.Drawing.Size(38, 20);
+            this.textBox13.TabIndex = 51;
+            this.textBox13.Text = "1";
+            // 
+            // label49
+            // 
+            this.label49.AutoSize = true;
+            this.label49.Location = new System.Drawing.Point(3, 66);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(64, 13);
+            this.label49.TabIndex = 47;
+            this.label49.Text = "Segments V";
+            // 
+            // textBox14
+            // 
+            this.textBox14.Location = new System.Drawing.Point(21, 27);
+            this.textBox14.Name = "textBox14";
+            this.textBox14.ReadOnly = true;
+            this.textBox14.Size = new System.Drawing.Size(38, 20);
+            this.textBox14.TabIndex = 50;
+            this.textBox14.Text = "1";
+            // 
+            // trackBar11
+            // 
+            this.trackBar11.Location = new System.Drawing.Point(72, 2);
+            this.trackBar11.Maximum = 63;
+            this.trackBar11.Minimum = 1;
+            this.trackBar11.Name = "trackBar11";
+            this.trackBar11.Size = new System.Drawing.Size(67, 45);
+            this.trackBar11.TabIndex = 48;
+            this.trackBar11.Value = 1;
+            this.trackBar11.Scroll += new System.EventHandler(this.trackBar11_Scroll);
+            // 
+            // trackBar12
+            // 
+            this.trackBar12.Location = new System.Drawing.Point(72, 61);
+            this.trackBar12.Maximum = 63;
+            this.trackBar12.Minimum = 1;
+            this.trackBar12.Name = "trackBar12";
+            this.trackBar12.Size = new System.Drawing.Size(67, 45);
+            this.trackBar12.TabIndex = 49;
+            this.trackBar12.Value = 1;
+            this.trackBar12.Scroll += new System.EventHandler(this.trackBar12_Scroll);
+            // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.label46);
+            this.panel6.Controls.Add(this.checkBox1);
+            this.panel6.Controls.Add(this.textBox11);
+            this.panel6.Controls.Add(this.label47);
+            this.panel6.Controls.Add(this.textBox12);
+            this.panel6.Controls.Add(this.trackBar7);
+            this.panel6.Controls.Add(this.trackBar8);
+            this.panel6.Location = new System.Drawing.Point(8, 134);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(144, 127);
+            this.panel6.TabIndex = 54;
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Location = new System.Drawing.Point(3, 8);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(65, 13);
+            this.label46.TabIndex = 52;
+            this.label46.Text = "Segments U";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(32, 108);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(90, 17);
+            this.checkBox1.TabIndex = 46;
+            this.checkBox1.Text = "Draw Polyline";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged_1);
+            // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(23, 82);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.ReadOnly = true;
+            this.textBox11.Size = new System.Drawing.Size(38, 20);
+            this.textBox11.TabIndex = 51;
+            this.textBox11.Text = "1";
+            // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Location = new System.Drawing.Point(3, 66);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(64, 13);
+            this.label47.TabIndex = 47;
+            this.label47.Text = "Segments V";
+            // 
+            // textBox12
+            // 
+            this.textBox12.Location = new System.Drawing.Point(21, 27);
+            this.textBox12.Name = "textBox12";
+            this.textBox12.ReadOnly = true;
+            this.textBox12.Size = new System.Drawing.Size(38, 20);
+            this.textBox12.TabIndex = 50;
+            this.textBox12.Text = "1";
+            // 
+            // trackBar7
+            // 
+            this.trackBar7.Location = new System.Drawing.Point(72, 2);
+            this.trackBar7.Maximum = 63;
+            this.trackBar7.Minimum = 1;
+            this.trackBar7.Name = "trackBar7";
+            this.trackBar7.Size = new System.Drawing.Size(67, 45);
+            this.trackBar7.TabIndex = 48;
+            this.trackBar7.Value = 1;
+            this.trackBar7.Scroll += new System.EventHandler(this.trackBar7_Scroll_1);
+            // 
+            // trackBar8
+            // 
+            this.trackBar8.Location = new System.Drawing.Point(72, 61);
+            this.trackBar8.Maximum = 63;
+            this.trackBar8.Minimum = 1;
+            this.trackBar8.Name = "trackBar8";
+            this.trackBar8.Size = new System.Drawing.Size(67, 45);
+            this.trackBar8.TabIndex = 49;
+            this.trackBar8.Value = 1;
+            this.trackBar8.Scroll += new System.EventHandler(this.trackBar8_Scroll_1);
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.label42);
+            this.panel5.Controls.Add(this.checkBox3);
+            this.panel5.Controls.Add(this.textBox6);
+            this.panel5.Controls.Add(this.label43);
+            this.panel5.Controls.Add(this.textBox7);
+            this.panel5.Controls.Add(this.trackBar10);
+            this.panel5.Controls.Add(this.trackBar9);
+            this.panel5.Location = new System.Drawing.Point(8, 3);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(144, 127);
+            this.panel5.TabIndex = 53;
             // 
             // label42
             // 
             this.label42.AutoSize = true;
-            this.label42.Location = new System.Drawing.Point(9, 26);
+            this.label42.Location = new System.Drawing.Point(3, 8);
             this.label42.Name = "label42";
             this.label42.Size = new System.Drawing.Size(65, 13);
             this.label42.TabIndex = 52;
             this.label42.Text = "Segments U";
             // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(32, 108);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(90, 17);
+            this.checkBox3.TabIndex = 46;
+            this.checkBox3.Text = "Draw Polyline";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            // 
             // textBox6
             // 
-            this.textBox6.Location = new System.Drawing.Point(27, 112);
+            this.textBox6.Location = new System.Drawing.Point(23, 82);
             this.textBox6.Name = "textBox6";
             this.textBox6.ReadOnly = true;
             this.textBox6.Size = new System.Drawing.Size(38, 20);
             this.textBox6.TabIndex = 51;
             this.textBox6.Text = "1";
             // 
+            // label43
+            // 
+            this.label43.AutoSize = true;
+            this.label43.Location = new System.Drawing.Point(3, 66);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(64, 13);
+            this.label43.TabIndex = 47;
+            this.label43.Text = "Segments V";
+            // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(29, 45);
+            this.textBox7.Location = new System.Drawing.Point(21, 27);
             this.textBox7.Name = "textBox7";
             this.textBox7.ReadOnly = true;
             this.textBox7.Size = new System.Drawing.Size(38, 20);
             this.textBox7.TabIndex = 50;
             this.textBox7.Text = "1";
             // 
-            // trackBar9
-            // 
-            this.trackBar9.Location = new System.Drawing.Point(77, 96);
-            this.trackBar9.Maximum = 63;
-            this.trackBar9.Minimum = 1;
-            this.trackBar9.Name = "trackBar9";
-            this.trackBar9.Size = new System.Drawing.Size(67, 45);
-            this.trackBar9.TabIndex = 49;
-            this.trackBar9.Value = 1;
-            this.trackBar9.Scroll += new System.EventHandler(this.trackBar9_Scroll);
-            // 
             // trackBar10
             // 
-            this.trackBar10.Location = new System.Drawing.Point(78, 26);
+            this.trackBar10.Location = new System.Drawing.Point(72, 2);
             this.trackBar10.Maximum = 63;
             this.trackBar10.Minimum = 1;
             this.trackBar10.Name = "trackBar10";
@@ -1085,25 +1294,16 @@ namespace Geometric2
             this.trackBar10.Value = 1;
             this.trackBar10.Scroll += new System.EventHandler(this.trackBar10_Scroll);
             // 
-            // label43
+            // trackBar9
             // 
-            this.label43.AutoSize = true;
-            this.label43.Location = new System.Drawing.Point(11, 84);
-            this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(64, 13);
-            this.label43.TabIndex = 47;
-            this.label43.Text = "Segments V";
-            // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(29, 166);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(90, 17);
-            this.checkBox3.TabIndex = 46;
-            this.checkBox3.Text = "Draw Polyline";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            this.trackBar9.Location = new System.Drawing.Point(72, 61);
+            this.trackBar9.Maximum = 63;
+            this.trackBar9.Minimum = 1;
+            this.trackBar9.Name = "trackBar9";
+            this.trackBar9.Size = new System.Drawing.Size(67, 45);
+            this.trackBar9.TabIndex = 49;
+            this.trackBar9.Value = 1;
+            this.trackBar9.Scroll += new System.EventHandler(this.trackBar9_Scroll);
             // 
             // RotationTranslationScale
             // 
@@ -1917,7 +2117,7 @@ namespace Geometric2
             this.CoursorTab.Location = new System.Drawing.Point(4, 22);
             this.CoursorTab.Name = "CoursorTab";
             this.CoursorTab.Padding = new System.Windows.Forms.Padding(3);
-            this.CoursorTab.Size = new System.Drawing.Size(254, 870);
+            this.CoursorTab.Size = new System.Drawing.Size(344, 870);
             this.CoursorTab.TabIndex = 1;
             this.CoursorTab.Text = "Coursor";
             this.CoursorTab.UseVisualStyleBackColor = true;
@@ -1960,10 +2160,19 @@ namespace Geometric2
             this.c2patch.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
-            this.c2patchtube.ResumeLayout(false);
-            this.c2patchtube.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar9)).EndInit();
+            this.Gregory.ResumeLayout(false);
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar12)).EndInit();
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar8)).EndInit();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar9)).EndInit();
             this.RotationTranslationScale.ResumeLayout(false);
             this.ElementsSelected.ResumeLayout(false);
             this.ElementsSelected.PerformLayout();
@@ -2129,7 +2338,7 @@ namespace Geometric2
         private System.Windows.Forms.TrackBar trackBar2;
         private System.Windows.Forms.Label label41;
         private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.TabPage c2patchtube;
+        private System.Windows.Forms.TabPage Gregory;
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.TextBox textBox7;
@@ -2147,6 +2356,23 @@ namespace Geometric2
         private System.Windows.Forms.Button addGregory;
         private System.Windows.Forms.ToolStripMenuItem saveAsJSONToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadModelJSONToolStripMenuItem;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.TextBox textBox13;
+        private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.TextBox textBox14;
+        private System.Windows.Forms.TrackBar trackBar11;
+        private System.Windows.Forms.TrackBar trackBar12;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.TrackBar trackBar7;
+        private System.Windows.Forms.TrackBar trackBar8;
+        private System.Windows.Forms.Panel panel5;
     }
 }
 

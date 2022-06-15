@@ -115,6 +115,7 @@ namespace Geometric2
         //private BezierPatchTubeC0 selectedBezierPatchTubeC0 = null;
 
         private BezierPatchC2 selectedBezierPatchC2 = null;
+        private Gregory selectedGregory = null;
         //private BezierPatchTubeC2 selectedBezierPatchTubeC2 = null;
 
         int prev_xPosMouse = -1, prev_yPosMouse = -1;
@@ -236,20 +237,15 @@ namespace Geometric2
                         selectedBezierPatchC0 = _bezierPatchC0;
                     }
 
-                    //else if (element is BezierPatchTubeC0 _bezierPatchTubeC0)
-                    //{
-                    //    selectedBezierPatchTubeC0 = _bezierPatchTubeC0;
-                    //}
-
                     else if (element is BezierPatchC2 _bezierPatchC2)
                     {
                         selectedBezierPatchC2 = _bezierPatchC2;
                     }
 
-                    //else if (element is BezierPatchTubeC2 _bezierPatchTubeC2)
-                    //{
-                    //    selectedBezierPatchTubeC2 = _bezierPatchTubeC2;
-                    //}
+                    else if (element is Gregory _gregory)
+                    {
+                        selectedGregory = _gregory;
+                    }
 
 
                     SelectedElements.Add(element);
@@ -388,14 +384,6 @@ namespace Geometric2
                 }
             }
 
-            //if (selectedBezierPatchTubeC0 != null)
-            //{
-            //    foreach (var el in selectedBezierPatchTubeC0.bezierPoints)
-            //    {
-            //        DeselectElement(el);
-            //    }
-            //}
-
             if (selectedBezierPatchC2 != null)
             {
                 foreach (var el in selectedBezierPatchC2.bezierPoints)
@@ -404,13 +392,27 @@ namespace Geometric2
                 }
             }
 
-            //if (selectedBezierPatchTubeC2 != null)
-            //{
-            //    foreach (var el in selectedBezierPatchTubeC2.bezierPoints)
-            //    {
-            //        DeselectElement(el);
-            //    }
-            //}
+            if (selectedGregory != null)
+            {
+                DeselectElement(selectedGregory.gp1);
+                DeselectElement(selectedGregory.gp2);
+                DeselectElement(selectedGregory.gp3);
+
+                foreach (var el in selectedGregory.gp1.points)
+                {
+                    DeselectElement(el);
+                }
+
+                foreach (var el in selectedGregory.gp2.points)
+                {
+                    DeselectElement(el);
+                }
+
+                foreach (var el in selectedGregory.gp3.points)
+                {
+                    DeselectElement(el);
+                }
+            }
 
             UpdateDrawingStatus();
         }
@@ -1439,37 +1441,35 @@ namespace Geometric2
 
         private void trackBar10_Scroll(object sender, EventArgs e)
         {
-            //if (selectedBezierPatchTubeC2 != null)
-            //{
-            //    selectedBezierPatchTubeC2.SegmentsU = trackBar10.Value;
-            //    textBox7.Text = selectedBezierPatchTubeC2.SegmentsU.ToString();
-            //    selectedBezierPatchTubeC2.RegenerateBezierPatchTubeC2();
-            //}
+            if (selectedGregory != null)
+            {
+                selectedGregory.gp1.SegmentsU = trackBar10.Value;
+                textBox7.Text = selectedGregory.gp1.SegmentsU.ToString();
+            }
         }
 
         private void trackBar9_Scroll(object sender, EventArgs e)
         {
-            //if (selectedBezierPatchTubeC2 != null)
-            //{
-            //    selectedBezierPatchTubeC2.SegmentsV = trackBar9.Value;
-            //    textBox6.Text = selectedBezierPatchTubeC2.SegmentsV.ToString();
-            //    selectedBezierPatchTubeC2.RegenerateBezierPatchTubeC2();
-            //}
+            if (selectedGregory != null)
+            {
+                selectedGregory.gp1.SegmentsV = trackBar9.Value;
+                textBox6.Text = selectedGregory.gp1.SegmentsV.ToString();
+            }
         }
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
-            //if (selectedBezierPatchTubeC2 != null)
-            //{
-            //    if (checkBox3.Checked)
-            //    {
-            //        selectedBezierPatchTubeC2.DrawPolyline = true;
-            //    }
-            //    else
-            //    {
-            //        selectedBezierPatchTubeC2.DrawPolyline = false;
-            //    }
-            //}
+            if (selectedGregory != null)
+            {
+                if (checkBox3.Checked)
+                {
+                    selectedGregory.gp1.DrawPolyline = true;
+                }
+                else
+                {
+                    selectedGregory.gp1.DrawPolyline = false;
+                }
+            }
         }
 
         private void loadModelToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2077,6 +2077,7 @@ namespace Geometric2
             CreateGregoryClass gregoryCreator = new CreateGregoryClass();
             List<Gregory> holes = gregoryCreator.CreateGregory(1, _camera, glControl1.Width, glControl1.Height, Elements, SelectedElements);
             Elements.AddRange(holes);
+            SelectedElements.AddRange(holes);
             foreach (var h in holes)
             {
                 h.CreateGlElement(_shader, _shaderGeometry, _gregoryShader);
@@ -2581,6 +2582,72 @@ namespace Geometric2
             drawingStatus = DrawingStatus.No;
             selectedBezierPatchC2 = bezierPatchC2;
             UpdateDrawingStatus();
+        }
+
+        private void checkBox1_CheckedChanged_1(object sender, EventArgs e)
+        {
+            if (selectedGregory != null)
+            {
+                if (checkBox1.Checked)
+                {
+                    selectedGregory.gp2.DrawPolyline = true;
+                }
+                else
+                {
+                    selectedGregory.gp2.DrawPolyline = false;
+                }
+            }
+        }
+
+        private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (selectedGregory != null)
+            {
+                if (checkBox4.Checked)
+                {
+                    selectedGregory.gp3.DrawPolyline = true;
+                }
+                else
+                {
+                    selectedGregory.gp3.DrawPolyline = false;
+                }
+            }
+        }
+
+        private void trackBar7_Scroll_1(object sender, EventArgs e)
+        {
+            if (selectedGregory != null)
+            {
+                selectedGregory.gp2.SegmentsU = trackBar7.Value;
+                textBox12.Text = selectedGregory.gp2.SegmentsU.ToString();
+            }
+        }
+
+        private void trackBar8_Scroll_1(object sender, EventArgs e)
+        {
+            if (selectedGregory != null)
+            {
+                selectedGregory.gp2.SegmentsV = trackBar8.Value;
+                textBox11.Text = selectedGregory.gp2.SegmentsV.ToString();
+            }
+        }
+
+        private void trackBar11_Scroll(object sender, EventArgs e)
+        {
+            if (selectedGregory != null)
+            {
+                selectedGregory.gp3.SegmentsU = trackBar11.Value;
+                textBox14.Text = selectedGregory.gp3.SegmentsU.ToString();
+            }
+        }
+
+        private void trackBar12_Scroll(object sender, EventArgs e)
+        {
+            if (selectedGregory != null)
+            {
+                selectedGregory.gp3.SegmentsV = trackBar12.Value;
+                textBox13.Text = selectedGregory.gp3.SegmentsV.ToString();
+            }
         }
 
         private void eyeDistTrackBar_Scroll(object sender, EventArgs e)
