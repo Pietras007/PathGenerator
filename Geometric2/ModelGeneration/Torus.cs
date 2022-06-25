@@ -3,12 +3,13 @@ using System.Drawing;
 using Geometric2.Helpers;
 using Geometric2.MatrixHelpers;
 using Geometric2.RasterizationClasses;
+using Intersect;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
 namespace Geometric2.ModelGeneration
 {
-    public class Torus : Element
+    public class Torus : Element, ISurface
     {
         public int torusVBO, torusVAO, torusEBO;
         private float[] torusPoints;
@@ -140,6 +141,36 @@ namespace Geometric2.ModelGeneration
         public Vector3 Position()
         {
             return this.CenterPosition + this.TemporaryTranslation + this.Translation;
+        }
+
+        public Vector3 P(float u, float v)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Vector3 T(float u, float v)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Vector3 B(float u, float v)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Vector3 N(float u, float v)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool WrapsU()
+        {
+            return true;
+        }
+
+        public bool WrapsV()
+        {
+            return true;
         }
     }
 }

@@ -125,8 +125,8 @@ namespace Geometric2.Intersect
             Vector3 bitangent = B(u, v);
             Vector3 normal = Vector3.Cross(tangent, bitangent).Normalized();
 
-            currentPoint += (-normal * R);
-            currentPoint -= new Vector3(0, R, 0);
+            //currentPoint += (-normal * R);
+            //currentPoint -= new Vector3(0, R, 0);
 
             return currentPoint;
         }

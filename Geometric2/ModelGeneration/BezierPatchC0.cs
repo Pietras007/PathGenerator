@@ -1,16 +1,20 @@
-﻿using Geometric2.Helpers;
+﻿using Geometric2.DrillLines;
+using Geometric2.Helpers;
 using Geometric2.MatrixHelpers;
 using Geometric2.RasterizationClasses;
+using Intersect;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace Geometric2.ModelGeneration
 {
-    public class BezierPatchC0 : Element
+    public class BezierPatchC0 : Element, ISurface
     {
+        public List<Vector3>[,] patches;
         public bool DrawPolyline { get; set; }
         public float PlaneWidth { get; set; }
         public float PlaneHeight { get; set; }
@@ -38,7 +42,7 @@ namespace Geometric2.ModelGeneration
         private float x0, y0;
         private float r;
 
-        private bool isTube;
+        public bool isTube;
 
         public BezierPatchC0(int[] pointNumber, int bezierC0Number, Camera _camera, int width, int height, float[] values, bool isTube = false)
         {
@@ -61,6 +65,7 @@ namespace Geometric2.ModelGeneration
             this.isTube = isTube;
             FullName = "BezierPatchC0 " + bezierPatchC0Number;
             GenerateBezierPoints();
+            this.FillPatches();
         }
 
         public BezierPatchC0(int bezierC0Number, Camera _camera, int width, int height, bool isTube = false)
@@ -86,6 +91,7 @@ namespace Geometric2.ModelGeneration
         public override void CreateGlElement(Shader _shader, ShaderGeometry _patchGeometryShader, TeselationShader _teselationShader)
         {
             RegenerateBezierPatchC0();
+            FillPatches();
             bezierPatchC0PolylineVAO = GL.GenVertexArray();
             bezierPatchC0PolylineVBO = GL.GenBuffer();
             bezierPatchC0polylineEBO = GL.GenBuffer();
@@ -113,6 +119,7 @@ namespace Geometric2.ModelGeneration
 
         public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _patchGeometryShader, TeselationShader _teselationShader)
         {
+            UpdatePatches();
             RegenerateBezierPatchC0();
 
             TempRotationQuaternion = Quaternion.FromEulerAngles((float)(2 * Math.PI * ElementRotationX / 360), (float)(2 * Math.PI * ElementRotationY / 360), (float)(2 * Math.PI * ElementRotationZ / 360));
@@ -361,6 +368,142 @@ namespace Geometric2.ModelGeneration
                 }
             }
             return res;
+        }
+
+        public Vector3 P(float u, float v)
+        {
+            u = Clamp(u, 0, 1);
+            v = Clamp(v, 0, 1);
+            float valA = (u * splitA);
+            float valB = (v * splitB);
+            var patchA = (int)Math.Floor(valA);
+            if (patchA == splitA) patchA--;
+            var patchB = (int)Math.Floor(valB);
+            if (patchB == splitB) patchB--;
+            float patchU = valA - patchA;
+            float patchV = valB - patchB;
+            List<Vector3> points = patches[patchA, patchB];
+            return CP(patchU, patchV, points);
+        }
+
+        public void FillPatches()
+        {
+            patches = new List<Vector3>[splitA, splitB];
+            UpdatePatches();
+        }
+
+        public void UpdatePatches()
+        {
+            uint width = (uint)splitB * 3 + 1;
+            int patch_idx = 0;
+            int point_patch_idx = 0;
+            for (uint i = 0; i < splitA; i++)
+            {
+                for (uint j = 0; j < splitB; j++)
+                {
+                    Vector3[] _pointrefs = new Vector3[16];
+                    point_patch_idx = 0;
+                    for (uint k = 0; k < 4; k++)
+                    {
+                        for (uint l = 0; l < 4; l++)
+                        {
+                            uint width_pos = 3 * j + l;
+                            uint height_pos = 3 * i + k;
+                            uint pos = height_pos * width + width_pos;
+                            _pointrefs[point_patch_idx] = bezierPoints[(int)pos].Position();
+                            point_patch_idx++;
+                        }
+                    }
+
+                    patches[i, j] = _pointrefs.ToList();
+                    patch_idx++;
+                }
+            }
+        }
+
+        public Vector3 CP(float v, float u, List<Vector3> points)
+        {
+            Vector3 four1 = new Vector3();
+            Vector3 four2 = new Vector3();
+            Vector3 four3 = new Vector3();
+            Vector3 four4 = new Vector3();
+
+
+            four1.X = HelpFunctions.DeKastilio(new float[] { points[0].X, points[1].X, points[2].X, points[3].X }, u, 4);
+            four1.Y = HelpFunctions.DeKastilio(new float[] { points[0].Y, points[1].Y, points[2].Y, points[3].Y }, u, 4);
+            four1.Z = HelpFunctions.DeKastilio(new float[] { points[0].Z, points[1].Z, points[2].Z, points[3].Z }, u, 4);
+
+            four2.X = HelpFunctions.DeKastilio(new float[] { points[4 + 0].X, points[4 + 1].X, points[4 + 2].X, points[4 + 3].X }, u, 4);
+            four2.Y = HelpFunctions.DeKastilio(new float[] { points[4 + 0].Y, points[4 + 1].Y, points[4 + 2].Y, points[4 + 3].Y }, u, 4);
+            four2.Z = HelpFunctions.DeKastilio(new float[] { points[4 + 0].Z, points[4 + 1].Z, points[4 + 2].Z, points[4 + 3].Z }, u, 4);
+
+            four3.X = HelpFunctions.DeKastilio(new float[] { points[8 + 0].X, points[8 + 1].X, points[8 + 2].X, points[8 + 3].X }, u, 4);
+            four3.Y = HelpFunctions.DeKastilio(new float[] { points[8 + 0].Y, points[8 + 1].Y, points[8 + 2].Y, points[8 + 3].Y }, u, 4);
+            four3.Z = HelpFunctions.DeKastilio(new float[] { points[8 + 0].Z, points[8 + 1].Z, points[8 + 2].Z, points[8 + 3].Z }, u, 4);
+
+            four4.X = HelpFunctions.DeKastilio(new float[] { points[12 + 0].X, points[12 + 1].X, points[12 + 2].X, points[12 + 3].X }, u, 4);
+            four4.Y = HelpFunctions.DeKastilio(new float[] { points[12 + 0].Y, points[12 + 1].Y, points[12 + 2].Y, points[12 + 3].Y }, u, 4);
+            four4.Z = HelpFunctions.DeKastilio(new float[] { points[12 + 0].Z, points[12 + 1].Z, points[12 + 2].Z, points[12 + 3].Z }, u, 4);
+
+            Vector3 currentPoint = new Vector3(HelpFunctions.DeKastilio(new float[] { four1.X, four2.X, four3.X, four4.X }, v, 4),
+                HelpFunctions.DeKastilio(new float[] { four1.Y, four2.Y, four3.Y, four4.Y }, v, 4),
+                HelpFunctions.DeKastilio(new float[] { four1.Z, four2.Z, four3.Z, four4.Z }, v, 4));
+
+            return currentPoint;
+        }
+
+        public Vector3 T(float u, float v)
+        {
+            if (u + 1e-4f < 1)
+                return (P(u + 1e-4f, v) - (P(u, v))) / (1e-4f);
+            else
+                return (P(u, v) - (P(u - 1e-4f, v))) / (1e-4f);
+        }
+
+        public Vector3 B(float u, float v)
+        {
+            if (v + 1e-4f < 1)
+                return (P(u, v + 1e-4f) - P(u, v)) / (1e-4f);
+            else
+                return (P(u, v) - P(u, v - 1e-4f)) / (1e-4f);
+        }
+
+        public Vector3 N(float u, float v)
+        {
+            Vector3 tangent = T(u, v);
+            Vector3 bitangent = B(u, v);
+            Vector3 normal = Vector3.Cross(tangent, bitangent);
+            return normal.Normalized();
+        }
+
+        public bool WrapsU()
+        {
+            return false;
+        }
+
+        public bool WrapsV()
+        {
+            return isTube;
+        }
+
+        private static float Clamp(float val, float min, float max)
+        {
+            if (val < min)
+            {
+                return min;
+            }
+            else if (val > max)
+            {
+                return max;
+            }
+            else if (val >= min && val <= max)
+            {
+                return val;
+            }
+            else
+            {
+                return 0.5f;
+            }
         }
     }
 }

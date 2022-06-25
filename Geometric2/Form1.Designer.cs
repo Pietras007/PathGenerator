@@ -209,6 +209,7 @@ namespace Geometric2
             this.addPoint = new System.Windows.Forms.Button();
             this.elementsOnScene = new System.Windows.Forms.ListBox();
             this.CoursorTab = new System.Windows.Forms.TabPage();
+            this.intersectionButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.eyeDistTrackBar)).BeginInit();
@@ -293,35 +294,35 @@ namespace Geometric2
             // loadModelToolStripMenuItem
             // 
             this.loadModelToolStripMenuItem.Name = "loadModelToolStripMenuItem";
-            this.loadModelToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.loadModelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadModelToolStripMenuItem.Text = "Load Model (XML)";
             this.loadModelToolStripMenuItem.Click += new System.EventHandler(this.loadModelToolStripMenuItem_Click);
             // 
             // loadModelJSONToolStripMenuItem
             // 
             this.loadModelJSONToolStripMenuItem.Name = "loadModelJSONToolStripMenuItem";
-            this.loadModelJSONToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.loadModelJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadModelJSONToolStripMenuItem.Text = "Load Model (JSON)";
             this.loadModelJSONToolStripMenuItem.Click += new System.EventHandler(this.loadModelJSONToolStripMenuItem_Click);
             // 
             // createPathsToolStripMenuItem
             // 
             this.createPathsToolStripMenuItem.Name = "createPathsToolStripMenuItem";
-            this.createPathsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.createPathsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.createPathsToolStripMenuItem.Text = "Create Paths";
             this.createPathsToolStripMenuItem.Click += new System.EventHandler(this.createPathsToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save As.. (XML)";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // saveAsJSONToolStripMenuItem
             // 
             this.saveAsJSONToolStripMenuItem.Name = "saveAsJSONToolStripMenuItem";
-            this.saveAsJSONToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.saveAsJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsJSONToolStripMenuItem.Text = "Save As.. (JSON)";
             this.saveAsJSONToolStripMenuItem.Click += new System.EventHandler(this.saveAsJSONToolStripMenuItem_Click);
             // 
@@ -1880,6 +1881,7 @@ namespace Geometric2
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.intersectionButton);
             this.panel2.Controls.Add(this.addGregory);
             this.panel2.Controls.Add(this.addBezierPatchTubeC2);
             this.panel2.Controls.Add(this.addBezierPatchC2);
@@ -2121,6 +2123,16 @@ namespace Geometric2
             this.CoursorTab.TabIndex = 1;
             this.CoursorTab.Text = "Coursor";
             this.CoursorTab.UseVisualStyleBackColor = true;
+            // 
+            // intersectionButton
+            // 
+            this.intersectionButton.Location = new System.Drawing.Point(7, 656);
+            this.intersectionButton.Name = "intersectionButton";
+            this.intersectionButton.Size = new System.Drawing.Size(75, 34);
+            this.intersectionButton.TabIndex = 19;
+            this.intersectionButton.Text = "Intersection";
+            this.intersectionButton.UseVisualStyleBackColor = true;
+            this.intersectionButton.Click += new System.EventHandler(this.intersectionButton_Click);
             // 
             // Form1
             // 
@@ -2373,6 +2385,7 @@ namespace Geometric2
         private System.Windows.Forms.TrackBar trackBar7;
         private System.Windows.Forms.TrackBar trackBar8;
         private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Button intersectionButton;
     }
 }
 

@@ -8,7 +8,7 @@ namespace Intersect
     public static class Intersection
     {
         private const float H = 1e-3f;
-        private static Random random = new Random(12345);
+        private static Random random = new Random();
 
         public static (Vector2 pParam, Vector2 qParam)? Point(ISurface p, ISurface q, Vector3? closeTo = null)
         {
@@ -136,7 +136,7 @@ namespace Intersect
             LinkedList<(Vector2 pParam, Vector2 qParam)> parameters = new LinkedList<(Vector2 pParam, Vector2 qParam)>();
             parameters.AddLast(start.Value);
             int i = 1000;
-            while (i-- > 500)
+            while (i-- > 000)
             {
                 next = Next(p, q, next, d, 100);
                 parameters.AddLast(next);
@@ -195,7 +195,7 @@ namespace Intersect
             {
                 return max;
             }
-            else if (val>=min && val <=max)
+            else if (val >= min && val <= max)
             {
                 return val;
             }

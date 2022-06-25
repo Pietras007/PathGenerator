@@ -24,6 +24,7 @@ using SharpSceneSerializer;
 using SharpSceneSerializer.DTOs;
 using SharpSceneSerializer.DTOs.Interfaces;
 using System.Text.Json;
+using Intersect;
 
 namespace Geometric2
 {
@@ -2396,6 +2397,7 @@ namespace Geometric2
                             var _bSC0 = Newtonsoft.Json.JsonConvert.DeserializeObject<SharpSceneSerializer.DTOs.GeometryObjects.BezierSurfaceC0>(_geom.ToString());
                             ModelGeneration.BezierPatchC0 bPC0_ = new BezierPatchC0((int)_bSC0.Id, _camera, glControl1.Width, glControl1.Height);
                             bPC0_.FullName = _bSC0.Name;
+                            bPC0_.isTube = _bSC0.Name.Contains("Tube") ? true : false;
                             bPC0_.bezierPatchC0Number = (int)_bSC0.Id;
                             bPC0_.splitB = (int)_bSC0.Size.X;
                             bPC0_.splitA = (int)_bSC0.Size.Y;
@@ -2647,6 +2649,19 @@ namespace Geometric2
             {
                 selectedGregory.gp3.SegmentsV = trackBar12.Value;
                 textBox13.Text = selectedGregory.gp3.SegmentsV.ToString();
+            }
+        }
+
+        private void intersectionButton_Click(object sender, EventArgs e)
+        {
+            if (SelectedElements.Count == 2)
+            {
+                if(SelectedElements[0] is ModelGeneration.BezierPatchC0 bpc0_1 && SelectedElements[1] is ModelGeneration.BezierPatchC0 bpc0_2){
+                    IntersectionModel intersectionModel = new IntersectionModel(bpc0_1, bpc0_2, 0, _camera, glControl1.Width, glControl1.Height);
+                    intersectionModel.CreateGlElement(_shader, _shaderGeometry, _gregoryShader);
+                    Elements.Add(intersectionModel);
+                    SelectedElements.Add(intersectionModel);
+                }
             }
         }
 

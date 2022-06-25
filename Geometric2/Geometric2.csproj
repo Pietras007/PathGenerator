@@ -249,6 +249,8 @@
     <Compile Include="ModelGeneration\Gregory.cs" />
     <Compile Include="ModelGeneration\GregoryPiece.cs" />
     <Compile Include="ModelGeneration\InterpolatedBezierC2.cs" />
+    <Compile Include="ModelGeneration\IntersectionModel.cs" />
+    <Compile Include="ModelGeneration\IntersectionLines.cs" />
     <Compile Include="ModelGeneration\Point.cs" />
     <Compile Include="ModelGeneration\Torus.cs" />
     <Compile Include="ModelGeneration\TransformCenterLines.cs" />
