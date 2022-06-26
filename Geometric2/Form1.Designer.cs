@@ -130,6 +130,18 @@ namespace Geometric2
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.trackBar10 = new System.Windows.Forms.TrackBar();
             this.trackBar9 = new System.Windows.Forms.TrackBar();
+            this.Intersection = new System.Windows.Forms.TabPage();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.label50 = new System.Windows.Forms.Label();
+            this.panel9 = new System.Windows.Forms.Panel();
+            this.showTrim2CheckBox = new System.Windows.Forms.CheckBox();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.showTrim1CheckBox = new System.Windows.Forms.CheckBox();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.showIntersectionCheckBox = new System.Windows.Forms.CheckBox();
             this.RotationTranslationScale = new System.Windows.Forms.TabControl();
             this.ElementsSelected = new System.Windows.Forms.TabPage();
             this.ApplyRotTransScaleButton = new System.Windows.Forms.Button();
@@ -187,6 +199,7 @@ namespace Geometric2
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.DrawTab = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.intersectionButton = new System.Windows.Forms.Button();
             this.addGregory = new System.Windows.Forms.Button();
             this.addBezierPatchTubeC2 = new System.Windows.Forms.Button();
             this.addBezierPatchC2 = new System.Windows.Forms.Button();
@@ -209,7 +222,6 @@ namespace Geometric2
             this.addPoint = new System.Windows.Forms.Button();
             this.elementsOnScene = new System.Windows.Forms.ListBox();
             this.CoursorTab = new System.Windows.Forms.TabPage();
-            this.intersectionButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.eyeDistTrackBar)).BeginInit();
@@ -238,6 +250,10 @@ namespace Geometric2
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar9)).BeginInit();
+            this.Intersection.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.panel9.SuspendLayout();
+            this.panel8.SuspendLayout();
             this.RotationTranslationScale.SuspendLayout();
             this.ElementsSelected.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.elementScaleUpDown)).BeginInit();
@@ -294,35 +310,35 @@ namespace Geometric2
             // loadModelToolStripMenuItem
             // 
             this.loadModelToolStripMenuItem.Name = "loadModelToolStripMenuItem";
-            this.loadModelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadModelToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.loadModelToolStripMenuItem.Text = "Load Model (XML)";
             this.loadModelToolStripMenuItem.Click += new System.EventHandler(this.loadModelToolStripMenuItem_Click);
             // 
             // loadModelJSONToolStripMenuItem
             // 
             this.loadModelJSONToolStripMenuItem.Name = "loadModelJSONToolStripMenuItem";
-            this.loadModelJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadModelJSONToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.loadModelJSONToolStripMenuItem.Text = "Load Model (JSON)";
             this.loadModelJSONToolStripMenuItem.Click += new System.EventHandler(this.loadModelJSONToolStripMenuItem_Click);
             // 
             // createPathsToolStripMenuItem
             // 
             this.createPathsToolStripMenuItem.Name = "createPathsToolStripMenuItem";
-            this.createPathsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.createPathsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.createPathsToolStripMenuItem.Text = "Create Paths";
             this.createPathsToolStripMenuItem.Click += new System.EventHandler(this.createPathsToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.saveAsToolStripMenuItem.Text = "Save As.. (XML)";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // saveAsJSONToolStripMenuItem
             // 
             this.saveAsJSONToolStripMenuItem.Name = "saveAsJSONToolStripMenuItem";
-            this.saveAsJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsJSONToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.saveAsJSONToolStripMenuItem.Text = "Save As.. (JSON)";
             this.saveAsJSONToolStripMenuItem.Click += new System.EventHandler(this.saveAsJSONToolStripMenuItem_Click);
             // 
@@ -458,6 +474,7 @@ namespace Geometric2
             this.bezierPatchC0DrawPolyline.Controls.Add(this.TEST);
             this.bezierPatchC0DrawPolyline.Controls.Add(this.c2patch);
             this.bezierPatchC0DrawPolyline.Controls.Add(this.Gregory);
+            this.bezierPatchC0DrawPolyline.Controls.Add(this.Intersection);
             this.bezierPatchC0DrawPolyline.Location = new System.Drawing.Point(0, 256);
             this.bezierPatchC0DrawPolyline.Name = "bezierPatchC0DrawPolyline";
             this.bezierPatchC0DrawPolyline.SelectedIndex = 0;
@@ -1306,6 +1323,153 @@ namespace Geometric2
             this.trackBar9.Value = 1;
             this.trackBar9.Scroll += new System.EventHandler(this.trackBar9_Scroll);
             // 
+            // Intersection
+            // 
+            this.Intersection.Controls.Add(this.numericUpDown1);
+            this.Intersection.Controls.Add(this.label50);
+            this.Intersection.Controls.Add(this.panel9);
+            this.Intersection.Controls.Add(this.panel8);
+            this.Intersection.Controls.Add(this.showIntersectionCheckBox);
+            this.Intersection.Location = new System.Drawing.Point(4, 22);
+            this.Intersection.Name = "Intersection";
+            this.Intersection.Size = new System.Drawing.Size(157, 422);
+            this.Intersection.TabIndex = 8;
+            this.Intersection.Text = "Intersection";
+            this.Intersection.UseVisualStyleBackColor = true;
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.DecimalPlaces = 2;
+            this.numericUpDown1.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.numericUpDown1.Location = new System.Drawing.Point(42, 45);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(77, 20);
+            this.numericUpDown1.TabIndex = 4;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            131072});
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // label50
+            // 
+            this.label50.AutoSize = true;
+            this.label50.Location = new System.Drawing.Point(11, 47);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(16, 13);
+            this.label50.TabIndex = 3;
+            this.label50.Text = "d:";
+            // 
+            // panel9
+            // 
+            this.panel9.Controls.Add(this.showTrim2CheckBox);
+            this.panel9.Controls.Add(this.radioButton3);
+            this.panel9.Controls.Add(this.radioButton4);
+            this.panel9.Location = new System.Drawing.Point(11, 201);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(130, 97);
+            this.panel9.TabIndex = 2;
+            // 
+            // showTrim2CheckBox
+            // 
+            this.showTrim2CheckBox.AutoSize = true;
+            this.showTrim2CheckBox.Location = new System.Drawing.Point(17, 11);
+            this.showTrim2CheckBox.Name = "showTrim2CheckBox";
+            this.showTrim2CheckBox.Size = new System.Drawing.Size(85, 17);
+            this.showTrim2CheckBox.TabIndex = 3;
+            this.showTrim2CheckBox.Text = "Show Trim 2";
+            this.showTrim2CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // radioButton3
+            // 
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Location = new System.Drawing.Point(16, 65);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(80, 17);
+            this.radioButton3.TabIndex = 1;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.Text = "Surface2_2";
+            this.radioButton3.UseVisualStyleBackColor = true;
+            // 
+            // radioButton4
+            // 
+            this.radioButton4.AutoSize = true;
+            this.radioButton4.Location = new System.Drawing.Point(16, 42);
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.Size = new System.Drawing.Size(80, 17);
+            this.radioButton4.TabIndex = 0;
+            this.radioButton4.TabStop = true;
+            this.radioButton4.Text = "Surface2_1";
+            this.radioButton4.UseVisualStyleBackColor = true;
+            // 
+            // panel8
+            // 
+            this.panel8.Controls.Add(this.showTrim1CheckBox);
+            this.panel8.Controls.Add(this.radioButton2);
+            this.panel8.Controls.Add(this.radioButton1);
+            this.panel8.Location = new System.Drawing.Point(11, 96);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(130, 99);
+            this.panel8.TabIndex = 1;
+            // 
+            // showTrim1CheckBox
+            // 
+            this.showTrim1CheckBox.AutoSize = true;
+            this.showTrim1CheckBox.Location = new System.Drawing.Point(16, 17);
+            this.showTrim1CheckBox.Name = "showTrim1CheckBox";
+            this.showTrim1CheckBox.Size = new System.Drawing.Size(85, 17);
+            this.showTrim1CheckBox.TabIndex = 2;
+            this.showTrim1CheckBox.Text = "Show Trim 1";
+            this.showTrim1CheckBox.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(17, 67);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(80, 17);
+            this.radioButton2.TabIndex = 1;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "Surface1_2";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(17, 44);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(80, 17);
+            this.radioButton1.TabIndex = 0;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "Surface1_1";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // showIntersectionCheckBox
+            // 
+            this.showIntersectionCheckBox.AutoSize = true;
+            this.showIntersectionCheckBox.Location = new System.Drawing.Point(25, 22);
+            this.showIntersectionCheckBox.Name = "showIntersectionCheckBox";
+            this.showIntersectionCheckBox.Size = new System.Drawing.Size(111, 17);
+            this.showIntersectionCheckBox.TabIndex = 0;
+            this.showIntersectionCheckBox.Text = "Show Intersection";
+            this.showIntersectionCheckBox.UseVisualStyleBackColor = true;
+            this.showIntersectionCheckBox.CheckedChanged += new System.EventHandler(this.showIntersectionCheckBox_CheckedChanged);
+            // 
             // RotationTranslationScale
             // 
             this.RotationTranslationScale.Controls.Add(this.ElementsSelected);
@@ -1907,6 +2071,16 @@ namespace Geometric2
             this.panel2.Size = new System.Drawing.Size(88, 699);
             this.panel2.TabIndex = 1;
             // 
+            // intersectionButton
+            // 
+            this.intersectionButton.Location = new System.Drawing.Point(7, 656);
+            this.intersectionButton.Name = "intersectionButton";
+            this.intersectionButton.Size = new System.Drawing.Size(75, 34);
+            this.intersectionButton.TabIndex = 19;
+            this.intersectionButton.Text = "Intersection";
+            this.intersectionButton.UseVisualStyleBackColor = true;
+            this.intersectionButton.Click += new System.EventHandler(this.intersectionButton_Click);
+            // 
             // addGregory
             // 
             this.addGregory.Location = new System.Drawing.Point(7, 616);
@@ -2124,16 +2298,6 @@ namespace Geometric2
             this.CoursorTab.Text = "Coursor";
             this.CoursorTab.UseVisualStyleBackColor = true;
             // 
-            // intersectionButton
-            // 
-            this.intersectionButton.Location = new System.Drawing.Point(7, 656);
-            this.intersectionButton.Name = "intersectionButton";
-            this.intersectionButton.Size = new System.Drawing.Size(75, 34);
-            this.intersectionButton.TabIndex = 19;
-            this.intersectionButton.Text = "Intersection";
-            this.intersectionButton.UseVisualStyleBackColor = true;
-            this.intersectionButton.Click += new System.EventHandler(this.intersectionButton_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2185,6 +2349,13 @@ namespace Geometric2
             this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar9)).EndInit();
+            this.Intersection.ResumeLayout(false);
+            this.Intersection.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            this.panel9.ResumeLayout(false);
+            this.panel9.PerformLayout();
+            this.panel8.ResumeLayout(false);
+            this.panel8.PerformLayout();
             this.RotationTranslationScale.ResumeLayout(false);
             this.ElementsSelected.ResumeLayout(false);
             this.ElementsSelected.PerformLayout();
@@ -2386,6 +2557,18 @@ namespace Geometric2
         private System.Windows.Forms.TrackBar trackBar8;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Button intersectionButton;
+        private System.Windows.Forms.TabPage Intersection;
+        private System.Windows.Forms.Panel panel9;
+        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.RadioButton radioButton4;
+        private System.Windows.Forms.Panel panel8;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.CheckBox showIntersectionCheckBox;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Label label50;
+        private System.Windows.Forms.CheckBox showTrim2CheckBox;
+        private System.Windows.Forms.CheckBox showTrim1CheckBox;
     }
 }
 

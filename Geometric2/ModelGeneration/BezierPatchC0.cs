@@ -44,6 +44,9 @@ namespace Geometric2.ModelGeneration
 
         public bool isTube;
 
+        public bool wrapsU { get; set; }
+        public bool wrapsV { get; set; }
+
         public BezierPatchC0(int[] pointNumber, int bezierC0Number, Camera _camera, int width, int height, float[] values, bool isTube = false)
         {
             bezierPoints = new List<Point>();
@@ -63,6 +66,7 @@ namespace Geometric2.ModelGeneration
             this.height = height;
             this.bezierPatchC0Number = bezierC0Number;
             this.isTube = isTube;
+            //this.wrapsV = isTube;
             FullName = "BezierPatchC0 " + bezierPatchC0Number;
             GenerateBezierPoints();
             this.FillPatches();
@@ -81,6 +85,7 @@ namespace Geometric2.ModelGeneration
             this.height = height;
             this.bezierPatchC0Number = bezierC0Number;
             this.isTube = isTube;
+            //this.wrapsV = isTube;
         }
 
         public override string ToString()
@@ -478,12 +483,12 @@ namespace Geometric2.ModelGeneration
 
         public bool WrapsU()
         {
-            return false;
+            return wrapsU;
         }
 
         public bool WrapsV()
         {
-            return isTube;
+            return wrapsV;
         }
 
         private static float Clamp(float val, float min, float max)

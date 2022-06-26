@@ -117,12 +117,14 @@ namespace Geometric2
 
         private BezierPatchC2 selectedBezierPatchC2 = null;
         private Gregory selectedGregory = null;
+        private IntersectionModel selectedIntersection = null;
         //private BezierPatchTubeC2 selectedBezierPatchTubeC2 = null;
 
         int prev_xPosMouse = -1, prev_yPosMouse = -1;
         int[] pointNumber = new int[1];
-        int torusNumber, bezierC0Number, bezierC2Number, interpolatedBezierC2Number, bezierPatchC0Number, bezierPatchTubeC0Number, bezierPatchC2Number;
+        int torusNumber, bezierC0Number, bezierC2Number, interpolatedBezierC2Number, bezierPatchC0Number, bezierPatchTubeC0Number, bezierPatchC2Number, intersectionNumber;
         bool isMovingCameraCentre, anaglyphOn;
+        public float d = 0.15f;
 
         List<ModelGeneration.BezierPatchC0> patchC0 = null;
 
@@ -2403,6 +2405,8 @@ namespace Geometric2
                             bPC0_.splitA = (int)_bSC0.Size.Y;
                             bPC0_.SegmentsV = (int)_bSC0.Patches[0].Samples.X;
                             bPC0_.SegmentsU = (int)_bSC0.Patches[0].Samples.Y;
+                            bPC0_.wrapsU = _bSC0.ParameterWrapped.V;
+                            bPC0_.wrapsV = _bSC0.ParameterWrapped.U;
 
                             bPC0_.bezierPoints = new List<ModelGeneration.Point>();
                             var bezierPoints = new uint[((uint)bPC0_.splitA * 3 + 1) * ((uint)bPC0_.splitB * 3 + 1)];
@@ -2443,6 +2447,8 @@ namespace Geometric2
                             bPC2_.splitA = (int)_bSC2.Size.Y;
                             bPC2_.SegmentsV = (int)_bSC2.Patches[0].Samples.X;
                             bPC2_.SegmentsU = (int)_bSC2.Patches[0].Samples.Y;
+                            //bPC2_.wrapsU = _bSC2.ParameterWrapped.V;
+                            //bPC2_.wrapsV = _bSC2.ParameterWrapped.U;
 
                             bPC2_.bezierPoints = new List<ModelGeneration.Point>();
                             var bezierPoints = new uint[((uint)bPC2_.splitA + 3) * ((uint)bPC2_.splitB + 3)];
@@ -2656,12 +2662,38 @@ namespace Geometric2
         {
             if (SelectedElements.Count == 2)
             {
-                if(SelectedElements[0] is ModelGeneration.BezierPatchC0 bpc0_1 && SelectedElements[1] is ModelGeneration.BezierPatchC0 bpc0_2){
-                    IntersectionModel intersectionModel = new IntersectionModel(bpc0_1, bpc0_2, 0, _camera, glControl1.Width, glControl1.Height);
+                if (SelectedElements[0] is ModelGeneration.BezierPatchC0 bpc0_1 && SelectedElements[1] is ModelGeneration.BezierPatchC0 bpc0_2)
+                {
+                    IntersectionModel intersectionModel = new IntersectionModel(bpc0_1, bpc0_2, intersectionNumber, _camera, glControl1.Width, glControl1.Height, d);
                     intersectionModel.CreateGlElement(_shader, _shaderGeometry, _gregoryShader);
-                    Elements.Add(intersectionModel);
-                    SelectedElements.Add(intersectionModel);
+                    if (intersectionModel.intersectionLines != null)
+                    {
+                        intersectionNumber++;
+                        Elements.Add(intersectionModel);
+                        SelectedElements.Add(intersectionModel);
+                        elementsOnScene.Items.Add(intersectionModel);
+                        selectedIntersection = intersectionModel;
+                        showIntersectionCheckBox.Checked = true;
+                        selectedIntersection.ShowIntersection(true);
+                    }
+                    else
+                    {
+                        //MessageBox.Show("NO INTERSECTION");
+                    }
                 }
+            }
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            d = (float)numericUpDown1.Value;
+        }
+
+        private void showIntersectionCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (selectedIntersection != null)
+            {
+                selectedIntersection.ShowIntersection(showIntersectionCheckBox.Checked);
             }
         }
 

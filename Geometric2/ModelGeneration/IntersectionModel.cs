@@ -12,17 +12,18 @@ namespace Geometric2.ModelGeneration
 {
     public class IntersectionModel : Element
     {
+        private float d;
         public bool DrawPolyline { get; set; }
         ISurface surface1;
         ISurface surface2;
-        IntersectionLines intersectionLines = null;
+        public IntersectionLines intersectionLines = null;
 
         Camera _camera;
         int width, height;
         int intersectionNumber;
         int idx = 1000;
 
-        public IntersectionModel(ISurface surface1, ISurface surface2, int intersectionNumber, Camera _camera, int width, int height)
+        public IntersectionModel(ISurface surface1, ISurface surface2, int intersectionNumber, Camera _camera, int width, int height, float d)
         {
             this.surface1 = surface1;
             this.surface2 = surface2;
@@ -30,6 +31,7 @@ namespace Geometric2.ModelGeneration
             this.width = width;
             this.height = height;
             this.intersectionNumber = intersectionNumber;
+            this.d = d;
             FullName = "Intersection " + intersectionNumber;
         }
 
@@ -62,11 +64,22 @@ namespace Geometric2.ModelGeneration
             }
         }
 
+        public void ShowIntersection(bool show)
+        {
+            if (intersectionLines != null)
+            {
+                intersectionLines.DrawPolyline = show;
+            }
+        }
+
 
         private void FindIntersection()
         {
             List<Vector3> intersectionPoints = FindIntersectionCurve();
-            intersectionLines = new IntersectionLines(intersectionPoints);
+            if (intersectionPoints.Count > 0)
+            {
+                intersectionLines = new IntersectionLines(intersectionPoints);
+            }
         }
 
         private void UpdateIntersection()
@@ -82,16 +95,17 @@ namespace Geometric2.ModelGeneration
                 var _bp0 = new BestPatch(bp0);
                 var _bp1 = new BestPatch(bp2);
 
-
+                int iterations = 0;
                 int ile = 0;
                 List<Vector3> alpP = new List<Vector3>();
                 List<(Vector2 pParam, Vector2 qParam)> res = new List<(Vector2, Vector2)>();
                 do
                 {
-                    res = Intersection.Curve(surface1, surface2, 0.15f);
+                    res = Intersection.Curve(surface1, surface2, d);
                     ile = 0;
                     alpP.Clear();
                     if (res != null)
+                    {
                         foreach (var x in res)
                         {
 
@@ -101,6 +115,13 @@ namespace Geometric2.ModelGeneration
                                 alpP.Add(surface1.P(x.pParam.X, x.pParam.Y));
                             }
                         }
+                    }
+
+                    iterations++;
+                    if(iterations > 5)
+                    {
+                        break;
+                    }
                 }
                 while (res == null || ile < res.Count - 2);//|| ile < 100);
 

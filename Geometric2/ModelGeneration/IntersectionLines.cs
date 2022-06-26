@@ -54,7 +54,7 @@ namespace Geometric2.ModelGeneration
 
             Matrix4 model = ModelMatrix.CreateModelMatrix(ElementScale * TempElementScale, RotationQuaternion, CenterPosition + Translation + TemporaryTranslation, rotationCentre, TempRotationQuaternion);
             FillBezierC0PolylineGeometry();
-            //if (DrawPolyline)
+            if (DrawPolyline)
             {
                 _shader.SetMatrix4("model", model);
                 GL.BindVertexArray(linesVAO);
@@ -69,20 +69,23 @@ namespace Geometric2.ModelGeneration
 
         public void CreateLines()
         {
-            polylinePoints = new float[3 * linePoints.Count];
-            polylineIndices = new uint[2 * (linePoints.Count - 1)];
-            int indiceIdx = 0;
-            for (int i = 0; i < linePoints.Count; i++)
+            if (linePoints.Count > 0)
             {
-                polylinePoints[3 * i] = linePoints[i].X;
-                polylinePoints[3 * i + 1] = linePoints[i].Y;
-                polylinePoints[3 * i + 2] = linePoints[i].Z;
-                if (i < linePoints.Count - 1)
+                polylinePoints = new float[3 * linePoints.Count];
+                polylineIndices = new uint[2 * (linePoints.Count - 1)];
+                int indiceIdx = 0;
+                for (int i = 0; i < linePoints.Count; i++)
                 {
-                    polylineIndices[indiceIdx] = (uint)i;
-                    indiceIdx++;
-                    polylineIndices[indiceIdx] = (uint)i + 1;
-                    indiceIdx++;
+                    polylinePoints[3 * i] = linePoints[i].X;
+                    polylinePoints[3 * i + 1] = linePoints[i].Y;
+                    polylinePoints[3 * i + 2] = linePoints[i].Z;
+                    if (i < linePoints.Count - 1)
+                    {
+                        polylineIndices[indiceIdx] = (uint)i;
+                        indiceIdx++;
+                        polylineIndices[indiceIdx] = (uint)i + 1;
+                        indiceIdx++;
+                    }
                 }
             }
         }

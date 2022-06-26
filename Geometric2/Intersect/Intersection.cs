@@ -122,7 +122,7 @@ namespace Intersect
                 xn -= func(xn.X, xn.Y, xn.Z, xn.W) * J(xn.X, xn.Y, xn.Z, xn.W);
                 // xn -= J(xn.X, xn.Y, xn.Z, xn.W) * func(xn.X, xn.Y, xn.Z, xn.W); albo tak
             }
-            while ((xp - xn).LengthSquared > 1e-3 && maxIter-- > 0);
+            while ((xp - xn).LengthSquared > 1e-6 && maxIter-- > 0);
             return (xn.Xy, xn.Zw);
         }
 
