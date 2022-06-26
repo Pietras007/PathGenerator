@@ -1,9 +1,12 @@
-﻿#version 400 core
+﻿#version 400
 
 layout(quads, equal_spacing, cw) in;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+
+in vec2 tes_texCoord[];
+out vec2 textureCoord;
 
 vec4 DeCasteljau(vec4 coeffs_t[4], float t)
 {
@@ -68,7 +71,10 @@ void main( )
 	coeffs[2]= coeffs3;
 	coeffs[3]= coeffs4;
 
+	vec2 tmp1 = mix(tes_texCoord[0], tes_texCoord[3], u);
+	vec2 tmp2 = mix(tes_texCoord[12], tes_texCoord[15], u);
+	textureCoord = mix(tmp1, tmp2, v);
+
 	vec4 position = vec4(DeCasteljau(coeffs,u).xyz, 1.0f);
 	gl_Position = position * model * view * projection;
-
 }

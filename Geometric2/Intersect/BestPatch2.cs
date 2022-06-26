@@ -1,8 +1,10 @@
 ﻿using Geometric2.DrillLines;
+using Geometric2.RasterizationClasses;
 using Intersect;
 using OpenTK;
 using System;
 using System.Collections.Generic;
+using OpenTK.Graphics.OpenGL4;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -207,6 +209,11 @@ namespace Geometric2.Intersect
             {
                 return 0.5f;
             }
+        }
+
+        public void SetTexture(Texture texture, TextureUnit textureUnit, int textureId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

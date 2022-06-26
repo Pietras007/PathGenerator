@@ -76,6 +76,7 @@ namespace Geometric2
             _patchC0Shader.Use();
             _patchC0Shader.SetMatrix4("view", viewMatrix);
             _patchC0Shader.SetMatrix4("projection", projectionMatrix);
+            //_patchC0Shader.SetInt("trimmapa", 0);
 
             _patchC2Shader.Use();
             _patchC2Shader.SetMatrix4("view", viewMatrix);

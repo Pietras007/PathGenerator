@@ -267,6 +267,7 @@
     <Compile Include="RasterizationClasses\TeselationShader.cs" />
     <Compile Include="RasterizationClasses\Shader.cs" />
     <Compile Include="RasterizationClasses\ShaderGeometry.cs" />
+    <Compile Include="RasterizationClasses\Texture.cs" />
     <Compile Include="RenameElement.cs">
       <SubType>Form</SubType>
     </Compile>

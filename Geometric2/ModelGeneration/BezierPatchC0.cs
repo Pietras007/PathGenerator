@@ -41,6 +41,9 @@ namespace Geometric2.ModelGeneration
         private float _width, _length;
         private float x0, y0;
         private float r;
+        Texture texture = null;
+        TextureUnit textureUnit;
+        int textureId;
 
         public bool isTube;
 
@@ -109,7 +112,6 @@ namespace Geometric2.ModelGeneration
             GL.VertexAttribPointer(a_Position_Location, 3, VertexAttribPointerType.Float, true, 3 * sizeof(float), 0);
             GL.EnableVertexAttribArray(a_Position_Location);
 
-            var a_Position_Loc_gregoryShader = _teselationShader.GetAttribLocation("a_Position");
             bezierPatchC0VAO = GL.GenVertexArray();
             bezierPatchC0VBO = GL.GenBuffer();
             bezierPatchC0EBO = GL.GenBuffer();
@@ -118,8 +120,13 @@ namespace Geometric2.ModelGeneration
             GL.BufferData(BufferTarget.ArrayBuffer, bezierPatchC0Points.Length * sizeof(float), bezierPatchC0Points, BufferUsageHint.DynamicDraw);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, bezierPatchC0EBO);
             GL.BufferData(BufferTarget.ElementArrayBuffer, bezierPatchC0Indices.Length * sizeof(uint), bezierPatchC0Indices, BufferUsageHint.DynamicDraw);
-            GL.VertexAttribPointer(a_Position_Loc_gregoryShader, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-            GL.EnableVertexAttribArray(0);
+            var a_Position_Loc_gregoryShader = _teselationShader.GetAttribLocation("a_Position");
+            GL.VertexAttribPointer(a_Position_Loc_gregoryShader, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
+            GL.EnableVertexAttribArray(a_Position_Loc_gregoryShader);
+
+            var aTexCoords_gregoryShader = _teselationShader.GetAttribLocation("aTexCoords");
+            GL.VertexAttribPointer(aTexCoords_gregoryShader, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
+            GL.EnableVertexAttribArray(aTexCoords_gregoryShader);
         }
 
         public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _patchGeometryShader, TeselationShader _teselationShader)
@@ -161,6 +168,13 @@ namespace Geometric2.ModelGeneration
                 _teselationShader.SetVector3("fragmentColor", ColorHelper.ColorToVector(Color.Black));
             }
 
+            _teselationShader.SetInt("showTrimmed", 0);
+            if (texture != null)
+            {
+                texture.Use(textureUnit);
+                _teselationShader.SetInt("showTrimmed", 1);
+                _teselationShader.SetInt("heightMap", textureId);
+            }
             GL.BindVertexArray(bezierPatchC0VAO);
             GL.PatchParameter(PatchParameterInt.PatchVertices, 16);
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
@@ -318,14 +332,11 @@ namespace Geometric2.ModelGeneration
         {
             vertices.Clear();
             indices.Clear();
-            foreach (var b in bezierPoints)
-            {
-                vertices.Add(b.Position().X);
-                vertices.Add(b.Position().Y);
-                vertices.Add(b.Position().Z);
-            }
+            
+            List<(Point, uint, float, float)> positions = new List<(Point, uint, float, float)>();
 
             uint width = (uint)splitB * 3 + 1;
+            uint height = (uint)splitA * 3 + 1;
             for (uint i = 0; i < splitA; i++)
             {
                 for (uint j = 0; j < splitB; j++)
@@ -338,13 +349,46 @@ namespace Geometric2.ModelGeneration
                             uint height_pos = 3 * i + k;
                             uint pos = height_pos * width + width_pos;
                             indices.Add(pos);
+
+                            if (!positions.Contains((bezierPoints[(int)pos],pos, (float)width_pos / (float)(width-1), (float)height_pos / (float)(height-1))))
+                            {
+                                positions.Add((bezierPoints[(int)pos], pos, (float)width_pos / (float)(width - 1), (float)height_pos / (float)(height - 1)));
+                            }
                         }
                     }
                 }
             }
 
+            var orderedPositions = positions.OrderBy(x => x.Item2).ToList();
+            foreach (var b in orderedPositions)
+            {
+                vertices.Add(b.Item1.Position().X);
+                vertices.Add(b.Item1.Position().Y);
+                vertices.Add(b.Item1.Position().Z);
+                vertices.Add(b.Item3);
+                vertices.Add(b.Item4);
+            }
+
+
+            //foreach (var b in bezierPoints)
+            //{
+            //    vertices.Add(b.Position().X);
+            //    vertices.Add(b.Position().Y);
+            //    vertices.Add(b.Position().Z);
+            //    vertices.Add(0);
+            //    vertices.Add(0);
+            //}
+
             bezierPatchC0Points = vertices.ToArray();
             bezierPatchC0Indices = indices.ToArray();
+        }
+
+        public float ChangeValueTo33(float value)
+        {
+            if (value < 0.1) return 0.0f;
+            if (value > 0.2 && value < 0.3) return 0.33f;
+            if (value > 0.45 && value < 0.55) return 0.66f;
+            return 1.0f;
         }
 
         public List<PatchC0> GetAllPatches()
@@ -509,6 +553,13 @@ namespace Geometric2.ModelGeneration
             {
                 return 0.5f;
             }
+        }
+
+        public void SetTexture(Texture texture, TextureUnit textureUnit, int textureId)
+        {
+            this.texture = texture;
+            this.textureUnit = textureUnit;
+            this.textureId = textureId;
         }
     }
 }

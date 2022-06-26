@@ -105,6 +105,8 @@ namespace Geometric2.RasterizationClasses
         public void SetInt(string name, int data)
         {
             GL.UseProgram(Handle);
+            //var x = GL.GetUniformLocation(Handle, name);
+            //glGetUniformLocation(regeneration_program.idx, "height_texture_last"), 3);
             GL.Uniform1(_uniformLocations[name], data);
         }
 

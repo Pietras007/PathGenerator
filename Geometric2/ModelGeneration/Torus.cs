@@ -9,7 +9,7 @@ using OpenTK.Graphics.OpenGL4;
 
 namespace Geometric2.ModelGeneration
 {
-    public class Torus : Element, ISurface
+    public class Torus : Element//, ISurface
     {
         public int torusVBO, torusVAO, torusEBO;
         private float[] torusPoints;

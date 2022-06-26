@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Geometric2.Intersect;
+using Geometric2.DrillLines;
 
 namespace Geometric2.ModelGeneration
 {
@@ -75,11 +76,99 @@ namespace Geometric2.ModelGeneration
 
         private void FindIntersection()
         {
-            List<Vector3> intersectionPoints = FindIntersectionCurve();
-            if (intersectionPoints.Count > 0)
+            var intersection = FindIntersectionCurve();
+            if (intersection.Item1 != null && intersection.Item2 != null)
             {
-                intersectionLines = new IntersectionLines(intersectionPoints);
+                List<Vector3> intersectionPoints = intersection.Item1;
+                var param = intersection.Item2;
+                if (intersectionPoints.Count > 0)
+                {
+                    intersectionLines = new IntersectionLines(intersectionPoints);
+                    (Texture, Texture) textures = CreateTexture(param);
+                    surface1.SetTexture(textures.Item1, OpenTK.Graphics.OpenGL4.TextureUnit.Texture1, 1);
+                    surface2.SetTexture(textures.Item2, OpenTK.Graphics.OpenGL4.TextureUnit.Texture2, 2);
+                }
             }
+        }
+
+        private (Texture, Texture) CreateTexture(List<(Vector2 pParam, Vector2 qParam)> parameters)
+        {
+            int tex_size = 100;
+            List<Vector2> pParam = parameters.Select(x => x.pParam).ToList();
+            List<Vector2> qParam = parameters.Select(x => x.qParam).ToList();
+
+            float[,] surface1_FullTex = new float[tex_size, tex_size];
+            float[,] surface2_FullTex = new float[tex_size, tex_size];
+
+            Parallel.For(0, tex_size, i =>
+            {
+                float u = (float)i / (float)tex_size;
+                //for (float u = 0; u <= 1; u += 0.001f)
+                //{
+                for (float v = 0; v <= 1; v += (float)1/(float)tex_size)
+                {
+                    if (HelpFunctions.IsInPolygon(new Vector2(u, v), pParam))
+                    {
+                        surface1_FullTex[(int)(u * tex_size), (int)(v * tex_size)] = 1;
+                    }
+                    else
+                    {
+                        surface1_FullTex[(int)(u * tex_size), (int)(v * tex_size)] = 0;
+                    }
+
+                    if (HelpFunctions.IsInPolygon(new Vector2(u, v), qParam))
+                    {
+                        surface2_FullTex[(int)(u * tex_size), (int)(v * tex_size)] = 1;
+                    }
+                    else
+                    {
+                        surface2_FullTex[(int)(u * tex_size), (int)(v * tex_size)] = 0;
+                    }
+                }
+            });
+
+            float[] surface1_Tex = new float[tex_size * tex_size];
+            float[] surface2_Tex = new float[tex_size * tex_size];
+
+
+            Parallel.For(0, tex_size, i =>
+            {
+                for (int j = 0; j < tex_size; j++)
+                {
+                    var x = surface1_FullTex[i, j];
+                    surface1_Tex[j * tex_size + i] = x;
+                }
+            });
+
+            Parallel.For(0, tex_size, i =>
+            {
+                for (int j = 0; j < tex_size; j++)
+                {
+                    var x = surface2_FullTex[i, j];
+                    surface2_Tex[j * tex_size + i] = x;
+                }
+            });
+
+            foreach(var x in surface1_Tex)
+            {
+                if(x > 0.5)
+                {
+                    var dupa = 5;
+                }
+            }
+
+            foreach (var x in surface2_Tex)
+            {
+                if (x > 0.5)
+                {
+                    var dupa = 5;
+                }
+            }
+
+            Texture tex1 = new Texture(tex_size, tex_size, surface1_Tex);
+            Texture tex2 = new Texture(tex_size, tex_size, surface2_Tex);
+
+            return (tex1, tex2);
         }
 
         private void UpdateIntersection()
@@ -88,7 +177,7 @@ namespace Geometric2.ModelGeneration
             //intersectionLines.linePoints = intersectionPoints;
         }
 
-        private List<Vector3> FindIntersectionCurve()
+        private (List<Vector3>, List<(Vector2 pParam, Vector2 qParam)>) FindIntersectionCurve()
         {
             if (surface1 is ModelGeneration.BezierPatchC0 bp0 && surface2 is ModelGeneration.BezierPatchC0 bp2)
             {
@@ -118,17 +207,17 @@ namespace Geometric2.ModelGeneration
                     }
 
                     iterations++;
-                    if(iterations > 5)
+                    if (iterations > 5)
                     {
                         break;
                     }
                 }
                 while (res == null || ile < res.Count - 2);//|| ile < 100);
 
-                return alpP;
+                return (alpP, res);
             }
 
-            return null;
+            return (null, null);
         }
     }
 }
