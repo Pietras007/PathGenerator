@@ -9,6 +9,7 @@ using OpenTK.Graphics.OpenGL4;
 using Geometric2.MatrixHelpers;
 using Geometric2.Helpers;
 using System.Drawing;
+using Geometric2.Global;
 
 namespace Geometric2.ModelGeneration
 {
@@ -32,7 +33,7 @@ namespace Geometric2.ModelGeneration
             }
         }
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _patchGeometryShader, TeselationShader _teselationShader)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _patchGeometryShader, TeselationShader _teselationShader, GlobalData globalData = null)
         {
             CreateLines();
             linesVAO = GL.GenVertexArray();

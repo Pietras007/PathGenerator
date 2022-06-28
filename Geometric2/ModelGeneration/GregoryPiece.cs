@@ -6,6 +6,7 @@ using OpenTK.Graphics.OpenGL4;
 using Geometric2.MatrixHelpers;
 using Geometric2.Helpers;
 using System.Drawing;
+using Geometric2.Global;
 
 namespace Geometric2.ModelGeneration
 {
@@ -46,7 +47,7 @@ namespace Geometric2.ModelGeneration
             return FullName + " " + ElementName;
         }
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _patchGeometryShader, TeselationShader _gregoryShader)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _patchGeometryShader, TeselationShader _gregoryShader, GlobalData globalData = null)
         {
             RegenerateGregory();
             GregoryPolylineVAO = GL.GenVertexArray();

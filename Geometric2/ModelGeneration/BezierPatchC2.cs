@@ -1,4 +1,5 @@
-﻿using Geometric2.Helpers;
+﻿using Geometric2.Global;
+using Geometric2.Helpers;
 using Geometric2.MatrixHelpers;
 using Geometric2.RasterizationClasses;
 using OpenTK;
@@ -81,7 +82,7 @@ namespace Geometric2.ModelGeneration
             return FullName + " " + ElementName;
         }
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _patchGeometryShader, TeselationShader _teselationShader)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _patchGeometryShader, TeselationShader _teselationShader, GlobalData globalData = null)
         {
 
             RegenerateBezierPatchC2();

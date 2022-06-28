@@ -1,4 +1,5 @@
 ﻿using Geometric2.DrillLines;
+using Geometric2.Global;
 using Geometric2.Helpers;
 using Geometric2.MatrixHelpers;
 using Geometric2.RasterizationClasses;
@@ -49,6 +50,7 @@ namespace Geometric2.ModelGeneration
 
         public bool wrapsU { get; set; }
         public bool wrapsV { get; set; }
+        GlobalData globalData = null;
 
         public BezierPatchC0(int[] pointNumber, int bezierC0Number, Camera _camera, int width, int height, float[] values, bool isTube = false)
         {
@@ -96,8 +98,9 @@ namespace Geometric2.ModelGeneration
             return FullName + " " + ElementName;
         }
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _patchGeometryShader, TeselationShader _teselationShader)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _patchGeometryShader, TeselationShader _teselationShader, GlobalData globalData)
         {
+            this.globalData = globalData;
             RegenerateBezierPatchC0();
             FillPatches();
             bezierPatchC0PolylineVAO = GL.GenVertexArray();
@@ -169,12 +172,27 @@ namespace Geometric2.ModelGeneration
             }
 
             _teselationShader.SetInt("showTrimmed", 0);
-            if (texture != null)
+            if (texture != null && globalData != null)
             {
                 texture.Use(textureUnit);
-                _teselationShader.SetInt("showTrimmed", 1);
                 _teselationShader.SetInt("heightMap", textureId);
+                if (textureId == 1)
+                {
+                    var showTrim = globalData.showTrim1 == true ? 1 : 0;
+                    var trimmedPart = globalData.surface1_1 == true ? 1 : 0;
+                    _teselationShader.SetInt("showTrimmed", showTrim);
+                    _teselationShader.SetInt("trimmedPart", trimmedPart);
+
+                }
+                else if(textureId == 2)
+                {
+                    var showTrim = globalData.showTrim2 == true ? 1 : 0;
+                    var trimmedPart = globalData.surface2_1 == true ? 1 : 0;
+                    _teselationShader.SetInt("showTrimmed", showTrim);
+                    _teselationShader.SetInt("trimmedPart", trimmedPart);
+                }
             }
+
             GL.BindVertexArray(bezierPatchC0VAO);
             GL.PatchParameter(PatchParameterInt.PatchVertices, 16);
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
@@ -381,14 +399,6 @@ namespace Geometric2.ModelGeneration
 
             bezierPatchC0Points = vertices.ToArray();
             bezierPatchC0Indices = indices.ToArray();
-        }
-
-        public float ChangeValueTo33(float value)
-        {
-            if (value < 0.1) return 0.0f;
-            if (value > 0.2 && value < 0.3) return 0.33f;
-            if (value > 0.45 && value < 0.55) return 0.66f;
-            return 1.0f;
         }
 
         public List<PatchC0> GetAllPatches()

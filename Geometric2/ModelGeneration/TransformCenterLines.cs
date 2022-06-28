@@ -37,7 +37,7 @@ namespace Geometric2.ModelGeneration
         {
         }
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader = null, TeselationShader _gregoryShader = null)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader = null, TeselationShader _gregoryShader = null, GlobalData globalData = null)
         {
             var a_Position_Location = _shader.GetAttribLocation("a_Position");
             transformLinesVAO = GL.GenVertexArray();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Geometric2.Global;
 using Geometric2.RasterizationClasses;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
@@ -27,7 +28,7 @@ namespace Geometric2.ModelGeneration
             this.hole = hole;
         }
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader, TeselationShader _gregoryShader)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader, TeselationShader _gregoryShader, GlobalData globalData = null)
         {
         }
 

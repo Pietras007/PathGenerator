@@ -44,7 +44,7 @@ namespace Geometric2.DrillLines
                 Vector3 middle = paths.ElementAt(i);
                 Vector3 last = paths.ElementAt(i + 1);
                 //if (!(middle - first).Normalized().Equals((last - middle).Normalized()))
-                if (((middle - first).Normalized()- (last - middle).Normalized()).Length > 0.001f)
+                if (((middle - first).Normalized() - (last - middle).Normalized()).Length > 0.001f)
                 {
                     compressed.Add(new Vector3(middle));
                 }
@@ -54,27 +54,60 @@ namespace Geometric2.DrillLines
             return compressed;
         }
 
-        public static bool IsInPolygon(this Vector2 point, IEnumerable<Vector2> polygon)
+        public static bool IsInPolygon(this Vector2 point, IEnumerable<Vector2> _polygon)
         {
-            bool result = false;
-            var a = polygon.Last();
-            foreach (var b in polygon)
+            Vector2 p = point;
+            var polygon = _polygon.ToArray();
+            double minX = polygon[0].X;
+            double maxX = polygon[0].X;
+            double minY = polygon[0].Y;
+            double maxY = polygon[0].Y;
+            for (int i = 1; i < polygon.Length; i++)
             {
-                if ((b.X == point.X) && (b.Y == point.Y))
-                    return true;
-
-                if ((b.Y == a.Y) && (point.Y == a.Y) && (a.X <= point.X) && (point.X <= b.X))
-                    return true;
-
-                if ((b.Y < point.Y) && (a.Y >= point.Y) || (a.Y < point.Y) && (b.Y >= point.Y))
-                {
-                    if (b.X + (point.Y - b.Y) / (a.Y - b.Y) * (a.X - b.X) <= point.X)
-                        result = !result;
-                }
-                a = b;
+                Vector2 q = polygon[i];
+                minX = Math.Min(q.X, minX);
+                maxX = Math.Max(q.X, maxX);
+                minY = Math.Min(q.Y, minY);
+                maxY = Math.Max(q.Y, maxY);
             }
-            return result;
+            if (p.X < minX || p.X > maxX || p.Y < minY || p.Y > maxY)
+            {
+                return false;
+            }
+
+            bool inside = false;
+            for (int i = 0, j = polygon.Length - 1; i < polygon.Length; j = i++)
+            {
+                if ((polygon[i].Y > p.Y) != (polygon[j].Y > p.Y) &&
+                     p.X < (polygon[j].X - polygon[i].X) * (p.Y - polygon[i].Y) / (polygon[j].Y - polygon[i].Y) + polygon[i].X)
+                {
+                    inside = !inside;
+                }
+            }
+            return inside;
         }
+
+        //public static bool IsInPolygon(this Vector2 point, IEnumerable<Vector2> polygon)
+        //{
+        //    bool result = false;
+        //    var a = polygon.Last();
+        //    foreach (var b in polygon)
+        //    {
+        //        if ((b.X == point.X) && (b.Y == point.Y))
+        //            return true;
+
+        //        if ((b.Y == a.Y) && (point.Y == a.Y) && (a.X <= point.X) && (point.X <= b.X))
+        //            return true;
+
+        //        if ((b.Y < point.Y) && (a.Y > point.Y) || (a.Y < point.Y) && (b.Y > point.Y))
+        //        {
+        //            if (b.X + (point.Y - b.Y) / (a.Y - b.Y) * (a.X - b.X) < point.X)
+        //                result = !result;
+        //        }
+        //        a = b;
+        //    }
+        //    return result;
+        //}
 
         public static bool checkIfHeightOk(float x, float y, float R, float[,] topLayer, float height)
         {
@@ -85,7 +118,7 @@ namespace Geometric2.DrillLines
                 {
                     if (_x + x >= 0 && _y + y >= 0 && _x + x < 300 && _y + y < 300)
                     {
-                        if (_x*_x + _y*_y <= R*R)
+                        if (_x * _x + _y * _y <= R * R)
                         {
                             float xa = x;
                             float ya = y;

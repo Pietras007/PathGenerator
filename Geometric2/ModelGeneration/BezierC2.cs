@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using Geometric2.Global;
 using Geometric2.Helpers;
 using Geometric2.MatrixHelpers;
 using Geometric2.RasterizationClasses;
@@ -53,7 +54,7 @@ namespace Geometric2.ModelGeneration
         }
 
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader, TeselationShader _gregoryShader = null)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader, TeselationShader _gregoryShader = null, GlobalData globalData = null)
         {
             var a_Position_Location = _shader.GetAttribLocation("a_Position");
 

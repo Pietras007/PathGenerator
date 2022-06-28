@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using Geometric2.Global;
 using Geometric2.Helpers;
 using Geometric2.RasterizationClasses;
 using OpenTK;
@@ -27,7 +28,7 @@ namespace Geometric2.ModelGeneration
 
         int xyzLinesVBO, xyzLinesVAO, xyzLinesEBO;
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader = null, TeselationShader _gregoryShader = null)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader = null, TeselationShader _gregoryShader = null, GlobalData globalData = null)
         {
             var a_Position_Location = _shader.GetAttribLocation("a_Position");
             xyzLinesVAO = GL.GenVertexArray();

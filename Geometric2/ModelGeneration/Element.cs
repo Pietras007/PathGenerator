@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using Geometric2.Global;
 using Geometric2.Helpers;
 using Geometric2.MatrixHelpers;
 using Geometric2.RasterizationClasses;
@@ -45,7 +46,7 @@ namespace Geometric2.ModelGeneration
 
         int centerLinesVBO, centerLinesVAO, centerLinesEBO;
 
-        public virtual void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader = null, TeselationShader _gregoryShader = null)
+        public virtual void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader = null, TeselationShader _gregoryShader = null, GlobalData globalData = null)
         {
 
         }

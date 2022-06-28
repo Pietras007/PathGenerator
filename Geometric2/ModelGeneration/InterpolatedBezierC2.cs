@@ -1,4 +1,5 @@
-﻿using Geometric2.Helpers;
+﻿using Geometric2.Global;
+using Geometric2.Helpers;
 using Geometric2.MatrixHelpers;
 using Geometric2.RasterizationClasses;
 using OpenTK;
@@ -44,7 +45,7 @@ namespace Geometric2.ModelGeneration
             return FullName + " " + ElementName;
         }
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader, TeselationShader _gregoryShader = null)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader, TeselationShader _gregoryShader = null, GlobalData globalData = null)
         {
             RegenerateInterpolatedBezierC2();
             interpolatedPolylineC2VAO = GL.GenVertexArray();

@@ -99,6 +99,7 @@ namespace Geometric2
         private TeselationShader _patchC2Shader;
         private Camera _camera;
         private Coursor coursor = new Coursor();
+        private GlobalData globalData = new GlobalData();
 
 
         private XyzLines xyzLines = new XyzLines();
@@ -1326,7 +1327,7 @@ namespace Geometric2
             BezierPatchC0 bezierPatcTubehC0 = new BezierPatchC0(pointNumber, bezierPatchC0Number, _camera, glControl1.Width, glControl1.Height, values, true);
             c0PatchDrawPolyline.Checked = false;
             bezierPatchTubeC0Number++;
-            bezierPatcTubehC0.CreateGlElement(_shader, _shaderGeometry, _patchC0Shader);
+            bezierPatcTubehC0.CreateGlElement(_shader, _shaderGeometry, _patchC0Shader, globalData);
             elementsOnScene.Items.Add(bezierPatcTubehC0);
             Elements.Add(bezierPatcTubehC0);
             List<ModelGeneration.Point> points = new List<ModelGeneration.Point>();
@@ -1738,7 +1739,7 @@ namespace Geometric2
                 foreach (var p in patchC0)
                 {
                     elementsOnScene.Items.Add(p);
-                    p.CreateGlElement(_shader, _shaderGeometry, _patchC0Shader);
+                    p.CreateGlElement(_shader, _shaderGeometry, _patchC0Shader, globalData);
                 }
                 Elements.AddRange(patchC0);
 
@@ -2519,7 +2520,7 @@ namespace Geometric2
                     foreach (var p in patchC0)
                     {
                         elementsOnScene.Items.Add(p);
-                        p.CreateGlElement(_shader, _shaderGeometry, _patchC0Shader);
+                        p.CreateGlElement(_shader, _shaderGeometry, _patchC0Shader, globalData);
                     }
                     Elements.AddRange(patchC0);
 
@@ -2689,6 +2690,40 @@ namespace Geometric2
             d = (float)numericUpDown1.Value;
         }
 
+        private void showTrim1CheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            globalData.showTrim1 = showTrim1CheckBox.Checked;
+        }
+
+        private void showTrim2CheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            globalData.showTrim2 = showTrim2CheckBox.Checked;
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            globalData.surface1_1 = radioButton1.Checked;
+            globalData.surface1_2 = radioButton2.Checked;
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            globalData.surface1_1 = radioButton1.Checked;
+            globalData.surface1_2 = radioButton1.Checked;
+        }
+
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+            globalData.surface2_1 = radioButton4.Checked;
+            globalData.surface2_2 = radioButton3.Checked;
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            globalData.surface2_1 = radioButton4.Checked;
+            globalData.surface2_2 = radioButton3.Checked;
+        }
+
         private void showIntersectionCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (selectedIntersection != null)
@@ -2711,7 +2746,7 @@ namespace Geometric2
             BezierPatchC0 bezierPatchC0 = new BezierPatchC0(pointNumber, bezierPatchC0Number, _camera, glControl1.Width, glControl1.Height, values);
             bezierC0DrawPolyline.Checked = false;
             bezierPatchC0Number++;
-            bezierPatchC0.CreateGlElement(_shader, _shaderGeometry, _patchC0Shader);
+            bezierPatchC0.CreateGlElement(_shader, _shaderGeometry, _patchC0Shader, globalData);
             elementsOnScene.Items.Add(bezierPatchC0);
             Elements.Add(bezierPatchC0);
             foreach (var p in bezierPatchC0.bezierPoints)

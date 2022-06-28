@@ -1394,6 +1394,7 @@ namespace Geometric2
             this.showTrim2CheckBox.TabIndex = 3;
             this.showTrim2CheckBox.Text = "Show Trim 2";
             this.showTrim2CheckBox.UseVisualStyleBackColor = true;
+            this.showTrim2CheckBox.CheckedChanged += new System.EventHandler(this.showTrim2CheckBox_CheckedChanged);
             // 
             // radioButton3
             // 
@@ -1405,6 +1406,7 @@ namespace Geometric2
             this.radioButton3.TabStop = true;
             this.radioButton3.Text = "Surface2_2";
             this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
             // 
             // radioButton4
             // 
@@ -1416,6 +1418,7 @@ namespace Geometric2
             this.radioButton4.TabStop = true;
             this.radioButton4.Text = "Surface2_1";
             this.radioButton4.UseVisualStyleBackColor = true;
+            this.radioButton4.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
             // 
             // panel8
             // 
@@ -1436,6 +1439,7 @@ namespace Geometric2
             this.showTrim1CheckBox.TabIndex = 2;
             this.showTrim1CheckBox.Text = "Show Trim 1";
             this.showTrim1CheckBox.UseVisualStyleBackColor = true;
+            this.showTrim1CheckBox.CheckedChanged += new System.EventHandler(this.showTrim1CheckBox_CheckedChanged);
             // 
             // radioButton2
             // 
@@ -1447,6 +1451,7 @@ namespace Geometric2
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "Surface1_2";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // radioButton1
             // 
@@ -1458,6 +1463,7 @@ namespace Geometric2
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Surface1_1";
             this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // showIntersectionCheckBox
             // 

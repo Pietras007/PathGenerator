@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Geometric2.Intersect;
 using Geometric2.DrillLines;
+using Geometric2.Global;
 
 namespace Geometric2.ModelGeneration
 {
@@ -41,7 +42,7 @@ namespace Geometric2.ModelGeneration
             return FullName + " " + ElementName;
         }
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader, TeselationShader _gregoryShader = null)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader, TeselationShader _gregoryShader = null, GlobalData globalData = null)
         {
             this.FindIntersection();
             if (intersectionLines != null)
@@ -91,41 +92,76 @@ namespace Geometric2.ModelGeneration
             }
         }
 
-        private (Texture, Texture) CreateTexture(List<(Vector2 pParam, Vector2 qParam)> parameters)
+        private (Texture, Texture) CreateTexture(List<(Vector2 _pParam, Vector2 _qParam)> parameters)
         {
-            int tex_size = 100;
-            List<Vector2> pParam = parameters.Select(x => x.pParam).ToList();
-            List<Vector2> qParam = parameters.Select(x => x.qParam).ToList();
+            int tex_size = 1000;
+            List<Vector2> pParam = parameters.Select(x => x._pParam).ToList();
+            List<Vector2> qParam = parameters.Select(x => x._qParam).ToList();
 
             float[,] surface1_FullTex = new float[tex_size, tex_size];
             float[,] surface2_FullTex = new float[tex_size, tex_size];
 
+            for(int i=0;i<pParam.Count;i++)
+            {
+                pParam[i] = new Vector2(pParam[i].X * tex_size, pParam[i].Y * tex_size);
+            }
+
+            for (int i = 0; i < qParam.Count; i++)
+            {
+                qParam[i] = new Vector2(qParam[i].X * tex_size, qParam[i].Y * tex_size);
+            }
+
             Parallel.For(0, tex_size, i =>
             {
-                float u = (float)i / (float)tex_size;
-                //for (float u = 0; u <= 1; u += 0.001f)
-                //{
-                for (float v = 0; v <= 1; v += (float)1/(float)tex_size)
+                int u = i;
+                for (int v = 0; v < tex_size; v ++)
                 {
                     if (HelpFunctions.IsInPolygon(new Vector2(u, v), pParam))
                     {
-                        surface1_FullTex[(int)(u * tex_size), (int)(v * tex_size)] = 1;
+                        surface1_FullTex[u,v] = 1;
                     }
                     else
                     {
-                        surface1_FullTex[(int)(u * tex_size), (int)(v * tex_size)] = 0;
+                        surface1_FullTex[u, v] = 0;
                     }
 
                     if (HelpFunctions.IsInPolygon(new Vector2(u, v), qParam))
                     {
-                        surface2_FullTex[(int)(u * tex_size), (int)(v * tex_size)] = 1;
+                        surface2_FullTex[u, v] = 1;
                     }
                     else
                     {
-                        surface2_FullTex[(int)(u * tex_size), (int)(v * tex_size)] = 0;
+                        surface2_FullTex[u, v] = 0;
                     }
                 }
             });
+
+            //Parallel.For(0, tex_size, i =>
+            //{
+            //    float u = (float)i / (float)tex_size;
+            //    //for (float u = 0; u <= 1; u += 0.001f)
+            //    //{
+            //    for (float v = 0; v <= 1; v += (float)1/(float)tex_size)
+            //    {
+            //        if (HelpFunctions.IsInPolygon(new Vector2(u, v), pParam))
+            //        {
+            //            surface1_FullTex[(int)(u * tex_size), (int)(v * tex_size)] = 1;
+            //        }
+            //        else
+            //        {
+            //            surface1_FullTex[(int)(u * tex_size), (int)(v * tex_size)] = 0;
+            //        }
+
+            //        if (HelpFunctions.IsInPolygon(new Vector2(u, v), qParam))
+            //        {
+            //            surface2_FullTex[(int)(u * tex_size), (int)(v * tex_size)] = 1;
+            //        }
+            //        else
+            //        {
+            //            surface2_FullTex[(int)(u * tex_size), (int)(v * tex_size)] = 0;
+            //        }
+            //    }
+            //});
 
             float[] surface1_Tex = new float[tex_size * tex_size];
             float[] surface2_Tex = new float[tex_size * tex_size];
@@ -149,6 +185,14 @@ namespace Geometric2.ModelGeneration
                 }
             });
 
+
+            //for(int i = 0; i < tex_size; i++)
+            //{
+            //    for(int j = 0; j < tex_size; j++)
+            //    {
+
+            //    }
+            //}
             foreach(var x in surface1_Tex)
             {
                 if(x > 0.5)

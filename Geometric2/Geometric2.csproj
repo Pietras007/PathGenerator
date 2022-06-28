@@ -224,6 +224,7 @@
     </Compile>
     <Compile Include="Global\Constants.cs" />
     <Compile Include="Global\Enums.cs" />
+    <Compile Include="Global\GlobalData.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Helpers\CreateGregory.cs" />
     <Compile Include="Helpers\Quaternion.cs" />

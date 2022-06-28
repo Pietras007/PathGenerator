@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using Geometric2.Global;
 using Geometric2.Helpers;
 using Geometric2.MatrixHelpers;
 using Geometric2.RasterizationClasses;
@@ -44,7 +45,7 @@ namespace Geometric2.ModelGeneration
             return FullName + " " + ElementName + " NO: " + pointNumber;
         }
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader = null, TeselationShader _gregoryShader = null)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader = null, TeselationShader _gregoryShader = null, GlobalData globalData = null)
         {
             FillTorusGeometry();
             var a_Position_Location = _shader.GetAttribLocation("a_Position");
