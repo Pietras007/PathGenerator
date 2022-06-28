@@ -368,9 +368,9 @@ namespace Geometric2.ModelGeneration
                             uint pos = height_pos * width + width_pos;
                             indices.Add(pos);
 
-                            if (!positions.Contains((bezierPoints[(int)pos],pos, (float)width_pos / (float)(width-1), (float)height_pos / (float)(height-1))))
+                            if (!positions.Contains((bezierPoints[(int)pos], pos, (float)height_pos / (float)(height - 1), (float)width_pos / (float)(width - 1))))
                             {
-                                positions.Add((bezierPoints[(int)pos], pos, (float)width_pos / (float)(width - 1), (float)height_pos / (float)(height - 1)));
+                                positions.Add((bezierPoints[(int)pos], pos, (float)height_pos / (float)(height - 1), (float)width_pos / (float)(width - 1)));
                             }
                         }
                     }

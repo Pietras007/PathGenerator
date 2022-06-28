@@ -71,9 +71,9 @@ void main( )
 	coeffs[2]= coeffs3;
 	coeffs[3]= coeffs4;
 
-	vec2 tmp1 = mix(tes_texCoord[0], tes_texCoord[3], u);
-	vec2 tmp2 = mix(tes_texCoord[12], tes_texCoord[15], u);
-	textureCoord = mix(tmp1, tmp2, v);
+	vec2 tmp1 = mix(tes_texCoord[0], tes_texCoord[3], v);
+	vec2 tmp2 = mix(tes_texCoord[12], tes_texCoord[15], v);
+	textureCoord = mix(tmp1, tmp2, u);
 
 	vec4 position = vec4(DeCasteljau(coeffs,u).xyz, 1.0f);
 	gl_Position = position * model * view * projection;
