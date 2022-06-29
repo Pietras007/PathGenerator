@@ -132,6 +132,7 @@ namespace Geometric2
             this.trackBar10 = new System.Windows.Forms.TrackBar();
             this.trackBar9 = new System.Windows.Forms.TrackBar();
             this.Intersection = new System.Windows.Forms.TabPage();
+            this.button4 = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label50 = new System.Windows.Forms.Label();
             this.panel9 = new System.Windows.Forms.Panel();
@@ -224,7 +225,7 @@ namespace Geometric2
             this.addPoint = new System.Windows.Forms.Button();
             this.elementsOnScene = new System.Windows.Forms.ListBox();
             this.CoursorTab = new System.Windows.Forms.TabPage();
-            this.button4 = new System.Windows.Forms.Button();
+            this.chartsTabPage = new System.Windows.Forms.TabPage();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.eyeDistTrackBar)).BeginInit();
@@ -1353,6 +1354,16 @@ namespace Geometric2
             this.Intersection.Text = "Intersection";
             this.Intersection.UseVisualStyleBackColor = true;
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(14, 304);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(125, 23);
+            this.button4.TabIndex = 5;
+            this.button4.Text = "Show Charts";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // numericUpDown1
             // 
             this.numericUpDown1.DecimalPlaces = 2;
@@ -2047,6 +2058,7 @@ namespace Geometric2
             // 
             this.tabControl1.Controls.Add(this.DrawTab);
             this.tabControl1.Controls.Add(this.CoursorTab);
+            this.tabControl1.Controls.Add(this.chartsTabPage);
             this.tabControl1.Location = new System.Drawing.Point(1457, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -2330,15 +2342,14 @@ namespace Geometric2
             this.CoursorTab.Text = "Coursor";
             this.CoursorTab.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // chartsTabPage
             // 
-            this.button4.Location = new System.Drawing.Point(14, 304);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(125, 23);
-            this.button4.TabIndex = 5;
-            this.button4.Text = "Show Charts";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.chartsTabPage.Location = new System.Drawing.Point(4, 22);
+            this.chartsTabPage.Name = "chartsTabPage";
+            this.chartsTabPage.Size = new System.Drawing.Size(344, 870);
+            this.chartsTabPage.TabIndex = 2;
+            this.chartsTabPage.Text = "Charts";
+            this.chartsTabPage.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -2614,6 +2625,7 @@ namespace Geometric2
         private System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TabPage chartsTabPage;
     }
 }
 
