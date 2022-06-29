@@ -2645,7 +2645,7 @@ namespace Geometric2
 
         private void intersectionButton_Click(object sender, EventArgs e)
         {
-            if (SelectedElements.Count == 2)
+            if (SelectedElements.Count == 2 || SelectedElements.Count == 3)
             {
                 if ((SelectedElements[0] is ModelGeneration.BezierPatchC0 bpc0_1 || SelectedElements[0] is ModelGeneration.BezierPatchC2 bpc2_1)
                     && (SelectedElements[1] is ModelGeneration.BezierPatchC0 bpc0_2 || SelectedElements[1] is ModelGeneration.BezierPatchC2 bpc2_2))
@@ -2653,7 +2653,7 @@ namespace Geometric2
                     var s1 = SelectedElements[0] as ISurface;
                     var s2 = SelectedElements[1] as ISurface;
                     IntersectionModel intersectionModel = new IntersectionModel(s1, s2, intersectionNumber, _camera, glControl1.Width, glControl1.Height, d);
-                    intersectionModel.CreateGlElement(_shader, _shaderGeometry, _gregoryShader);
+                    intersectionModel.CreateGlElement(_shader, _shaderGeometry, _gregoryShader, globalData);
                     if (intersectionModel.intersectionLines != null)
                     {
                         intersectionNumber++;
@@ -2709,6 +2709,21 @@ namespace Geometric2
         {
             globalData.surface2_1 = radioButton4.Checked;
             globalData.surface2_2 = radioButton3.Checked;
+        }
+
+        private void checkBox5_CheckedChanged(object sender, EventArgs e)
+        {
+            Vector3 point = new Vector3(0,0,0);
+            foreach (var el in SelectedElements)
+            {
+                if(el is ModelGeneration.Point ee)
+                {
+                    point = ee.Position();
+                    globalData.UseSelectedPoint = checkBox5.Checked;
+                }
+            }
+
+            globalData.selectedPoint = point;
         }
 
         private void showIntersectionCheckBox_CheckedChanged(object sender, EventArgs e)

@@ -52,6 +52,7 @@ namespace Geometric2
             this.bezierPatchC0DrawPolyline = new System.Windows.Forms.TabControl();
             this.Torus = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.trackBar5 = new System.Windows.Forms.TrackBar();
@@ -199,6 +200,7 @@ namespace Geometric2
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.DrawTab = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.button3 = new System.Windows.Forms.Button();
             this.intersectionButton = new System.Windows.Forms.Button();
             this.addGregory = new System.Windows.Forms.Button();
             this.addBezierPatchTubeC2 = new System.Windows.Forms.Button();
@@ -494,6 +496,7 @@ namespace Geometric2
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.checkBox5);
             this.panel4.Controls.Add(this.textBox8);
             this.panel4.Controls.Add(this.textBox4);
             this.panel4.Controls.Add(this.trackBar5);
@@ -510,6 +513,17 @@ namespace Geometric2
             this.panel4.Size = new System.Drawing.Size(151, 316);
             this.panel4.TabIndex = 9;
             this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
+            // 
+            // checkBox5
+            // 
+            this.checkBox5.AutoSize = true;
+            this.checkBox5.Location = new System.Drawing.Point(15, 235);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(117, 17);
+            this.checkBox5.TabIndex = 34;
+            this.checkBox5.Text = "Use Selected Point";
+            this.checkBox5.UseVisualStyleBackColor = true;
+            this.checkBox5.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
             // 
             // textBox8
             // 
@@ -2051,6 +2065,7 @@ namespace Geometric2
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.button3);
             this.panel2.Controls.Add(this.intersectionButton);
             this.panel2.Controls.Add(this.addGregory);
             this.panel2.Controls.Add(this.addBezierPatchTubeC2);
@@ -2076,6 +2091,15 @@ namespace Geometric2
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(88, 699);
             this.panel2.TabIndex = 1;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(0, 0);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 20;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
             // 
             // intersectionButton
             // 
@@ -2575,6 +2599,8 @@ namespace Geometric2
         private System.Windows.Forms.Label label50;
         private System.Windows.Forms.CheckBox showTrim2CheckBox;
         private System.Windows.Forms.CheckBox showTrim1CheckBox;
+        private System.Windows.Forms.CheckBox checkBox5;
+        private System.Windows.Forms.Button button3;
     }
 }
 

@@ -24,6 +24,7 @@ namespace Geometric2.ModelGeneration
         int width, height;
         int intersectionNumber;
         int idx = 1000;
+        GlobalData globalData;
 
         public IntersectionModel(ISurface surface1, ISurface surface2, int intersectionNumber, Camera _camera, int width, int height, float d)
         {
@@ -42,8 +43,9 @@ namespace Geometric2.ModelGeneration
             return FullName + " " + ElementName;
         }
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader, TeselationShader _gregoryShader = null, GlobalData globalData = null)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _geometryShader, TeselationShader _gregoryShader, GlobalData globalData)
         {
+            this.globalData = globalData;
             this.FindIntersection();
             if (intersectionLines != null)
             {
@@ -237,7 +239,14 @@ namespace Geometric2.ModelGeneration
                 List<(Vector2 pParam, Vector2 qParam)> res = new List<(Vector2, Vector2)>();
                 do
                 {
-                    res = Intersection.Curve(surface1, surface2, d);
+                    if (globalData.UseSelectedPoint)
+                    {
+                        res = Intersection.Curve(surface1, surface2, d, globalData.selectedPoint);
+                    }
+                    else
+                    {
+                        res = Intersection.Curve(surface1, surface2, d);
+                    }
                     ile = 0;
                     alpP.Clear();
                     if (res != null)

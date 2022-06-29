@@ -109,7 +109,7 @@ namespace Intersect
             Func<float, float, float, float, Matrix4> J = (u, v, s, t) =>
             {
                 Vector4 f = func(u, v, s, t);
-                return new Matrix4( // może trzeba transponować
+                return new Matrix4(
                     (func(u + H, v, s, t) - f) / H,
                     (func(u, v + H, s, t) - f) / H,
                     (func(u, v, s + H, t) - f) / H,
@@ -120,7 +120,6 @@ namespace Intersect
             {
                 xp = new Vector4(xn);
                 xn -= func(xn.X, xn.Y, xn.Z, xn.W) * J(xn.X, xn.Y, xn.Z, xn.W);
-                // xn -= J(xn.X, xn.Y, xn.Z, xn.W) * func(xn.X, xn.Y, xn.Z, xn.W); albo tak
             }
             while ((xp - xn).LengthSquared > 1e-6 && maxIter-- > 0);
             return (xn.Xy, xn.Zw);
