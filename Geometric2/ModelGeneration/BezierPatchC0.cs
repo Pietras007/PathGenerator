@@ -172,9 +172,10 @@ namespace Geometric2.ModelGeneration
             }
 
             _teselationShader.SetInt("showTrimmed", 0);
-            if (texture != null && globalData != null)
+            var tex = texture;
+            if (tex != null && globalData != null)
             {
-                texture.Use(textureUnit);
+                tex.Use(textureUnit);
                 _teselationShader.SetInt("heightMap", textureId);
                 if (textureId == 1)
                 {

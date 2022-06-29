@@ -291,16 +291,10 @@ namespace Geometric2
                             Elements.Remove(x);
                         }
                     }
-
-                    //else if (element is BezierPatchTubeC0 _bezierPatchTubeC0)
-                    //{
-                    //    foreach (var x in _bezierPatchTubeC0.bezierPoints)
-                    //    {
-                    //        SelectedElements.Remove(x);
-                    //        elementsOnScene.Items.Remove(x);
-                    //        Elements.Remove(x);
-                    //    }
-                    //}
+                    else if (element is IntersectionModel _intersectionModel)
+                    {
+                        _intersectionModel.RemoveTextures();
+                    }
 
                     else if (element is BezierPatchC2 _bezierPatchC2)
                     {
@@ -311,16 +305,6 @@ namespace Geometric2
                             Elements.Remove(x);
                         }
                     }
-
-                    //else if (element is BezierPatchTubeC2 _bezierPatchTubeC2)
-                    //{
-                    //    foreach (var x in _bezierPatchTubeC2.bezierPoints)
-                    //    {
-                    //        SelectedElements.Remove(x);
-                    //        elementsOnScene.Items.Remove(x);
-                    //        Elements.Remove(x);
-                    //    }
-                    //}
 
                     SelectedElements.Remove(element);
                     elementsOnScene.Items.Remove(element);
@@ -1746,7 +1730,7 @@ namespace Geometric2
                 foreach (var p in patchC2)
                 {
                     elementsOnScene.Items.Add(p);
-                    p.CreateGlElement(_shader, _shaderGeometry, _patchC2Shader);
+                    p.CreateGlElement(_shader, _shaderGeometry, _patchC2Shader, globalData);
                 }
                 Elements.AddRange(patchC2);
 
@@ -2527,7 +2511,7 @@ namespace Geometric2
                     foreach (var p in patchC2)
                     {
                         elementsOnScene.Items.Add(p);
-                        p.CreateGlElement(_shader, _shaderGeometry, _patchC2Shader);
+                        p.CreateGlElement(_shader, _shaderGeometry, _patchC2Shader, globalData);
                     }
                     Elements.AddRange(patchC2);
 
@@ -2550,7 +2534,7 @@ namespace Geometric2
             BezierPatchC2 bezierPatchC2 = new BezierPatchC2(pointNumber, bezierPatchC0Number, _camera, glControl1.Width, glControl1.Height, values);
             checkBox2.Checked = false;
             bezierPatchC2Number++;
-            bezierPatchC2.CreateGlElement(_shader, _shaderGeometry, _patchC2Shader);
+            bezierPatchC2.CreateGlElement(_shader, _shaderGeometry, _patchC2Shader, globalData);
             elementsOnScene.Items.Add(bezierPatchC2);
             Elements.Add(bezierPatchC2);
             foreach (var p in bezierPatchC2.bezierPoints)
@@ -2573,7 +2557,7 @@ namespace Geometric2
             BezierPatchC2 bezierPatchC2 = new BezierPatchC2(pointNumber, bezierPatchC2Number, _camera, glControl1.Width, glControl1.Height, values, true);
             checkBox3.Checked = false;
             bezierPatchC2Number++;
-            bezierPatchC2.CreateGlElement(_shader, _shaderGeometry, _patchC2Shader);
+            bezierPatchC2.CreateGlElement(_shader, _shaderGeometry, _patchC2Shader, globalData);
             elementsOnScene.Items.Add(bezierPatchC2);
             Elements.Add(bezierPatchC2);
             List<ModelGeneration.Point> points = new List<ModelGeneration.Point>();
@@ -2663,9 +2647,12 @@ namespace Geometric2
         {
             if (SelectedElements.Count == 2)
             {
-                if (SelectedElements[0] is ModelGeneration.BezierPatchC0 bpc0_1 && SelectedElements[1] is ModelGeneration.BezierPatchC0 bpc0_2)
+                if ((SelectedElements[0] is ModelGeneration.BezierPatchC0 bpc0_1 || SelectedElements[0] is ModelGeneration.BezierPatchC2 bpc2_1)
+                    && (SelectedElements[1] is ModelGeneration.BezierPatchC0 bpc0_2 || SelectedElements[1] is ModelGeneration.BezierPatchC2 bpc2_2))
                 {
-                    IntersectionModel intersectionModel = new IntersectionModel(bpc0_1, bpc0_2, intersectionNumber, _camera, glControl1.Width, glControl1.Height, d);
+                    var s1 = SelectedElements[0] as ISurface;
+                    var s2 = SelectedElements[1] as ISurface;
+                    IntersectionModel intersectionModel = new IntersectionModel(s1, s2, intersectionNumber, _camera, glControl1.Width, glControl1.Height, d);
                     intersectionModel.CreateGlElement(_shader, _shaderGeometry, _gregoryShader);
                     if (intersectionModel.intersectionLines != null)
                     {

@@ -74,6 +74,12 @@ namespace Geometric2.ModelGeneration
             }
         }
 
+        public void RemoveTextures()
+        {
+            surface1.SetTexture(null, OpenTK.Graphics.OpenGL4.TextureUnit.Texture1, 1);
+            surface2.SetTexture(null, OpenTK.Graphics.OpenGL4.TextureUnit.Texture1, 2);
+        }
+
 
         private void FindIntersection()
         {
@@ -223,11 +229,8 @@ namespace Geometric2.ModelGeneration
 
         private (List<Vector3>, List<(Vector2 pParam, Vector2 qParam)>) FindIntersectionCurve()
         {
-            if (surface1 is ModelGeneration.BezierPatchC0 bp0 && surface2 is ModelGeneration.BezierPatchC0 bp2)
+            if ((surface1 is ModelGeneration.BezierPatchC0 || surface1 is ModelGeneration.BezierPatchC2) && (surface2 is ModelGeneration.BezierPatchC0 || surface2 is ModelGeneration.BezierPatchC2))
             {
-                var _bp0 = new BestPatch(bp0);
-                var _bp1 = new BestPatch(bp2);
-
                 int iterations = 0;
                 int ile = 0;
                 List<Vector3> alpP = new List<Vector3>();

@@ -1,17 +1,21 @@
-﻿using Geometric2.Global;
+﻿using Geometric2.DrillLines;
+using Geometric2.Global;
 using Geometric2.Helpers;
 using Geometric2.MatrixHelpers;
 using Geometric2.RasterizationClasses;
+using Intersect;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace Geometric2.ModelGeneration
 {
-    public class BezierPatchC2 : Element
+    public class BezierPatchC2 : Element, ISurface
     {
+        public List<Vector3>[,] patches;
         public bool DrawPolyline { get; set; }
         public int SegmentsU { get; set; }
         public int SegmentsV { get; set; }
@@ -36,8 +40,15 @@ namespace Geometric2.ModelGeneration
         float x0, y0;
         private float r;
         private object bezierPatchC0Points;
+        Texture texture = null;
+        TextureUnit textureUnit;
+        int textureId;
 
         private bool isTube;
+
+        public bool wrapsU { get; set; }
+        public bool wrapsV { get; set; }
+        GlobalData globalData = null;
 
         public BezierPatchC2(int[] pointNumber, int bezierC2Number, Camera _camera, int width, int height, float[] values, bool isTube = false)
         {
@@ -60,6 +71,7 @@ namespace Geometric2.ModelGeneration
             this.isTube = isTube;
             FullName = "BezierPatchC2 " + bezierPatchC2Number;
             GenerateBezierPoints();
+            this.FillPatches();
         }
 
         public BezierPatchC2(int bezierC2Number, Camera _camera, int width, int height, bool isTube = false)
@@ -82,10 +94,11 @@ namespace Geometric2.ModelGeneration
             return FullName + " " + ElementName;
         }
 
-        public override void CreateGlElement(Shader _shader, ShaderGeometry _patchGeometryShader, TeselationShader _teselationShader, GlobalData globalData = null)
+        public override void CreateGlElement(Shader _shader, ShaderGeometry _patchGeometryShader, TeselationShader _teselationShader, GlobalData globalData)
         {
-
+            this.globalData = globalData;
             RegenerateBezierPatchC2();
+            FillPatches();
             bezierPatchC2PolylineVAO = GL.GenVertexArray();
             bezierPatchC2PolylineVBO = GL.GenBuffer();
             bezierPatchC2polylineEBO = GL.GenBuffer();
@@ -98,7 +111,7 @@ namespace Geometric2.ModelGeneration
             GL.VertexAttribPointer(a_Position_Location, 3, VertexAttribPointerType.Float, true, 3 * sizeof(float), 0);
             GL.EnableVertexAttribArray(a_Position_Location);
 
-            var a_Position_Loc_gregoryShader = _teselationShader.GetAttribLocation("a_Position");
+            //var a_Position_Loc_gregoryShader = _teselationShader.GetAttribLocation("a_Position");
             bezierPatchC2VAO = GL.GenVertexArray();
             bezierPatchC2VBO = GL.GenBuffer();
             bezierPatchC2EBO = GL.GenBuffer();
@@ -107,8 +120,15 @@ namespace Geometric2.ModelGeneration
             GL.BufferData(BufferTarget.ArrayBuffer, bezierPatchC2Points.Length * sizeof(float), bezierPatchC2Points, BufferUsageHint.DynamicDraw);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, bezierPatchC2EBO);
             GL.BufferData(BufferTarget.ElementArrayBuffer, bezierPatchC2Indices.Length * sizeof(uint), bezierPatchC2Indices, BufferUsageHint.DynamicDraw);
-            GL.VertexAttribPointer(a_Position_Loc_gregoryShader, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-            GL.EnableVertexAttribArray(0);
+            //GL.VertexAttribPointer(a_Position_Loc_gregoryShader, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+            //GL.EnableVertexAttribArray(0);
+            var a_Position_Loc_gregoryShader = _teselationShader.GetAttribLocation("a_Position");
+            GL.VertexAttribPointer(a_Position_Loc_gregoryShader, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
+            GL.EnableVertexAttribArray(a_Position_Loc_gregoryShader);
+
+            var aTexCoords_gregoryShader = _teselationShader.GetAttribLocation("aTexCoords");
+            GL.VertexAttribPointer(aTexCoords_gregoryShader, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
+            GL.EnableVertexAttribArray(aTexCoords_gregoryShader);
         }
 
         public override void RenderGlElement(Shader _shader, Vector3 rotationCentre, ShaderGeometry _patchGeometryShader, TeselationShader _teselationShader)
@@ -149,6 +169,29 @@ namespace Geometric2.ModelGeneration
                 _teselationShader.SetVector3("fragmentColor", ColorHelper.ColorToVector(Color.Black));
             }
 
+            _teselationShader.SetInt("showTrimmed", 0);
+            var tex = texture;
+            if (tex != null && globalData != null)
+            {
+                tex.Use(textureUnit);
+                _teselationShader.SetInt("heightMap", textureId);
+                if (textureId == 1)
+                {
+                    var showTrim = globalData.showTrim1 == true ? 1 : 0;
+                    var trimmedPart = globalData.surface1_1 == true ? 1 : 0;
+                    _teselationShader.SetInt("showTrimmed", showTrim);
+                    _teselationShader.SetInt("trimmedPart", trimmedPart);
+
+                }
+                else if (textureId == 2)
+                {
+                    var showTrim = globalData.showTrim2 == true ? 1 : 0;
+                    var trimmedPart = globalData.surface2_1 == true ? 1 : 0;
+                    _teselationShader.SetInt("showTrimmed", showTrim);
+                    _teselationShader.SetInt("trimmedPart", trimmedPart);
+                }
+            }
+
             GL.BindVertexArray(bezierPatchC2VAO);
             GL.PatchParameter(PatchParameterInt.PatchVertices, 16);
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
@@ -183,6 +226,41 @@ namespace Geometric2.ModelGeneration
             GL.BufferData(BufferTarget.ArrayBuffer, bezierPatchC2Points.Length * sizeof(float), bezierPatchC2Points, BufferUsageHint.DynamicDraw);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, bezierPatchC2EBO);
             GL.BufferData(BufferTarget.ElementArrayBuffer, bezierPatchC2Indices.Length * sizeof(uint), bezierPatchC2Indices, BufferUsageHint.DynamicDraw);
+        }
+
+        public void FillPatches()
+        {
+            patches = new List<Vector3>[splitA, splitB];
+            UpdatePatches();
+        }
+
+        public void UpdatePatches()
+        {
+            uint width = (uint)splitB + 3;
+            int patch_idx = 0;
+            int point_patch_idx = 0;
+            for (uint i = 0; i < splitA; i++)
+            {
+                for (uint j = 0; j < splitB; j++)
+                {
+                    Vector3[] _pointrefs = new Vector3[16];
+                    point_patch_idx = 0;
+                    for (uint k = 0; k < 4; k++)
+                    {
+                        for (uint l = 0; l < 4; l++)
+                        {
+                            uint width_pos = j + l;
+                            uint height_pos = i + k;
+                            uint pos = height_pos * width + width_pos;
+                            _pointrefs[point_patch_idx] = bezierPoints[(int)pos].Position();
+                            point_patch_idx++;
+                        }
+                    }
+
+                    patches[i, j] = _pointrefs.ToList();
+                    patch_idx++;
+                }
+            }
         }
 
         private void GenerateBezierPoints()
@@ -319,14 +397,11 @@ namespace Geometric2.ModelGeneration
         {
             vertices.Clear();
             indices.Clear();
-            foreach (var b in bezierPoints)
-            {
-                vertices.Add(b.Position().X);
-                vertices.Add(b.Position().Y);
-                vertices.Add(b.Position().Z);
-            }
+
+            List<(Point, uint, float, float)> positions = new List<(Point, uint, float, float)>();
 
             uint width = (uint)splitB + 3;
+            uint height = (uint)splitA + 3;
             for (uint i = 0; i < splitA; i++)
             {
                 for (uint j = 0; j < splitB; j++)
@@ -339,13 +414,149 @@ namespace Geometric2.ModelGeneration
                             uint height_pos = i + k;
                             uint pos = height_pos * width + width_pos;
                             indices.Add(pos);
+
+                            if (!positions.Contains((bezierPoints[(int)pos], pos, (float)(height_pos-1) / (float)(height - 3), (float)(width_pos-1) / (float)(width - 3))))
+                            {
+                                positions.Add((bezierPoints[(int)pos], pos, (float)(height_pos - 1) / (float)(height - 3), (float)(width_pos - 1) / (float)(width - 3)));
+                            }
                         }
                     }
                 }
             }
 
+            var orderedPositions = positions.OrderBy(x => x.Item2).ToList();
+            foreach (var b in orderedPositions)
+            {
+                vertices.Add(b.Item1.Position().X);
+                vertices.Add(b.Item1.Position().Y);
+                vertices.Add(b.Item1.Position().Z);
+                vertices.Add(b.Item3);
+                vertices.Add(b.Item4);
+            }
+
             bezierPatchC2Points = vertices.ToArray();
             bezierPatchC2Indices = indices.ToArray();
+        }
+
+        public Vector3 P(float u, float v)
+        {
+            u = Clamp(u, 0, 1);
+            v = Clamp(v, 0, 1);
+
+            float PatchU_ = u * splitA;
+            float PatchV_ = v * splitB;
+
+            int patchA = 0;
+            int patchB = 0;
+
+            while (PatchU_ > 1.0f)
+            {
+                patchA++;
+                PatchU_ -= 1.0f;
+            }
+
+            while (PatchV_ > 1.0f)
+            {
+                patchB++;
+                PatchV_ -= 1.0f;
+            }
+
+            float PatchU = PatchU_;
+            float PatchV = PatchV_;
+
+            List<Vector3> points = patches[patchA, patchB];
+            return CP(PatchU, PatchV, points);
+        }
+
+        public Vector3 CP(float u, float v, List<Vector3> points)
+        {
+            Vector3 deboor1 = HelpFunctions.DeBoor(v, points[0], points[1], points[2], points[3]);
+            Vector3 deboor2 = HelpFunctions.DeBoor(v, points[4], points[5], points[6], points[7]);
+            Vector3 deboor3 = HelpFunctions.DeBoor(v, points[8], points[9], points[10], points[11]);
+            Vector3 deboor4 = HelpFunctions.DeBoor(v, points[12], points[13], points[14], points[15]);
+            var res =  HelpFunctions.DeBoor(u, deboor1, deboor2, deboor3, deboor4);
+            return res;
+        }
+
+        public Vector3 T(float u, float v)
+        {
+            if (u + 1e-4f < 1)
+                return (P(u + 1e-4f, v) - (P(u, v))) / (1e-4f);
+            else
+                return (P(u, v) - (P(u - 1e-4f, v))) / (1e-4f);
+        }
+
+        public Vector3 B(float u, float v)
+        {
+            if (v + 1e-4f < 1)
+                return (P(u, v + 1e-4f) - P(u, v)) / (1e-4f);
+            else
+                return (P(u, v) - P(u, v - 1e-4f)) / (1e-4f);
+        }
+
+        public Vector3 N(float u, float v)
+        {
+            Vector3 tangent = T(u, v);
+            Vector3 bitangent = B(u, v);
+            Vector3 normal = Vector3.Cross(tangent, bitangent);
+            return normal.Normalized();
+        }
+
+        public bool WrapsU()
+        {
+            return wrapsU;
+        }
+
+        public bool WrapsV()
+        {
+            return wrapsV;
+        }
+
+        public void SetTexture(Texture texture, TextureUnit textureUnit, int textureId)
+        {
+            this.texture = texture;
+            this.textureUnit = textureUnit;
+            this.textureId = textureId;
+        }
+
+        private static float Clamp(float val, float min, float max)
+        {
+            if (val < min)
+            {
+                return min;
+            }
+            else if (val > max)
+            {
+                return max;
+            }
+            else if (val >= min && val <= max)
+            {
+                return val;
+            }
+            else
+            {
+                return 0.5f;
+            }
+        }
+
+        private static int Clamp(int val, int min, int max)
+        {
+            if (val < min)
+            {
+                return min;
+            }
+            else if (val > max)
+            {
+                return max;
+            }
+            else if (val >= min && val <= max)
+            {
+                return val;
+            }
+            else
+            {
+                return -1;
+            }
         }
     }
 }

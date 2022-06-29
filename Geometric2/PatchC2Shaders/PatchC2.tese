@@ -1,9 +1,12 @@
-﻿#version 400 core
+﻿#version 400
 
 layout(quads, equal_spacing, cw) in;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+
+in vec2 tes_texCoord[];
+out vec2 textureCoord;
 
 vec3 DeBoor(float t, vec3 B0_, vec3 B1_, vec3 B2_, vec3 B3_) 
 {
@@ -91,6 +94,9 @@ void main( )
 	vec3 deboor3 = DeBoor(v, p02, p12, p22, p32);
 	vec3 deboor4 = DeBoor(v, p03, p13, p23, p33);
 
+	vec2 tmp1 = mix(tes_texCoord[5], tes_texCoord[6], v);
+	vec2 tmp2 = mix(tes_texCoord[9], tes_texCoord[10], v);
+	textureCoord = mix(tmp1, tmp2, u);
 
 	vec4 position = vec4(DeBoor(u, deboor1, deboor2, deboor3, deboor4), 1.0f);
 	gl_Position = position * model * view * projection;
