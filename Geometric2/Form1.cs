@@ -88,6 +88,16 @@ namespace Geometric2
             this.glControl1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseWheel);
             pointNumber = new int[1];
             pointNumber[0] = 0;
+
+            surface1_PlotModel.Axes.Add(new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Left, Minimum = 0, Maximum = 1 });
+            surface1_PlotModel.Axes.Add(new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Bottom, Minimum = 0, Maximum = 1 });
+            surface1_PlotModel.Series.Add(new OxyPlot.Series.LineSeries { LineStyle = OxyPlot.LineStyle.Solid, Color = OxyPlot.OxyColor.FromRgb(255, 0, 0) });
+            plotView1.Model = surface1_PlotModel;
+
+            surface2_PlotModel.Axes.Add(new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Left, Minimum = 0, Maximum = 1  });
+            surface2_PlotModel.Axes.Add(new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Bottom, Minimum = 0, Maximum = 1 });
+            surface2_PlotModel.Series.Add(new OxyPlot.Series.LineSeries { LineStyle = OxyPlot.LineStyle.Solid, Color = OxyPlot.OxyColor.FromRgb(255, 0, 0) });
+            plotView2.Model = surface2_PlotModel;
         }
 
         private Shader _shader;
@@ -128,6 +138,9 @@ namespace Geometric2
         public float d = 0.15f;
 
         List<ModelGeneration.BezierPatchC0> patchC0 = null;
+
+        OxyPlot.PlotModel surface1_PlotModel = new OxyPlot.PlotModel();
+        OxyPlot.PlotModel surface2_PlotModel = new OxyPlot.PlotModel();
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
@@ -2733,7 +2746,22 @@ namespace Geometric2
                 List<Vector2> pParam = selectedIntersection.res.Select(x => x.pParam).ToList();
                 List<Vector2> qParam = selectedIntersection.res.Select(x => x.qParam).ToList();
 
+                var pV1_Series = (OxyPlot.Series.LineSeries)surface1_PlotModel.Series[0];
+                var pV2_Series = (OxyPlot.Series.LineSeries)surface2_PlotModel.Series[0];
+                pV1_Series.Points.Clear();
+                pV2_Series.Points.Clear();
+                foreach(var p in pParam)
+                {
+                    pV1_Series.Points.Add(new OxyPlot.DataPoint(p.X, p.Y));
+                }
 
+                foreach (var q in qParam)
+                {
+                    pV2_Series.Points.Add(new OxyPlot.DataPoint(q.X, q.Y));
+                }
+
+                plotView1.InvalidatePlot(true);
+                plotView2.InvalidatePlot(true);
             }
         }
 

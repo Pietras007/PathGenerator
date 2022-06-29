@@ -226,6 +226,10 @@ namespace Geometric2
             this.elementsOnScene = new System.Windows.Forms.ListBox();
             this.CoursorTab = new System.Windows.Forms.TabPage();
             this.chartsTabPage = new System.Windows.Forms.TabPage();
+            this.plotView1 = new OxyPlot.WindowsForms.PlotView();
+            this.plotView2 = new OxyPlot.WindowsForms.PlotView();
+            this.label51 = new System.Windows.Forms.Label();
+            this.label52 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.eyeDistTrackBar)).BeginInit();
@@ -267,6 +271,7 @@ namespace Geometric2
             this.DrawTab.SuspendLayout();
             this.panel2.SuspendLayout();
             this.CoursorTab.SuspendLayout();
+            this.chartsTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // glControl1
@@ -2344,12 +2349,58 @@ namespace Geometric2
             // 
             // chartsTabPage
             // 
+            this.chartsTabPage.Controls.Add(this.label52);
+            this.chartsTabPage.Controls.Add(this.label51);
+            this.chartsTabPage.Controls.Add(this.plotView2);
+            this.chartsTabPage.Controls.Add(this.plotView1);
             this.chartsTabPage.Location = new System.Drawing.Point(4, 22);
             this.chartsTabPage.Name = "chartsTabPage";
             this.chartsTabPage.Size = new System.Drawing.Size(344, 870);
             this.chartsTabPage.TabIndex = 2;
             this.chartsTabPage.Text = "Charts";
             this.chartsTabPage.UseVisualStyleBackColor = true;
+            // 
+            // plotView1
+            // 
+            this.plotView1.Location = new System.Drawing.Point(22, 23);
+            this.plotView1.Name = "plotView1";
+            this.plotView1.PanCursor = System.Windows.Forms.Cursors.Hand;
+            this.plotView1.Size = new System.Drawing.Size(300, 300);
+            this.plotView1.TabIndex = 0;
+            this.plotView1.Text = "plotView1";
+            this.plotView1.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE;
+            this.plotView1.ZoomRectangleCursor = System.Windows.Forms.Cursors.SizeNWSE;
+            this.plotView1.ZoomVerticalCursor = System.Windows.Forms.Cursors.SizeNS;
+            // 
+            // plotView2
+            // 
+            this.plotView2.Location = new System.Drawing.Point(22, 357);
+            this.plotView2.Name = "plotView2";
+            this.plotView2.PanCursor = System.Windows.Forms.Cursors.Hand;
+            this.plotView2.Size = new System.Drawing.Size(300, 300);
+            this.plotView2.TabIndex = 1;
+            this.plotView2.Text = "plotView2";
+            this.plotView2.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE;
+            this.plotView2.ZoomRectangleCursor = System.Windows.Forms.Cursors.SizeNWSE;
+            this.plotView2.ZoomVerticalCursor = System.Windows.Forms.Cursors.SizeNS;
+            // 
+            // label51
+            // 
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(19, 3);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(56, 13);
+            this.label51.TabIndex = 2;
+            this.label51.Text = "Surface 1:";
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(19, 341);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(56, 13);
+            this.label52.TabIndex = 3;
+            this.label52.Text = "Surface 2:";
             // 
             // Form1
             // 
@@ -2422,6 +2473,8 @@ namespace Geometric2
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.CoursorTab.ResumeLayout(false);
+            this.chartsTabPage.ResumeLayout(false);
+            this.chartsTabPage.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2626,6 +2679,10 @@ namespace Geometric2
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TabPage chartsTabPage;
+        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.Label label51;
+        private OxyPlot.WindowsForms.PlotView plotView2;
+        private OxyPlot.WindowsForms.PlotView plotView1;
     }
 }
 
