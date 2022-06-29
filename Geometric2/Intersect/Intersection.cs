@@ -100,29 +100,32 @@ namespace Intersect
         {
             Vector4 xn = new Vector4(x0.pParam.X, x0.pParam.Y, x0.qParam.X, x0.qParam.Y), xp;
             Vector3 tangent = Vector3.Cross(p.N(xn.X, xn.Y), q.N(xn.X, xn.Y)).Normalized();
-            Func<float, float, float, float, Vector4> func = (u, v, s, t) =>
-            {
-                Vector3 pmq = p.P(u, v) - q.P(s, t);
-                float val = Vector3.Dot(p.P(u, v) - p.P(x0.pParam.X, x0.pParam.Y), tangent) - d;
-                return new Vector4(pmq, val);
-            };
-            Func<float, float, float, float, Matrix4> J = (u, v, s, t) =>
-            {
-                Vector4 f = func(u, v, s, t);
-                return new Matrix4(
-                    (func(u + H, v, s, t) - f) / H,
-                    (func(u, v + H, s, t) - f) / H,
-                    (func(u, v, s + H, t) - f) / H,
-                    (func(u, v, s, t + H) - f) / H
-                ).Inverted();
-            };
+            
             do
             {
                 xp = new Vector4(xn);
-                xn -= func(xn.X, xn.Y, xn.Z, xn.W) * J(xn.X, xn.Y, xn.Z, xn.W);
+                xn -= func(xn.X, xn.Y, xn.Z, xn.W, p, q, x0, tangent, d) * J(xn.X, xn.Y, xn.Z, xn.W, p, q, x0, tangent, d);
             }
             while ((xp - xn).LengthSquared > 1e-6 && maxIter-- > 0);
             return (xn.Xy, xn.Zw);
+        }
+
+        public static Vector4 func(float u, float v, float s, float t, ISurface p, ISurface q, (Vector2 pParam, Vector2 qParam) x0, Vector3 tangent, float d)
+        {
+            Vector3 pmq = p.P(u, v) - q.P(s, t);
+            float val = Vector3.Dot(p.P(u, v) - p.P(x0.pParam.X, x0.pParam.Y), tangent) - d;
+            return new Vector4(pmq, val);
+        }
+
+        public static Matrix4 J(float u, float v, float s, float t, ISurface p, ISurface q, (Vector2 pParam, Vector2 qParam) x0, Vector3 tangent, float d)
+        {
+            Vector4 f = func(u, v, s, t, p, q, x0, tangent, d);
+            return new Matrix4(
+                (func(u + H, v, s, t, p, q, x0, tangent, d) - f) / H,
+                (func(u, v + H, s, t, p, q, x0, tangent, d) - f) / H,
+                (func(u, v, s + H, t, p, q, x0, tangent, d) - f) / H,
+                (func(u, v, s, t + H, p, q, x0, tangent, d) - f) / H
+            ).Inverted();
         }
 
         public static List<(Vector2 pParam, Vector2 qParam)> Curve(ISurface p, ISurface q, float d, Vector3? closeTo = null)

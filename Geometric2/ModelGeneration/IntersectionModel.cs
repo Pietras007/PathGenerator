@@ -26,6 +26,7 @@ namespace Geometric2.ModelGeneration
         int idx = 1000;
         GlobalData globalData;
         public List<(Vector2 pParam, Vector2 qParam)> res = null;
+        public List<Vector3> pointsIntersection = null;
 
         public IntersectionModel(ISurface surface1, ISurface surface2, int intersectionNumber, Camera _camera, int width, int height, float d)
         {
@@ -255,6 +256,7 @@ namespace Geometric2.ModelGeneration
                         }
                     }
 
+                    pointsIntersection = alpP;
                     iterations++;
                     if (iterations > 5)
                     {

@@ -94,7 +94,7 @@ namespace Geometric2
             surface1_PlotModel.Series.Add(new OxyPlot.Series.LineSeries { LineStyle = OxyPlot.LineStyle.Solid, Color = OxyPlot.OxyColor.FromRgb(255, 0, 0) });
             plotView1.Model = surface1_PlotModel;
 
-            surface2_PlotModel.Axes.Add(new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Left, Minimum = 0, Maximum = 1  });
+            surface2_PlotModel.Axes.Add(new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Left, Minimum = 0, Maximum = 1 });
             surface2_PlotModel.Axes.Add(new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Bottom, Minimum = 0, Maximum = 1 });
             surface2_PlotModel.Series.Add(new OxyPlot.Series.LineSeries { LineStyle = OxyPlot.LineStyle.Solid, Color = OxyPlot.OxyColor.FromRgb(255, 0, 0) });
             plotView2.Model = surface2_PlotModel;
@@ -2726,10 +2726,10 @@ namespace Geometric2
 
         private void checkBox5_CheckedChanged(object sender, EventArgs e)
         {
-            Vector3 point = new Vector3(0,0,0);
+            Vector3 point = new Vector3(0, 0, 0);
             foreach (var el in SelectedElements)
             {
-                if(el is ModelGeneration.Point ee)
+                if (el is ModelGeneration.Point ee)
                 {
                     point = ee.Position();
                     globalData.UseSelectedPoint = checkBox5.Checked;
@@ -2750,7 +2750,7 @@ namespace Geometric2
                 var pV2_Series = (OxyPlot.Series.LineSeries)surface2_PlotModel.Series[0];
                 pV1_Series.Points.Clear();
                 pV2_Series.Points.Clear();
-                foreach(var p in pParam)
+                foreach (var p in pParam)
                 {
                     pV1_Series.Points.Add(new OxyPlot.DataPoint(p.X, p.Y));
                 }
@@ -2762,6 +2762,35 @@ namespace Geometric2
 
                 plotView1.InvalidatePlot(true);
                 plotView2.InvalidatePlot(true);
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (selectedIntersection != null && selectedIntersection.pointsIntersection != null)
+            {
+                InterpolatedBezierC2 interpolatedBezierC2 = new InterpolatedBezierC2(interpolatedBezierC2Number, _camera, glControl1.Width, glControl1.Height);
+                interpolationBezierC2ListBox.Items.Clear();
+                interpolatedBezierC2DrawPolyline.Checked = false;
+                interpolatedBezierC2Number++;
+                interpolatedBezierC2.CreateGlElement(_shader, _shaderGeometry);
+                elementsOnScene.Items.Add(interpolatedBezierC2);
+                Elements.Add(interpolatedBezierC2);
+                SelectedElements.Add(interpolatedBezierC2);
+
+                foreach (var el in selectedIntersection.pointsIntersection)
+                {
+                    ModelGeneration.Point point = new ModelGeneration.Point(el, pointNumber[0], _camera);
+                    interpolationBezierC2ListBox.Items.Add(point);
+                    pointNumber[0]++;
+                    interpolatedBezierC2.interpolatedBC2Points.Add(point);
+                    point.CreateGlElement(_shader);
+                    elementsOnScene.Items.Add(point);
+                    Elements.Add(point);
+                }
+
+                selectedInterpolatedBezierC2 = interpolatedBezierC2;
+                UpdateDrawingStatus();
             }
         }
 

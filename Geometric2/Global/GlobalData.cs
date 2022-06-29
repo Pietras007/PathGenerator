@@ -17,6 +17,6 @@ namespace Geometric2.Global
         public bool surface2_1 = false;
         public bool surface2_2 = false;
         public Vector3 selectedPoint = new Vector3(0, 0, 0);
-        public bool UseSelectedPoint = false;
+        public bool UseSelectedPoint { get; set; }
     }
 }

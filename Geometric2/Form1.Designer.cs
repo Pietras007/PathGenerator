@@ -52,7 +52,6 @@ namespace Geometric2
             this.bezierPatchC0DrawPolyline = new System.Windows.Forms.TabControl();
             this.Torus = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.trackBar5 = new System.Windows.Forms.TrackBar();
@@ -132,6 +131,7 @@ namespace Geometric2
             this.trackBar10 = new System.Windows.Forms.TrackBar();
             this.trackBar9 = new System.Windows.Forms.TrackBar();
             this.Intersection = new System.Windows.Forms.TabPage();
+            this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label50 = new System.Windows.Forms.Label();
@@ -226,10 +226,11 @@ namespace Geometric2
             this.elementsOnScene = new System.Windows.Forms.ListBox();
             this.CoursorTab = new System.Windows.Forms.TabPage();
             this.chartsTabPage = new System.Windows.Forms.TabPage();
-            this.plotView1 = new OxyPlot.WindowsForms.PlotView();
-            this.plotView2 = new OxyPlot.WindowsForms.PlotView();
-            this.label51 = new System.Windows.Forms.Label();
             this.label52 = new System.Windows.Forms.Label();
+            this.label51 = new System.Windows.Forms.Label();
+            this.plotView2 = new OxyPlot.WindowsForms.PlotView();
+            this.plotView1 = new OxyPlot.WindowsForms.PlotView();
+            this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.eyeDistTrackBar)).BeginInit();
@@ -503,7 +504,6 @@ namespace Geometric2
             // 
             // panel4
             // 
-            this.panel4.Controls.Add(this.checkBox5);
             this.panel4.Controls.Add(this.textBox8);
             this.panel4.Controls.Add(this.textBox4);
             this.panel4.Controls.Add(this.trackBar5);
@@ -520,17 +520,6 @@ namespace Geometric2
             this.panel4.Size = new System.Drawing.Size(151, 316);
             this.panel4.TabIndex = 9;
             this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
-            // 
-            // checkBox5
-            // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(15, 235);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(117, 17);
-            this.checkBox5.TabIndex = 34;
-            this.checkBox5.Text = "Use Selected Point";
-            this.checkBox5.UseVisualStyleBackColor = true;
-            this.checkBox5.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
             // 
             // textBox8
             // 
@@ -1346,6 +1335,8 @@ namespace Geometric2
             // 
             // Intersection
             // 
+            this.Intersection.Controls.Add(this.checkBox5);
+            this.Intersection.Controls.Add(this.button5);
             this.Intersection.Controls.Add(this.button4);
             this.Intersection.Controls.Add(this.numericUpDown1);
             this.Intersection.Controls.Add(this.label50);
@@ -1359,9 +1350,19 @@ namespace Geometric2
             this.Intersection.Text = "Intersection";
             this.Intersection.UseVisualStyleBackColor = true;
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(16, 339);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(125, 23);
+            this.button5.TabIndex = 6;
+            this.button5.Text = "Create Line";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(14, 304);
+            this.button4.Location = new System.Drawing.Point(16, 301);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(125, 23);
             this.button4.TabIndex = 5;
@@ -1412,9 +1413,9 @@ namespace Geometric2
             this.panel9.Controls.Add(this.showTrim2CheckBox);
             this.panel9.Controls.Add(this.radioButton3);
             this.panel9.Controls.Add(this.radioButton4);
-            this.panel9.Location = new System.Drawing.Point(11, 201);
+            this.panel9.Location = new System.Drawing.Point(14, 190);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(130, 97);
+            this.panel9.Size = new System.Drawing.Size(130, 92);
             this.panel9.TabIndex = 2;
             // 
             // showTrim2CheckBox
@@ -1457,7 +1458,7 @@ namespace Geometric2
             this.panel8.Controls.Add(this.showTrim1CheckBox);
             this.panel8.Controls.Add(this.radioButton2);
             this.panel8.Controls.Add(this.radioButton1);
-            this.panel8.Location = new System.Drawing.Point(11, 96);
+            this.panel8.Location = new System.Drawing.Point(14, 85);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(130, 99);
             this.panel8.TabIndex = 1;
@@ -2360,17 +2361,23 @@ namespace Geometric2
             this.chartsTabPage.Text = "Charts";
             this.chartsTabPage.UseVisualStyleBackColor = true;
             // 
-            // plotView1
+            // label52
             // 
-            this.plotView1.Location = new System.Drawing.Point(22, 23);
-            this.plotView1.Name = "plotView1";
-            this.plotView1.PanCursor = System.Windows.Forms.Cursors.Hand;
-            this.plotView1.Size = new System.Drawing.Size(300, 300);
-            this.plotView1.TabIndex = 0;
-            this.plotView1.Text = "plotView1";
-            this.plotView1.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE;
-            this.plotView1.ZoomRectangleCursor = System.Windows.Forms.Cursors.SizeNWSE;
-            this.plotView1.ZoomVerticalCursor = System.Windows.Forms.Cursors.SizeNS;
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(19, 341);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(56, 13);
+            this.label52.TabIndex = 3;
+            this.label52.Text = "Surface 2:";
+            // 
+            // label51
+            // 
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(19, 3);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(56, 13);
+            this.label51.TabIndex = 2;
+            this.label51.Text = "Surface 1:";
             // 
             // plotView2
             // 
@@ -2384,23 +2391,27 @@ namespace Geometric2
             this.plotView2.ZoomRectangleCursor = System.Windows.Forms.Cursors.SizeNWSE;
             this.plotView2.ZoomVerticalCursor = System.Windows.Forms.Cursors.SizeNS;
             // 
-            // label51
+            // plotView1
             // 
-            this.label51.AutoSize = true;
-            this.label51.Location = new System.Drawing.Point(19, 3);
-            this.label51.Name = "label51";
-            this.label51.Size = new System.Drawing.Size(56, 13);
-            this.label51.TabIndex = 2;
-            this.label51.Text = "Surface 1:";
+            this.plotView1.Location = new System.Drawing.Point(22, 23);
+            this.plotView1.Name = "plotView1";
+            this.plotView1.PanCursor = System.Windows.Forms.Cursors.Hand;
+            this.plotView1.Size = new System.Drawing.Size(300, 300);
+            this.plotView1.TabIndex = 0;
+            this.plotView1.Text = "plotView1";
+            this.plotView1.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE;
+            this.plotView1.ZoomRectangleCursor = System.Windows.Forms.Cursors.SizeNWSE;
+            this.plotView1.ZoomVerticalCursor = System.Windows.Forms.Cursors.SizeNS;
             // 
-            // label52
+            // checkBox5
             // 
-            this.label52.AutoSize = true;
-            this.label52.Location = new System.Drawing.Point(19, 341);
-            this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(56, 13);
-            this.label52.TabIndex = 3;
-            this.label52.Text = "Surface 2:";
+            this.checkBox5.AutoSize = true;
+            this.checkBox5.Location = new System.Drawing.Point(19, 384);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(117, 17);
+            this.checkBox5.TabIndex = 35;
+            this.checkBox5.Text = "Use Selected Point";
+            this.checkBox5.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -2675,7 +2686,6 @@ namespace Geometric2
         private System.Windows.Forms.Label label50;
         private System.Windows.Forms.CheckBox showTrim2CheckBox;
         private System.Windows.Forms.CheckBox showTrim1CheckBox;
-        private System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TabPage chartsTabPage;
@@ -2683,6 +2693,8 @@ namespace Geometric2
         private System.Windows.Forms.Label label51;
         private OxyPlot.WindowsForms.PlotView plotView2;
         private OxyPlot.WindowsForms.PlotView plotView1;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.CheckBox checkBox5;
     }
 }
 
