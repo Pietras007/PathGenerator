@@ -2726,6 +2726,17 @@ namespace Geometric2
             globalData.selectedPoint = point;
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (selectedIntersection != null && selectedIntersection.res != null)
+            {
+                List<Vector2> pParam = selectedIntersection.res.Select(x => x.pParam).ToList();
+                List<Vector2> qParam = selectedIntersection.res.Select(x => x.qParam).ToList();
+
+
+            }
+        }
+
         private void showIntersectionCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (selectedIntersection != null)

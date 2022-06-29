@@ -224,6 +224,7 @@ namespace Geometric2
             this.addPoint = new System.Windows.Forms.Button();
             this.elementsOnScene = new System.Windows.Forms.ListBox();
             this.CoursorTab = new System.Windows.Forms.TabPage();
+            this.button4 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.eyeDistTrackBar)).BeginInit();
@@ -1339,6 +1340,7 @@ namespace Geometric2
             // 
             // Intersection
             // 
+            this.Intersection.Controls.Add(this.button4);
             this.Intersection.Controls.Add(this.numericUpDown1);
             this.Intersection.Controls.Add(this.label50);
             this.Intersection.Controls.Add(this.panel9);
@@ -2328,6 +2330,16 @@ namespace Geometric2
             this.CoursorTab.Text = "Coursor";
             this.CoursorTab.UseVisualStyleBackColor = true;
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(14, 304);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(125, 23);
+            this.button4.TabIndex = 5;
+            this.button4.Text = "Show Charts";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2601,6 +2613,7 @@ namespace Geometric2
         private System.Windows.Forms.CheckBox showTrim1CheckBox;
         private System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
     }
 }
 

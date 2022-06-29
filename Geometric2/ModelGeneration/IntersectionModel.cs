@@ -25,6 +25,7 @@ namespace Geometric2.ModelGeneration
         int intersectionNumber;
         int idx = 1000;
         GlobalData globalData;
+        public List<(Vector2 pParam, Vector2 qParam)> res = null;
 
         public IntersectionModel(ISurface surface1, ISurface surface2, int intersectionNumber, Camera _camera, int width, int height, float d)
         {
@@ -193,14 +194,6 @@ namespace Geometric2.ModelGeneration
                 }
             });
 
-
-            //for(int i = 0; i < tex_size; i++)
-            //{
-            //    for(int j = 0; j < tex_size; j++)
-            //    {
-
-            //    }
-            //}
             foreach(var x in surface1_Tex)
             {
                 if(x > 0.5)
@@ -236,7 +229,7 @@ namespace Geometric2.ModelGeneration
                 int iterations = 0;
                 int ile = 0;
                 List<Vector3> alpP = new List<Vector3>();
-                List<(Vector2 pParam, Vector2 qParam)> res = new List<(Vector2, Vector2)>();
+                res = new List<(Vector2, Vector2)>();
                 do
                 {
                     if (globalData.UseSelectedPoint)
